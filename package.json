@@ -1,0 +1,26 @@
+{
+  "name": "la-perla-del-caribe-inversiones",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page de alta conversión para proyectos de inversión inmobiliaria, turística y comercial en Isla de Margarita, Venezuela.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "inversiones",
+    "isla-de-margarita",
+    "venezuela",
+    "real-estate",
+    "turismo",
+    "zona-economica-especial",
+    "landing-page"
+  ],
+  "author": "Gabriel E Millan",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
