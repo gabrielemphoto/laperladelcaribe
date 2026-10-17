@@ -699,12 +699,340 @@ button, input, select, textarea {
   background: rgba(255, 255, 255, 0.14);
 }
 
-/* ================= SECCIÓN SIMULADOR 3D INTEGRADA ================= */
-.section-simulator {
-  padding-top: 4rem;
-  padding-bottom: 3.5rem;
+/* ================= SECCIÓN MODELO 3D INTERACTIVO ================= */
+.section-model-3d {
+  padding-top: 5rem;
+  padding-bottom: 4.5rem;
+  position: relative;
+  background: radial-gradient(circle at 50% 10%, rgba(197, 168, 128, 0.08) 0%, transparent 60%), #fbfbfa;
+  border-top: 1px solid rgba(197, 168, 128, 0.18);
+  border-bottom: 1px solid rgba(197, 168, 128, 0.18);
+}
+
+.section-model-3d .section-title {
+  color: #111827;
+}
+
+/* Barra Superior de Controles y Transformación */
+.model-3d-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  max-width: 1200px;
+  margin: 0 auto 1.5rem auto;
+  flex-wrap: wrap;
+}
+
+/* Pestañas de Fases */
+.model-3d-phase-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.35rem 0.45rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.model-3d-phase-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.model-3d-phase-btn:hover {
+  color: #0f172a;
+  background: rgba(197, 168, 128, 0.12);
+}
+
+.model-3d-phase-btn.active {
+  color: #ffffff;
+  background: #111827;
+  border-color: #c5a880;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.phase-btn-badge {
+  background: rgba(197, 168, 128, 0.25);
+  color: #b38e5d;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.model-3d-phase-btn.active .phase-btn-badge {
+  background: #c5a880;
+  color: #111827;
+}
+
+/* Botón Grande de Transformación */
+.btn-transform-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #c5a880 0%, #b38e5d 100%);
+  color: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(197, 168, 128, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.btn-transform-3d:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(197, 168, 128, 0.5);
+  background: linear-gradient(135deg, #d4b890 0%, #c5a880 100%);
+}
+
+.btn-transform-3d:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-transform-icon {
+  font-size: 1rem;
+  display: inline-block;
+  animation: pulseIcon 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+/* Viewport 3D Responsivo */
+.model-3d-viewport-wrapper {
+  background: #f6f8fa;
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  transition: all 0.3s ease;
+}
+
+.model-3d-viewport-wrapper:hover {
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.16);
+}
+
+/* Glassmorphism Cards Grid */
+.phase-glass-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 2.2rem auto 2.5rem auto;
+}
+
+.phase-glass-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 1.6rem 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
   position: relative;
 }
+
+.phase-glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.07);
+  border-color: rgba(197, 168, 128, 0.4);
+}
+
+.phase-glass-card.active {
+  background: #ffffff;
+  border: 2px solid #c5a880;
+  box-shadow: 0 18px 45px rgba(197, 168, 128, 0.22);
+  transform: translateY(-4px);
+}
+
+.phase-glass-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.phase-glass-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #94a3b8;
+}
+
+.phase-glass-card.active .phase-glass-num {
+  color: #c5a880;
+}
+
+.phase-glass-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.phase-glass-tag.gold {
+  background: rgba(197, 168, 128, 0.15);
+  color: #a28358;
+  border: 1px solid rgba(197, 168, 128, 0.3);
+}
+
+.phase-glass-tag.blue {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+}
+
+.phase-glass-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.6rem;
+  line-height: 1.25;
+}
+
+.phase-glass-desc {
+  font-size: 0.86rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin-bottom: 1.2rem;
+}
+
+.phase-glass-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.3rem;
+  flex-grow: 1;
+}
+
+.perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.perk-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.perk-item strong {
+  color: #0f172a;
+}
+
+/* Caja de ROI destacada */
+.phase-glass-roi {
+  background: rgba(197, 168, 128, 0.09);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.phase-glass-card.active .phase-glass-roi {
+  background: rgba(197, 168, 128, 0.15);
+  border-color: #c5a880;
+}
+
+.roi-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.roi-val {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #a28358;
+}
+
+/* Botones de Acción al Marketplace */
+.model-3d-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Responsividad Móvil */
+@media (max-width: 900px) {
+  .phase-glass-grid {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .model-3d-controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .model-3d-phase-tabs {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .btn-transform-3d {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .model-3d-viewport-wrapper {
+    height: 480px !important;
+    margin: 1.2rem auto !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .model-3d-phase-btn {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.75rem;
+  }
+
+  .phase-btn-badge {
+    display: none;
+  }
+
+  .model-3d-viewport-wrapper {
+    height: 420px !important;
+    border-radius: 14px !important;
+  }
+}
+
 
 /* ================= 3D ISOMETRIC TRANSFORMATION STAGE ================= */
 .iso-transform-stage {

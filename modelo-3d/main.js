@@ -521,6 +521,16 @@ class App3D {
       btn.classList.toggle('active', p === this.currentPhase);
     });
 
+    // Notificar al sitio web padre el cambio de fase
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({
+          action: 'phaseChanged',
+          phase: this.currentPhase
+        }, '*');
+      }
+    } catch (_) {}
+
     // Actualizar snippet de incrustación si el modal está abierto
     this.embedHelper.updateEmbedSnippet();
   }
@@ -532,6 +542,19 @@ class App3D {
       this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);
+    });
+
+    // Escuchar mensajes del documento contenedor (transformaciones desde la landing)
+    window.addEventListener('message', (e) => {
+      if (!e.data) return;
+      if (e.data.action === 'nextPhase') {
+        this.nextPhase();
+      } else if (e.data.action === 'setPhase') {
+        const p = parseInt(e.data.phase, 10);
+        if (!isNaN(p) && p >= 0 && p <= 2) {
+          this.setPhase(p, true);
+        }
+      }
     });
 
     // Detectar cuando el usuario interactúa manualmente con los controles
