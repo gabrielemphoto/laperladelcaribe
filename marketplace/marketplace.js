@@ -254,13 +254,12 @@ let miniMapInstance = null;
 let miniMapMarker = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  readUrlParams();
-  bindFilterEvents();
-  bindDetailTabs();
-  bindMobileDrawers();
-  bindGoogleFormModal();
-  renderGrid();
-  renderDetailPanel(state.activePropertyId);
+  try { readUrlParams(); } catch (e) { console.error('Error en readUrlParams:', e); }
+  try { bindFilterEvents(); } catch (e) { console.error('Error en bindFilterEvents:', e); }
+  try { bindMobileDrawers(); } catch (e) { console.error('Error en bindMobileDrawers:', e); }
+  try { bindGoogleFormModal(); } catch (e) { console.error('Error en bindGoogleFormModal:', e); }
+  try { renderGrid(); } catch (e) { console.error('Error en renderGrid:', e); }
+  try { renderDetailPanel(state.activePropertyId); } catch (e) { console.error('Error en renderDetailPanel:', e); }
 });
 
 // Leer parámetros de URL si viene desde la landing page
@@ -873,6 +872,15 @@ function bindMobileDrawers() {
     sidebarFilters?.classList.remove('drawer-open');
     dimmer?.classList.remove('active');
   });
+
+  // Cerrar con tecla Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeBottomSheet();
+      sidebarFilters?.classList.remove('drawer-open');
+      dimmer?.classList.remove('active');
+    }
+  });
 }
 
 function closeBottomSheet() {
@@ -892,14 +900,24 @@ function bindGoogleFormModal() {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       modal?.classList.add('open');
+      document.body.style.overflow = 'hidden';
     });
   });
 
-  closeBtn?.addEventListener('click', () => {
+  const closeModal = () => {
     modal?.classList.remove('open');
-  });
+    document.body.style.overflow = '';
+  };
+
+  closeBtn?.addEventListener('click', closeModal);
 
   modal?.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('open');
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('open')) {
+      closeModal();
+    }
   });
 }
