@@ -13,7 +13,7 @@ const ZONES_DATA = [
     color: '#10b981',
     badgeClass: 'green',
     badge: 'Zona Premium / ZEE',
-    price: '$90 - $180 / m²',
+    price: '$60 - $100 / m²',
     roi: '18% - 22% Anual',
     desc: 'Epicentro gastronómico y residencial de lujo. Terrenos y villas de autor con máxima demanda de alquiler internacional.',
     pinColor: '#2563eb'
@@ -26,7 +26,7 @@ const ZONES_DATA = [
     color: '#10b981',
     badgeClass: 'green',
     badge: 'Kitesurf & Posadas',
-    price: '$65 - $130 / m²',
+    price: '$45 - $85 / m²',
     roi: '20% - 25% Anual',
     desc: 'Famoso meca internacional del windsurf y kitesurf con turismo europeo recurrente y alta tasa de ocupación hotelera.',
     pinColor: '#2563eb'
@@ -39,8 +39,8 @@ const ZONES_DATA = [
     color: '#10b981',
     badgeClass: 'green',
     badge: 'Macro Parcelas ZEE',
-    price: '$35 - $80 / m²',
-    roi: '24% - 30% Plusvalía',
+    price: '$25 - $50 / m²',
+    roi: '22% - 28% Anual',
     desc: 'Bulevar costero de más de 4 km. Macrolotes idóneos para resorts vacacionales y desarrollos con exenciones fiscales ZEE.',
     pinColor: '#2563eb'
   },
@@ -52,7 +52,7 @@ const ZONES_DATA = [
     color: '#f59e0b',
     badgeClass: 'yellow',
     badge: 'Comercial & Condominios',
-    price: '$55 - $110 / m²',
+    price: '$40 - $75 / m²',
     roi: '14% - 17% Anual',
     desc: 'Corredor comercial y financiero con clínicas privadas, centros comerciales y condominios residenciales de alta liquidez.',
     pinColor: '#2563eb'
@@ -65,8 +65,8 @@ const ZONES_DATA = [
     color: '#ef4444',
     badgeClass: 'red',
     badge: 'Crecimiento Emergente',
-    price: '$30 - $60 / m²',
-    roi: '15% - 18% Anual',
+    price: '$15 - $35 / m²',
+    roi: '15% - 19% Anual',
     desc: 'Bahía histórica famosa por sus atardeceres dorados. Excelente relación costo-beneficio para proyectos náuticos y residenciales.',
     pinColor: '#2563eb'
   },
@@ -78,8 +78,8 @@ const ZONES_DATA = [
     color: '#10b981',
     badgeClass: 'green',
     badge: 'Ecoturismo & Playas Vírgenes',
-    price: '$20 - $45 / m²',
-    roi: '20% Anual Est.',
+    price: '$1 - $15 / m²',
+    roi: '16% - 24% Anual',
     desc: 'Kilómetros de playas vírgenes y reservas naturales. Destino predilecto para eco-resorts solares, glamping de ultra-lujo y bienestar.',
     pinColor: '#2563eb'
   }

@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.2">
 </head>
 <body>
 
@@ -42,9 +42,9 @@
         <ul class="nav-links">
           <li><a href="#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
           <li><a href="#mapa-margarita" class="nav-link">Mapa de Calor</a></li>
-          <li><a href="marketplace/" class="nav-link" style="color: var(--c-gold-light); font-weight: 700;">🏬 Marketplace ↗</a></li>
           <li><a href="#comparativa" class="nav-link">Comparativa ROI</a></li>
-          <li><a href="#postulacion-forms" class="nav-link" style="color: var(--c-sunset);">📋 Postular Propiedad</a></li>
+          <li><a href="#postulacion-forms" class="nav-link text-sunset-nav">📋 Postular Propiedad</a></li>
+          <li class="nav-mobile-only"><a href="marketplace/" class="nav-link" style="color: var(--c-gold-light);">🏬 Ver Marketplace</a></li>
         </ul>
       </nav>
 
@@ -132,7 +132,7 @@
               <!-- Badges Container (Non-overlapping) -->
               <div class="slide-badges-bar">
                 <span class="glass-pill sunset">📍 01. Terreno Frente al Mar</span>
-                <span class="glass-pill gold">Desde $45,000 USD (-65% vs España)</span>
+                <span class="glass-pill gold">Suelo desde $1 a $100 USD / m²</span>
               </div>
             </div>
 
@@ -186,7 +186,7 @@
               
               <div class="slide-badges-bar">
                 <span class="glass-pill sunset">🥂 03. Recoge tus Ganancias</span>
-                <span class="glass-pill gold">ROI Estimado: 18% - 24% Anual</span>
+                <span class="glass-pill gold">ROI: Supera el 10% (14% - 24% Anual)</span>
               </div>
             </div>
 
@@ -315,7 +315,7 @@
           <div class="muni-metrics">
             <div class="muni-metric-col">
               <span>Promedio Suelo</span>
-              <strong>$90 - $180 / m²</strong>
+              <strong>$60 - $100 / m²</strong>
             </div>
             <div class="muni-metric-col">
               <span>Retorno Estimado</span>
@@ -339,7 +339,7 @@
           <div class="muni-metrics">
             <div class="muni-metric-col">
               <span>Promedio Suelo</span>
-              <strong>$65 - $130 / m²</strong>
+              <strong>$45 - $85 / m²</strong>
             </div>
             <div class="muni-metric-col">
               <span>Retorno Estimado</span>
@@ -363,11 +363,11 @@
           <div class="muni-metrics">
             <div class="muni-metric-col">
               <span>Promedio Suelo</span>
-              <strong>$35 - $80 / m²</strong>
+              <strong>$25 - $50 / m²</strong>
             </div>
             <div class="muni-metric-col">
               <span>Plusvalía ZEE</span>
-              <strong style="color: #4ade80;">24% - 30%</strong>
+              <strong style="color: #4ade80;">22% - 28% Anual</strong>
             </div>
           </div>
           <p class="muni-desc">
@@ -387,7 +387,7 @@
           <div class="muni-metrics">
             <div class="muni-metric-col">
               <span>Promedio Suelo</span>
-              <strong>$55 - $110 / m²</strong>
+              <strong>$40 - $75 / m²</strong>
             </div>
             <div class="muni-metric-col">
               <span>Retorno Estimado</span>
@@ -411,11 +411,11 @@
           <div class="muni-metrics">
             <div class="muni-metric-col">
               <span>Promedio Suelo</span>
-              <strong>$30 - $60 / m²</strong>
+              <strong>$15 - $35 / m²</strong>
             </div>
             <div class="muni-metric-col">
               <span>Retorno Estimado</span>
-              <strong style="color: #f87171;">15% - 18% Anual</strong>
+              <strong style="color: #f87171;">15% - 19% Anual</strong>
             </div>
           </div>
           <p class="muni-desc">
@@ -435,11 +435,11 @@
           <div class="muni-metrics">
             <div class="muni-metric-col">
               <span>Promedio Suelo</span>
-              <strong>$20 - $45 / m²</strong>
+              <strong>$1 - $15 / m²</strong>
             </div>
             <div class="muni-metric-col">
               <span>Plusvalía Proyectada</span>
-              <strong style="color: #4ade80;">20% Anual Est.</strong>
+              <strong style="color: #4ade80;">16% - 24% Anual</strong>
             </div>
           </div>
           <p class="muni-desc">
@@ -713,11 +713,17 @@
             <tbody>
               <tr>
                 <td class="highlight-col">
-                  <strong>🌴 Isla de Margarita (Venezuela)</strong>
-                  <div style="font-size: 0.72rem; color: var(--c-gold-light);">Zona Económica Especial ZEE</div>
+                  <strong style="color: #ffffff; font-size: 0.95rem;">🌴 Isla de Margarita (Venezuela)</strong>
+                  <div style="font-size: 0.72rem; color: #fbbf24; margin-top: 0.2rem;">Zona Económica Especial ZEE</div>
                 </td>
-                <td class="highlight-col text-gold"><strong>$650 - $1,200 USD</strong></td>
-                <td class="highlight-col text-sunset"><strong>16% - 24% Anual</strong></td>
+                <td class="highlight-col text-solid-gold">
+                  <strong style="font-size: 1.05rem; display: block;">$1 - $100 USD / m²</strong>
+                  <div style="font-size: 0.72rem; color: #cbd5e1; margin-top: 0.2rem; font-weight: normal;">(Desde $1 virgen a $100 Milla de Oro)</div>
+                </td>
+                <td class="highlight-col text-solid-sunset">
+                  <strong style="font-size: 1.02rem; display: block;">Supera el 10%</strong>
+                  <div style="font-size: 0.75rem; color: #ffaa55; margin-top: 0.2rem; font-weight: 600;">(14% - 24% Anual)</div>
+                </td>
                 <td class="highlight-col"><strong>$380 - $550 USD</strong></td>
                 <td class="highlight-col"><strong>0% Arancel Importación (Puerto Libre)</strong></td>
                 <td class="highlight-col"><strong>$25,000 USD</strong></td>
@@ -903,6 +909,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Script Principal con Cache-Buster -->
-  <script type="module" src="assets/js/main.js?v=3.1"></script>
+  <script type="module" src="assets/js/main.js?v=3.2"></script>
 </body>
 </html>
