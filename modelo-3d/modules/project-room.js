@@ -2,321 +2,404 @@ import * as THREE from 'three';
 import { createCinderBlockTexture, createParquetTexture, createWoodTexture } from './textures.js';
 
 /**
- * PROYECTO 3: Habitación en Obra Gris ➔ Suite Remodelada "EN ALQUILER"
- * Habitación isométrica abierta (corte transversal arquitectónico)
- * que evoluciona de paredes peladas de cemento a un apartamento de diseño
- * completamente amoblado con el aviso destacado "EN ALQUILER".
+ * PROYECTO 3: Edificio Residencial Alto ➔ Zoom a Apartamento en Obra Gris ➔ Remodelado "EN ALQUILER"
+ * 1. Comienza mostrando una torre de condominios residencial de varios pisos.
+ * 2. La cámara hace zoom hacia el apartamento del 2do piso.
+ * 3. Se observa el apartamento en obra gris: suelo y paredes de cemento crudo, tuberías vistas.
+ * 4. Se remodela por completo: pisos de madera, paredes de diseño, muebles de lujo y luz cálida.
+ * 5. Aparece el cartel destacado: "🔑 EN ALQUILER".
  */
 export class ProjectRoomRemodel {
   constructor() {
     this.group = new THREE.Group();
-    this.group.name = 'project-3-room-remodel';
+    this.group.name = 'project-3-tower-room-remodel';
 
     this.cinderTex = createCinderBlockTexture();
     this.parquetTex = createParquetTexture();
     this.woodTex = createWoodTexture();
 
-    this.buildRoomShell();
-    this.buildObraGrisContent();
-    this.buildLuxuryRemodelContent();
+    this.buildBaseTerrain();
+    this.buildResidentialTower();
+    this.buildApartmentInterior();
     this.buildForRentSign();
 
     this.setTransition(0);
   }
 
-  buildRoomShell() {
-    this.shellGroup = new THREE.Group();
-    this.group.add(this.shellGroup);
+  buildBaseTerrain() {
+    // Base de suelo con césped y acera moderna
+    const grassMat = new THREE.MeshStandardMaterial({ color: 0x487a2d, roughness: 0.85 });
+    const ground = new THREE.Mesh(new THREE.BoxGeometry(10, 0.4, 10), grassMat);
+    ground.position.y = -0.2;
+    ground.receiveShadow = true;
+    this.group.add(ground);
+
+    // Acera y acceso peatonal de losas
+    const paveMat = new THREE.MeshStandardMaterial({ color: 0xded8cc, roughness: 0.6 });
+    const walkway = new THREE.Mesh(new THREE.BoxGeometry(4.0, 0.04, 3.5), paveMat);
+    walkway.position.set(0, 0.02, 3.2);
+    walkway.receiveShadow = true;
+    this.group.add(walkway);
   }
 
   // ==========================================
-  // ESTADO A: OBRA GRIS / PAREDES PELADAS
+  // 1. TORRE RESIDENCIAL ALTA (5 PISOS)
   // ==========================================
-  buildObraGrisContent() {
-    this.obraGrisGroup = new THREE.Group();
+  buildResidentialTower() {
+    this.towerGroup = new THREE.Group();
+    this.towerGroup.position.set(-0.5, 0, -0.5);
 
+    const floors = 5;
+    const floorH = 1.25;
+    const tWidth = 6.0;
+    const tDepth = 5.2;
+
+    const facadeMat = new THREE.MeshStandardMaterial({ color: 0xf5f3ee, roughness: 0.45 });
+    const darkFrameMat = new THREE.MeshStandardMaterial({ color: 0x1f2328, roughness: 0.3, metalness: 0.8 });
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0x98d4eb,
+      transparent: true,
+      opacity: 0.65,
+      roughness: 0.05,
+      metalness: 0.1,
+      transmission: 0.8
+    });
+
+    // Forjados horizontales de cada planta
+    for (let f = 0; f <= floors; f++) {
+      const slab = new THREE.Mesh(
+        new THREE.BoxGeometry(tWidth + 0.4, 0.12, tDepth + 0.4),
+        facadeMat
+      );
+      slab.position.set(0, f * floorH + 0.06, 0);
+      slab.castShadow = true;
+      slab.receiveShadow = true;
+      this.towerGroup.add(slab);
+    }
+
+    // Pared trasera y lateral izquierda continuas
+    const backWall = new THREE.Mesh(
+      new THREE.BoxGeometry(tWidth, floors * floorH, 0.2),
+      facadeMat
+    );
+    backWall.position.set(0, (floors * floorH) / 2, -tDepth / 2 + 0.1);
+    this.towerGroup.add(backWall);
+
+    const leftWall = new THREE.Mesh(
+      new THREE.BoxGeometry(0.2, floors * floorH, tDepth),
+      facadeMat
+    );
+    leftWall.position.set(-tWidth / 2 + 0.1, (floors * floorH) / 2, 0);
+    this.towerGroup.add(leftWall);
+
+    // Ventanas y balcones en los pisos restantes (pisos 1, 3, 4, 5)
+    // *Nota: El piso 2 frontal derecho (Y = 1.3 a 2.5) es el apartamento protagonista*
+    for (let f = 0; f < floors; f++) {
+      const y = f * floorH;
+
+      // Pared divisoria central
+      const divider = new THREE.Mesh(
+        new THREE.BoxGeometry(0.15, floorH, tDepth),
+        facadeMat
+      );
+      divider.position.set(0, y + floorH / 2, 0);
+      this.towerGroup.add(divider);
+
+      // Fachada izquierda (Apartamentos B)
+      const winL = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 0.85), glassMat);
+      winL.position.set(-1.4, y + 0.65, tDepth / 2 + 0.02);
+      this.towerGroup.add(winL);
+
+      // Barandilla balcón izquierdo
+      const balcL = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.45, 0.05), darkFrameMat);
+      balcL.position.set(-1.4, y + 0.35, tDepth / 2 + 0.2);
+      this.towerGroup.add(balcL);
+
+      // Fachada derecha (Apartamentos A): en pisos 0, 2, 3, 4 colocamos fachada normal
+      // Solo en el piso 1 (2do piso) dejamos el corte abierto para que se vea el apartamento
+      if (f !== 1) {
+        const winR = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 0.85), glassMat);
+        winR.position.set(1.4, y + 0.65, tDepth / 2 + 0.02);
+        this.towerGroup.add(winR);
+
+        const balcR = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.45, 0.05), darkFrameMat);
+        balcR.position.set(1.4, y + 0.35, tDepth / 2 + 0.2);
+        this.towerGroup.add(balcR);
+      }
+    }
+
+    // Marco de enfoque brillante que señala el apartamento protagonista
+    const highlightGeo = new THREE.BoxGeometry(2.9, 1.25, 2.6);
+    const highlightEdges = new THREE.EdgesGeometry(highlightGeo);
+    this.focusBox = new THREE.LineSegments(
+      highlightEdges,
+      new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 2 })
+    );
+    this.focusBox.position.set(1.4, 1.25 + 0.625, 1.25);
+    this.towerGroup.add(this.focusBox);
+
+    this.group.add(this.towerGroup);
+  }
+
+  // ==========================================
+  // 2. APARTAMENTO INTERIOR (2DO PISO, DERECHA)
+  // Ubicado en X: 1.4, Y: 1.31, Z: 1.2
+  // ==========================================
+  buildApartmentInterior() {
+    this.aptInteriorGroup = new THREE.Group();
+    this.aptInteriorGroup.position.set(0.9, 1.31, 0.75);
+
+    const aptW = 2.7;
+    const aptD = 2.4;
+    const aptH = 1.15;
+
+    // --- ESTADO A: OBRA GRIS (Paredes de cemento, piso de cemento) ---
+    this.obraGrisApt = new THREE.Group();
+
+    // Suelo de hormigón crudo
+    const rawFloorMat = new THREE.MeshStandardMaterial({
+      color: 0x616467,
+      roughness: 0.95
+    });
+    const floorRaw = new THREE.Mesh(new THREE.BoxGeometry(aptW, 0.06, aptD), rawFloorMat);
+    floorRaw.position.set(0, 0.03, 0);
+    floorRaw.receiveShadow = true;
+    this.obraGrisApt.add(floorRaw);
+
+    // Pared trasera y lateral de bloques de cemento crudo
     const cinderMat = new THREE.MeshStandardMaterial({
       map: this.cinderTex,
       roughness: 0.95
     });
 
-    const roughFloorMat = new THREE.MeshStandardMaterial({
-      color: 0x5e6063, // Suelo de hormigón rústico
-      roughness: 0.95
-    });
+    const backWallRaw = new THREE.Mesh(new THREE.BoxGeometry(aptW, aptH, 0.08), cinderMat);
+    backWallRaw.position.set(0, aptH / 2, -aptD / 2 + 0.04);
+    this.obraGrisApt.add(backWallRaw);
 
-    // 1. Suelo de hormigón crudo (5.0 x 5.0)
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.2, 5.0), roughFloorMat);
-    floor.position.set(0, -0.1, 0);
-    floor.receiveShadow = true;
-    this.obraGrisGroup.add(floor);
+    const leftWallRaw = new THREE.Mesh(new THREE.BoxGeometry(0.08, aptH, aptD), cinderMat);
+    leftWallRaw.position.set(-aptW / 2 + 0.04, aptH / 2, 0);
+    this.obraGrisApt.add(leftWallRaw);
 
-    // 2. Pared trasera de bloques de cemento
-    const backWall = new THREE.Mesh(new THREE.BoxGeometry(5.0, 3.4, 0.2), cinderMat);
-    backWall.position.set(0, 1.6, -2.4);
-    backWall.castShadow = true;
-    backWall.receiveShadow = true;
-    this.obraGrisGroup.add(backWall);
-
-    // 3. Pared izquierda de bloques con hueco de ventana en bruto
-    const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 3.4, 5.0), cinderMat);
-    leftWall.position.set(-2.4, 1.6, 0);
-    leftWall.castShadow = true;
-    leftWall.receiveShadow = true;
-    this.obraGrisGroup.add(leftWall);
-
-    // 4. Cables eléctricos colgando del techo y tubos vistos
-    const pipeMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 });
-    const conduit = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 4.6, 6), pipeMat);
-    conduit.rotation.z = Math.PI / 2;
-    conduit.position.set(0, 3.1, -2.25);
-    this.obraGrisGroup.add(conduit);
-
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xe67e22 });
-    for (let w = 0; w < 3; w++) {
-      const wire = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.6, 4), wireMat);
-      wire.position.set(-1.0 + w * 1.0, 2.8, -2.25);
-      this.obraGrisGroup.add(wire);
-    }
-
-    // 5. Cubeta de pintura / escombros en el suelo
-    const bucket = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.18, 0.14, 0.35, 8),
-      new THREE.MeshStandardMaterial({ color: 0xdddddd })
+    // Pilar estructural de hormigón en la esquina
+    const pillarRaw = new THREE.Mesh(
+      new THREE.BoxGeometry(0.3, aptH, 0.3),
+      new THREE.MeshStandardMaterial({ color: 0x55585b, roughness: 0.9 })
     );
-    bucket.position.set(1.2, 0.18, 1.0);
-    this.obraGrisGroup.add(bucket);
+    pillarRaw.position.set(aptW / 2 - 0.15, aptH / 2, aptD / 2 - 0.15);
+    this.obraGrisApt.add(pillarRaw);
 
-    this.group.add(this.obraGrisGroup);
-  }
+    // Tubería eléctrica en el techo con cable colgando
+    const conduit = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.02, 0.02, aptW * 0.8, 6),
+      new THREE.MeshStandardMaterial({ color: 0x333333 })
+    );
+    conduit.rotation.z = Math.PI / 2;
+    conduit.position.set(0, aptH - 0.05, -0.6);
+    this.obraGrisApt.add(conduit);
 
-  // ==========================================
-  // ESTADO B: REMODELADO DE LUJO
-  // ==========================================
-  buildLuxuryRemodelContent() {
-    this.luxuryRoomGroup = new THREE.Group();
+    const wire = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.01, 0.01, 0.35, 4),
+      new THREE.MeshBasicMaterial({ color: 0xf97316 })
+    );
+    wire.position.set(0.2, aptH - 0.22, -0.6);
+    this.obraGrisApt.add(wire);
 
-    const luxuryWallMat = new THREE.MeshStandardMaterial({
-      color: 0xf5f3ee, // Blanco roto / lino cálido
-      roughness: 0.5
-    });
+    // Cubeta de obra en el suelo
+    const bucket = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.1, 0.08, 0.2, 8),
+      new THREE.MeshStandardMaterial({ color: 0xcccccc })
+    );
+    bucket.position.set(0.5, 0.15, 0.3);
+    this.obraGrisApt.add(bucket);
 
-    const woodAccentMat = new THREE.MeshStandardMaterial({
-      map: this.woodTex,
-      roughness: 0.6
-    });
+    this.aptInteriorGroup.add(this.obraGrisApt);
 
+    // --- ESTADO B: REMODELADO DE LUJO ---
+    this.luxuryApt = new THREE.Group();
+
+    // Suelo de parquet pulido
     const parquetMat = new THREE.MeshStandardMaterial({
       map: this.parquetTex,
-      roughness: 0.4
+      roughness: 0.35
     });
+    const floorLux = new THREE.Mesh(new THREE.BoxGeometry(aptW, 0.07, aptD), parquetMat);
+    floorLux.position.set(0, 0.035, 0);
+    floorLux.receiveShadow = true;
+    this.luxuryApt.add(floorLux);
 
-    // 1. Suelo de parquet pulido brillante
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.22, 5.0), parquetMat);
-    floor.position.set(0, -0.09, 0);
-    floor.receiveShadow = true;
-    this.luxuryRoomGroup.add(floor);
+    // Paredes de blanco cálido con panel de madera
+    const wallLuxMat = new THREE.MeshStandardMaterial({ color: 0xfcfaf7, roughness: 0.4 });
+    const backWallLux = new THREE.Mesh(new THREE.BoxGeometry(aptW, aptH, 0.08), wallLuxMat);
+    backWallLux.position.set(0, aptH / 2, -aptD / 2 + 0.04);
+    this.luxuryApt.add(backWallLux);
 
-    // 2. Pared trasera con panel acústico decorativo de listones de madera
-    const backWall = new THREE.Mesh(new THREE.BoxGeometry(5.0, 3.4, 0.22), luxuryWallMat);
-    backWall.position.set(0, 1.6, -2.39);
-    this.luxuryRoomGroup.add(backWall);
-
-    const woodPanel = new THREE.Mesh(new THREE.BoxGeometry(2.6, 2.6, 0.06), woodAccentMat);
-    woodPanel.position.set(-0.6, 1.6, -2.25);
-    this.luxuryRoomGroup.add(woodPanel);
-
-    // Cuadro de arte moderno contemporáneo
-    const artFrame = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.2, 0.8),
-      new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.3 })
+    const woodAccent = new THREE.Mesh(
+      new THREE.BoxGeometry(1.4, aptH * 0.9, 0.04),
+      new THREE.MeshStandardMaterial({ map: this.woodTex, roughness: 0.6 })
     );
-    artFrame.position.set(1.4, 2.0, -2.27);
-    this.luxuryRoomGroup.add(artFrame);
+    woodAccent.position.set(-0.2, aptH / 2, -aptD / 2 + 0.07);
+    this.luxuryApt.add(woodAccent);
 
-    // 3. Pared lateral con gran ventanal panorámico
-    const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.22, 3.4, 5.0), luxuryWallMat);
-    leftWall.position.set(-2.39, 1.6, 0);
-    this.luxuryRoomGroup.add(leftWall);
-
-    // Ventana panorámica con cristales y vistas caribeñas
-    const winGlass = new THREE.Mesh(
-      new THREE.PlaneGeometry(3.0, 2.2),
-      new THREE.MeshPhysicalMaterial({ color: 0x88d4f0, transparent: true, opacity: 0.45, roughness: 0.05 })
-    );
-    winGlass.rotation.y = Math.PI / 2;
-    winGlass.position.set(-2.25, 1.6, 0);
-    this.luxuryRoomGroup.add(winGlass);
-
-    // Marco negro minimalista de la ventana
-    const frameMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.8 });
-    const winFrame = new THREE.Mesh(new THREE.BoxGeometry(0.04, 2.24, 3.04), frameMat);
-    winFrame.position.set(-2.25, 1.6, 0);
-    this.luxuryRoomGroup.add(winFrame);
-
-    // 4. Cama Queen Size de Diseño
-    const bedMat = new THREE.MeshStandardMaterial({ color: 0x2b3748, roughness: 0.6 });
-    const bedBase = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.35, 2.2), bedMat);
-    bedBase.position.set(-0.6, 0.2, -0.9);
+    // Cama de matrimonio moderna con edredón blanco y almohadas
+    const bedMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+    const bedBase = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 1.3), bedMat);
+    bedBase.position.set(-0.2, 0.16, -0.4);
     bedBase.castShadow = true;
-    this.luxuryRoomGroup.add(bedBase);
+    this.luxuryApt.add(bedBase);
 
-    // Colchón y edredón blanco con doblado
-    const mattressMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 });
-    const mattress = new THREE.Mesh(new THREE.BoxGeometry(1.85, 0.25, 2.05), mattressMat);
-    mattress.position.set(-0.6, 0.48, -0.9);
-    this.luxuryRoomGroup.add(mattress);
+    const mattress = new THREE.Mesh(
+      new THREE.BoxGeometry(1.1, 0.16, 1.2),
+      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 })
+    );
+    mattress.position.set(-0.2, 0.32, -0.4);
+    this.luxuryApt.add(mattress);
 
-    const duvetMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.7 });
-    const duvet = new THREE.Mesh(new THREE.BoxGeometry(1.88, 0.12, 1.4), duvetMat);
-    duvet.position.set(-0.6, 0.58, -0.6);
-    this.luxuryRoomGroup.add(duvet);
+    const duvet = new THREE.Mesh(
+      new THREE.BoxGeometry(1.12, 0.08, 0.8),
+      new THREE.MeshStandardMaterial({ color: 0xdbeafe, roughness: 0.6 })
+    );
+    duvet.position.set(-0.2, 0.39, -0.2);
+    this.luxuryApt.add(duvet);
 
-    // Almohadas
-    for (let p = -1; p <= 1; p += 2) {
-      const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.15, 0.4), mattressMat);
-      pillow.position.set(-0.6 + p * 0.5, 0.65, -1.65);
-      pillow.rotation.x = 0.2;
-      this.luxuryRoomGroup.add(pillow);
-    }
+    // Mesitas de noche con lámparas cálidas
+    const standMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
+    [-0.95, 0.55].forEach(x => {
+      const stand = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.18, 0.25), standMat);
+      stand.position.set(x, 0.16, -0.85);
+      this.luxuryApt.add(stand);
 
-    // 5. Mesitas de noche flotantes con lámparas de luz cálida
-    const tableMat = new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 0.3 });
-    [-1.9, 0.7].forEach(x => {
-      const stand = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.3, 0.4), tableMat);
-      stand.position.set(x, 0.35, -1.65);
-      this.luxuryRoomGroup.add(stand);
-
-      // Lámpara moderna
       const lamp = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.1, 0.12, 0.25, 8),
-        new THREE.MeshStandardMaterial({ color: 0xfff0c9, roughness: 0.2 })
+        new THREE.CylinderGeometry(0.06, 0.08, 0.15, 8),
+        new THREE.MeshStandardMaterial({ color: 0xfff0c9 })
       );
-      lamp.position.set(x, 0.65, -1.65);
-      this.luxuryRoomGroup.add(lamp);
+      lamp.position.set(x, 0.33, -0.85);
+      this.luxuryApt.add(lamp);
 
-      // Luz cálida de la mesita
-      const lampLight = new THREE.PointLight(0xffb74d, 1.6, 3.5);
-      lampLight.position.set(x, 0.8, -1.65);
-      this.luxuryRoomGroup.add(lampLight);
+      const lampLight = new THREE.PointLight(0xffbe76, 1.2, 2.5);
+      lampLight.position.set(x, 0.42, -0.85);
+      this.luxuryApt.add(lampLight);
     });
 
-    // 6. Planta de interior tropical en maceta blanca
+    // Planta tropical en maceta blanca
     const pot = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.2, 0.15, 0.45, 10),
-      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 })
+      new THREE.CylinderGeometry(0.12, 0.09, 0.25, 8),
+      new THREE.MeshStandardMaterial({ color: 0xffffff })
     );
-    pot.position.set(1.7, 0.25, 1.4);
-    this.luxuryRoomGroup.add(pot);
+    pot.position.set(0.9, 0.18, 0.6);
+    this.luxuryApt.add(pot);
 
-    const plantTop = new THREE.Mesh(
-      new THREE.DodecahedronGeometry(0.35, 1),
-      new THREE.MeshStandardMaterial({ color: 0x22661f, roughness: 0.7 })
+    const plant = new THREE.Mesh(
+      new THREE.DodecahedronGeometry(0.2, 1),
+      new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness: 0.7 })
     );
-    plantTop.position.set(1.7, 0.65, 1.4);
-    this.luxuryRoomGroup.add(plantTop);
+    plant.position.set(0.9, 0.42, 0.6);
+    this.luxuryApt.add(plant);
 
-    // 7. Alfombra nórdica circular en el centro
-    const rug = new THREE.Mesh(
-      new THREE.CircleGeometry(1.2, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8d4cb, roughness: 0.9 })
-    );
-    rug.rotation.x = -Math.PI / 2;
-    rug.position.set(0.4, 0.02, 0.7);
-    this.luxuryRoomGroup.add(rug);
-
-    this.group.add(this.luxuryRoomGroup);
+    this.aptInteriorGroup.add(this.luxuryApt);
+    this.group.add(this.aptInteriorGroup);
   }
 
   // ==========================================
-  // CARTEL DESTACADO: "EN ALQUILER"
+  // 3. CARTEL DESTACADO: "EN ALQUILER"
   // ==========================================
   buildForRentSign() {
     this.signGroup = new THREE.Group();
-    this.signGroup.position.set(0.6, 2.6, 1.2);
+    // Posicionado flotando frente al apartamento
+    this.signGroup.position.set(1.0, 2.7, 2.5);
 
-    // Marco / Placa dorada flotante
-    const plateGeo = new THREE.BoxGeometry(2.4, 0.7, 0.08);
-    const plateMat = new THREE.MeshStandardMaterial({
-      color: 0x0f172a, // Azul oscuro profundo
-      roughness: 0.2,
-      metalness: 0.8
-    });
-    const plate = new THREE.Mesh(plateGeo, plateMat);
-    this.signGroup.add(plate);
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 160;
+    const ctx = canvas.getContext('2d');
+
+    // Fondo azul marino y degradado premium
+    const grad = ctx.createLinearGradient(0, 0, 512, 160);
+    grad.addColorStop(0, '#0f172a');
+    grad.addColorStop(1, '#1e293b');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 512, 160);
 
     // Borde dorado reflectante
-    const borderGeo = new THREE.BoxGeometry(2.46, 0.76, 0.06);
-    const borderMat = new THREE.MeshStandardMaterial({
-      color: 0xf59e0b, // Oro caribeño
-      roughness: 0.1,
-      metalness: 0.9
-    });
-    const border = new THREE.Mesh(borderGeo, borderMat);
-    border.position.z = -0.02;
-    this.signGroup.add(border);
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(6, 6, 500, 148);
 
-    // Canvas de texto "EN ALQUILER • RENTAS ACTIVAS"
-    const signCanvas = document.createElement('canvas');
-    signCanvas.width = 512;
-    signCanvas.height = 160;
-    const sCtx = signCanvas.getContext('2d');
+    // Texto destacado
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = 'bold 56px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🔑 EN ALQUILER', 256, 70);
 
-    // Fondo azul marino con degradado
-    const g = sCtx.createLinearGradient(0, 0, 512, 160);
-    g.addColorStop(0, '#0f172a');
-    g.addColorStop(1, '#1e293b');
-    sCtx.fillStyle = g;
-    sCtx.fillRect(0, 0, 512, 160);
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '600 28px sans-serif';
+    ctx.fillText('100% AMOBLADO • ROI +24%', 256, 122);
 
-    // Texto principal
-    sCtx.fillStyle = '#fbbf24'; // Dorado brillante
-    sCtx.font = 'bold 54px sans-serif';
-    sCtx.textAlign = 'center';
-    sCtx.fillText('🔑 EN ALQUILER', 256, 68);
-
-    // Subtítulo
-    sCtx.fillStyle = '#38bdf8'; // Azul cian
-    sCtx.font = '600 26px sans-serif';
-    sCtx.fillText('100% AMOBLADO • ROI +24%', 256, 120);
-
-    const signTex = new THREE.CanvasTexture(signCanvas);
-    const textMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.3, 0.65),
-      new THREE.MeshBasicMaterial({ map: signTex })
+    const signTex = new THREE.CanvasTexture(canvas);
+    const signMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.4, 0.75),
+      new THREE.MeshBasicMaterial({ map: signTex, transparent: true, side: THREE.DoubleSide })
     );
-    textMesh.position.z = 0.045;
-    this.signGroup.add(textMesh);
+    this.signGroup.add(signMesh);
 
-    this.luxuryRoomGroup.add(this.signGroup);
+    this.luxuryApt.add(this.signGroup);
   }
 
   /**
-   * Transición animada entre Estado A (Obra Gris, t=0) y Estado B (Remodelado "EN ALQUILER", t=1)
+   * Transición animada entre Estado A (Obra Gris) y Estado B (Remodelado "EN ALQUILER")
+   * @param {number} t Valor de 0.0 a 1.0
    */
   setTransition(t) {
     t = Math.max(0, Math.min(1, t));
 
     if (t < 0.01) {
-      this.obraGrisGroup.visible = true;
-      this.luxuryRoomGroup.visible = false;
-      this.obraGrisGroup.scale.set(1, 1, 1);
+      this.obraGrisApt.visible = true;
+      this.luxuryApt.visible = false;
+      this.focusBox.visible = true;
+      this.obraGrisApt.scale.set(1, 1, 1);
     } else if (t > 0.99) {
-      this.obraGrisGroup.visible = false;
-      this.luxuryRoomGroup.visible = true;
-      this.luxuryRoomGroup.scale.set(1, 1, 1);
+      this.obraGrisApt.visible = false;
+      this.luxuryApt.visible = true;
+      this.focusBox.visible = false;
+      this.luxuryApt.scale.set(1, 1, 1);
     } else {
-      this.obraGrisGroup.visible = true;
-      this.luxuryRoomGroup.visible = true;
+      this.obraGrisApt.visible = true;
+      this.luxuryApt.visible = true;
+      this.focusBox.visible = t < 0.4;
 
-      // Efecto ola de remodelación: emerge con escala y opacidad
-      this.luxuryRoomGroup.scale.set(t, t, t);
-      this.obraGrisGroup.scale.set(1 - t * 0.4, 1 - t * 0.4, 1 - t * 0.4);
+      // Ola de remodelación suave
+      this.luxuryApt.scale.set(t, t, t);
+      const shrink = Math.max(0.001, 1 - t * 0.5);
+      this.obraGrisApt.scale.set(shrink, shrink, shrink);
     }
 
     // Leve flotación del cartel "EN ALQUILER"
     if (this.signGroup) {
-      this.signGroup.position.y = 2.6 + Math.sin(performance.now() * 0.003) * 0.04;
+      this.signGroup.position.y = 2.4 + Math.sin(performance.now() * 0.003) * 0.04;
+    }
+
+    // Parpadeo suave del marco de enfoque en la torre
+    if (this.focusBox) {
+      this.focusBox.material.opacity = 0.5 + Math.sin(performance.now() * 0.005) * 0.4;
+    }
+  }
+
+  /**
+   * Retorna las coordenadas de cámara recomendadas según la fase del ciclo
+   * Para hacer zoom dinámico hacia el apartamento.
+   */
+  getCameraTarget(t) {
+    // Si t < 0.35: vista general de la torre completa
+    // Si t >= 0.35: zoom dentro del apartamento del 2do piso
+    if (t < 0.25) {
+      return {
+        pos: new THREE.Vector3(13, 11, 13),
+        lookY: 3.0
+      };
+    } else {
+      return {
+        pos: new THREE.Vector3(4.8, 3.2, 4.4),
+        lookY: 1.8
+      };
     }
   }
 }

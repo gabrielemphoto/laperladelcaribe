@@ -332,3 +332,33 @@ export function createWaterNormalTexture() {
   texture.repeat.set(6, 6);
   return texture;
 }
+
+// 9. Azulejos de mosaico vítreo para la piscina
+export function createPoolMosaicTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0284c7';
+  ctx.fillRect(0, 0, 128, 128);
+
+  const size = 16;
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 1;
+
+  for (let x = 0; x < 128; x += size) {
+    for (let y = 0; y < 128; y += size) {
+      const v = (Math.random() - 0.5) * 30;
+      ctx.fillStyle = `rgb(${Math.floor(14 + v)}, ${Math.floor(165 + v)}, ${Math.floor(233 + v)})`;
+      ctx.fillRect(x + 1, y + 1, size - 2, size - 2);
+      ctx.strokeRect(x, y, size, size);
+    }
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+  return texture;
+}
+

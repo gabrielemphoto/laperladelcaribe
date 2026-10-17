@@ -6,27 +6,17 @@ import { ProjectRoomRemodel } from './modules/project-room.js';
 
 /**
  * Visor 3D Interactivo Ultraligero y Optimizado
- * - 100% Integrado en la landing page (sin ventanas rígidas ni iframes obligatorios)
- * - Fondo 100% transparente para fundirse con la estética luxury
+ * - Fondo 100% transparente
  * - 3 Proyectos animados en bucle continuo (2s por fase)
- * - Navegación intuitiva con 2 flechas laterales (⬅️ / ➡️) y swipe táctil
- * - Giro continuo interactivo (auto-rotación constante + control táctil/ratón)
+ * - Proyecto 3 con zoom cinemático (Edificio completo ➔ Zoom al apartamento en obra gris ➔ Remodelado "EN ALQUILER")
+ * - Navegación exclusiva con 2 flechas laterales (⬅️ / ➡️)
+ * - Giro continuo interactivo permanente
  */
 export class Viewer3DApp {
-  constructor(containerOrId = 'canvas-container') {
-    if (typeof containerOrId === 'string') {
-      this.container = document.getElementById(containerOrId);
-    } else {
-      this.container = containerOrId;
-    }
-
-    if (!this.container) {
-      console.warn('Viewer3DApp: Contenedor no encontrado:', containerOrId);
-      return;
-    }
-
-    this.currentProjectIndex = 0; // 0: Terreno->Eco, 1: Hotel->Resort, 2: ObraGris->Alquiler
-    this.projectCycleTime = 0; // Temporizador del bucle
+  constructor() {
+    this.container = document.getElementById('canvas-container');
+    this.currentProjectIndex = 0; // 0: Terreno, 1: Hotel, 2: Torre/Apartamento
+    this.projectCycleTime = 0;
 
     this.initThree();
     this.initLighting();
@@ -38,56 +28,42 @@ export class Viewer3DApp {
   }
 
   // ==========================================
-  // INICIALIZACIÓN THREE.JS (FONDO TRANSPARENTE & COMPATIBILIDAD MÓVIL)
+  // INICIALIZACIÓN THREE.JS (FONDO TRANSPARENTE)
   // ==========================================
   initThree() {
     this.scene = new THREE.Scene();
-    this.scene.background = null; // 100% Transparente
+    this.scene.background = null;
 
-    // Dimensiones robustas con fallbacks para móviles
-    let w = this.container.clientWidth;
-    let h = this.container.clientHeight;
-    if (!w || !h || w <= 0 || h <= 0) {
-      w = this.container.offsetWidth || window.innerWidth || 800;
-      h = this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 620);
-    }
+    const aspect = this.container.clientWidth / this.container.clientHeight;
+    // FOV 38 para perspectiva arquitectónica sin distorsión
+    this.camera = new THREE.PerspectiveCamera(38, aspect, 0.1, 100);
+    this.camera.position.set(14, 11, 14);
 
-    const aspect = w / h;
-    this.camera = new THREE.PerspectiveCamera(38, aspect, 0.1, 80);
-    this.camera.position.set(13, 10, 13);
-
-    // Renderer con canal alfa y máxima estabilidad en GPUs móviles
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
-      powerPreference: 'default',
-      failIfMajorPerformanceCaveat: false
+      powerPreference: 'high-performance'
     });
-    this.renderer.setSize(w, h);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-    this.renderer.setClearColor(0x000000, 0); // Transparencia total
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    this.renderer.setClearColor(0x000000, 0); // Fondo transparente
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    // Limpiar cualquier canvas previo
-    while (this.container.firstChild) {
-      this.container.removeChild(this.container.firstChild);
-    }
     this.container.appendChild(this.renderer.domElement);
 
-    // Controles orbitales interactivos con auto-rotación
+    // Controles orbitales interactivos
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
-    this.controls.target.set(0, 0.5, 0);
+    this.controls.target.set(0, 0.8, 0);
     this.controls.maxPolarAngle = Math.PI / 2 + 0.02;
-    this.controls.minDistance = 4;
-    this.controls.maxDistance = 28;
-    this.controls.autoRotate = true;
-    this.controls.autoRotateSpeed = 0.85;
+    this.controls.minDistance = 3.5;
+    this.controls.maxDistance = 30;
+    this.controls.autoRotate = true; // SIEMPRE en rotación continua
+    this.controls.autoRotateSpeed = 0.75;
 
-    // Sombra de contacto suave sobre fondo transparente
-    const shadowGeo = new THREE.PlaneGeometry(30, 30);
+    // Sombra de contacto suave
+    const shadowGeo = new THREE.PlaneGeometry(35, 35);
     const shadowMat = new THREE.ShadowMaterial({ opacity: 0.18 });
     this.shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
     this.shadowPlane.rotation.x = -Math.PI / 2;
@@ -97,27 +73,27 @@ export class Viewer3DApp {
   }
 
   // ==========================================
-  // ILUMINACIÓN REALISTA OPTIMIZADA
+  // ILUMINACIÓN REALISTA
   // ==========================================
   initLighting() {
     this.lights = new THREE.Group();
 
-    // Luz ambiental suave caribeña
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.1);
+    // Luz ambiental equilibrada
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x48423a, 1.2);
     hemiLight.position.set(0, 20, 0);
     this.lights.add(hemiLight);
 
-    // Sol direccional principal con sombras optimizadas
-    this.sunLight = new THREE.DirectionalLight(0xfff7e6, 1.8);
-    this.sunLight.position.set(12, 16, 10);
+    // Sol direccional que genera relieve arquitectónico
+    this.sunLight = new THREE.DirectionalLight(0xfffaec, 2.0);
+    this.sunLight.position.set(14, 20, 12);
     this.sunLight.castShadow = true;
     this.sunLight.shadow.mapSize.width = 1024;
     this.sunLight.shadow.mapSize.height = 1024;
     this.sunLight.shadow.camera.near = 0.5;
-    this.sunLight.shadow.camera.far = 40;
-    this.sunLight.shadow.bias = -0.0001;
+    this.sunLight.shadow.camera.far = 45;
+    this.sunLight.shadow.bias = -0.0004;
 
-    const d = 8;
+    const d = 9;
     this.sunLight.shadow.camera.left = -d;
     this.sunLight.shadow.camera.right = d;
     this.sunLight.shadow.camera.top = d;
@@ -134,7 +110,7 @@ export class Viewer3DApp {
     this.projects = [
       new ProjectTerrainEco(),    // Proyecto 0: Terreno -> Cabaña Eco
       new ProjectHotelRemodel(),  // Proyecto 1: Hotel Abandonado -> Resort de Lujo + Ganancias
-      new ProjectRoomRemodel()    // Proyecto 2: Habitación Obra Gris -> Remodelada "EN ALQUILER"
+      new ProjectRoomRemodel()    // Proyecto 2: Edificio Torre -> Zoom a Apartamento "EN ALQUILER"
     ];
 
     this.projects.forEach((proj, idx) => {
@@ -142,7 +118,7 @@ export class Viewer3DApp {
       this.scene.add(proj.group);
     });
 
-    this.updateCameraForProject(this.currentProjectIndex);
+    this.updateCameraForProject(this.currentProjectIndex, 0);
   }
 
   // ==========================================
@@ -163,54 +139,62 @@ export class Viewer3DApp {
     this.currentProjectIndex = newIndex;
     this.projects[this.currentProjectIndex].group.visible = true;
 
-    // Reiniciar ciclo de tiempo para empezar desde la fase A
     this.projectCycleTime = 0;
-    this.updateCameraForProject(newIndex);
+    this.updateCameraForProject(newIndex, 0);
     this.updateUIBadge();
   }
 
-  updateCameraForProject(index) {
-    if (index === 2) {
-      // Proyecto 3 (Habitación): Cámara más cercana con ángulo interior
-      this.targetCamPos = new THREE.Vector3(6.5, 4.8, 7.2);
-      this.targetLookY = 1.3;
-      this.shadowPlane.position.y = -0.12;
-    } else {
-      // Proyectos 1 y 2 (Terreno / Hotel): Vista general isométrica
-      this.targetCamPos = new THREE.Vector3(13, 10, 13);
+  updateCameraForProject(index, cycleNorm = 0) {
+    if (index === 0) {
+      // Proyecto 1 (Terreno): Vista isométrica clásica
+      this.targetCamPos = new THREE.Vector3(14, 11, 14);
       this.targetLookY = 0.5;
       this.shadowPlane.position.y = -1.52;
+    } else if (index === 1) {
+      // Proyecto 2 (Hotel de 4 plantas y piscina): Cámara más amplia y centrada verticalmente
+      this.targetCamPos = new THREE.Vector3(15, 12, 15);
+      this.targetLookY = 1.6;
+      this.shadowPlane.position.y = -1.52;
+    } else if (index === 2) {
+      // Proyecto 3 (Torre y Apartamento): Zoom cinemático dinámico
+      const p3 = this.projects[2];
+      if (p3 && p3.getCameraTarget) {
+        const camTarget = p3.getCameraTarget(cycleNorm);
+        this.targetCamPos = camTarget.pos;
+        this.targetLookY = camTarget.lookY;
+      }
+      this.shadowPlane.position.y = -0.22;
     }
   }
 
   // ==========================================
-  // INTERFAZ DE USUARIO: FLECHAS Y GESTOS
+  // INTERFAZ: SOLO 2 FLECHAS
   // ==========================================
   initUI() {
     const btnPrev = document.getElementById('btn-arrow-prev');
     const btnNext = document.getElementById('btn-arrow-next');
 
     if (btnPrev) {
-      btnPrev.onclick = (e) => {
+      btnPrev.addEventListener('click', (e) => {
         e.stopPropagation();
         this.prevProject();
-      };
+      });
     }
 
     if (btnNext) {
-      btnNext.onclick = (e) => {
+      btnNext.addEventListener('click', (e) => {
         e.stopPropagation();
         this.nextProject();
-      };
+      });
     }
 
-    // Deslizamiento táctil horizontal sobre el contenedor
+    // Navegación por swipe táctil
     let touchStartX = 0;
-    this.container.addEventListener('touchstart', (e) => {
+    window.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].clientX;
     }, { passive: true });
 
-    this.container.addEventListener('touchend', (e) => {
+    window.addEventListener('touchend', (e) => {
       const diffX = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(diffX) > 60) {
         if (diffX > 0) this.prevProject();
@@ -218,7 +202,6 @@ export class Viewer3DApp {
       }
     }, { passive: true });
 
-    // Navegación con teclado
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') this.prevProject();
       if (e.key === 'ArrowRight') this.nextProject();
@@ -233,16 +216,16 @@ export class Viewer3DApp {
 
     const projectInfo = [
       {
-        title: 'PROYECTO 1 • TERRENO VIRGEN A CABAÑA MODULAR',
-        sub: 'Lote Virgen de 500 m² ➔ Cabaña Bioclimática 100% Autosuficiente'
+        title: 'PROYECTO 1 • LOTE A CABAÑA ECO',
+        sub: 'Terreno Virgen ➔ Construcción Sostenible 100% Solar'
       },
       {
-        title: 'PROYECTO 2 • HOTEL ABANDONADO A RESORT BOUTIQUE',
-        sub: 'Estructura en Ruinas ➔ Hotel Operativo con Piscina Infinity y Rentas'
+        title: 'PROYECTO 2 • HOTEL ABANDONADO A RESORT',
+        sub: 'Estructura en Ruinas ➔ Hotel Operativo con Piscina y Rentas 💵'
       },
       {
-        title: 'PROYECTO 3 • OBRA GRIS A SUITE DE DISEÑO',
-        sub: 'Paredes en Cemento Pelado ➔ Apartamento de Diseño Listo para Alquilar'
+        title: 'PROYECTO 3 • OBRA GRIS A "EN ALQUILER"',
+        sub: 'Torre Residencial ➔ Apartamento Remodelado de Lujo 🔑'
       }
     ];
 
@@ -252,29 +235,15 @@ export class Viewer3DApp {
   }
 
   setupEvents() {
-    const handleResize = () => {
-      if (!this.container || !this.renderer || !this.camera) return;
-      let w = this.container.clientWidth;
-      let h = this.container.clientHeight;
-      if (!w || !h || w <= 0 || h <= 0) {
-        w = this.container.offsetWidth || window.innerWidth || 800;
-        h = this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 620);
-      }
+    window.addEventListener('resize', () => {
+      const w = this.container.clientWidth;
+      const h = this.container.clientHeight;
       this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);
-    };
+    });
 
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    if (typeof ResizeObserver !== 'undefined' && this.container) {
-      this.resizeObserver = new ResizeObserver(() => {
-        handleResize();
-      });
-      this.resizeObserver.observe(this.container);
-    }
-
-    this.container.addEventListener('contextmenu', (e) => e.preventDefault());
+    window.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 
   // ==========================================
@@ -283,74 +252,62 @@ export class Viewer3DApp {
   animate() {
     requestAnimationFrame(() => this.animate());
 
-    // Auto-recuperación si el canvas arrancó en 0 dimensiones
-    if (this.renderer && this.renderer.domElement) {
-      const dw = this.renderer.domElement.width;
-      const dh = this.renderer.domElement.height;
-      if (dw <= 2 || dh <= 2) {
-        let w = this.container.clientWidth || this.container.offsetWidth || window.innerWidth;
-        let h = this.container.clientHeight || this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 620);
-        if (w > 10 && h > 10) {
-          this.camera.aspect = w / h;
-          this.camera.updateProjectionMatrix();
-          this.renderer.setSize(w, h);
-        }
-      }
-    }
-
     const delta = 0.016; // ~60fps
     this.projectCycleTime += delta;
 
+    // Ciclo completo por proyecto: 5.4 segundos
+    // 0.0s a 2.0s: Fase A (2 segundos)
+    // 2.0s a 2.7s: Transición hacia Fase B (0.7s)
+    // 2.7s a 4.7s: Fase B (2 segundos)
+    // 4.7s a 5.4s: Transición hacia Fase A (0.7s)
     const cycleTotal = 5.4;
     const t = this.projectCycleTime % cycleTotal;
+    const cycleNorm = t / cycleTotal;
 
     let transitionValue = 0;
     if (t < 2.0) {
-      transitionValue = 0; // Fase A pura (Terreno / Ruinas / Obra Gris)
+      transitionValue = 0;
     } else if (t < 2.7) {
       const progress = (t - 2.0) / 0.7;
-      transitionValue = progress * progress * (3 - 2 * progress); // Easing suave
+      transitionValue = progress * progress * (3 - 2 * progress);
     } else if (t < 4.7) {
-      transitionValue = 1; // Fase B pura (Eco / Resort / En Alquiler)
+      transitionValue = 1;
     } else {
       const progress = (t - 4.7) / 0.7;
       transitionValue = 1 - progress * progress * (3 - 2 * progress);
     }
 
-    if (this.projects && this.projects[this.currentProjectIndex]) {
-      const activeProject = this.projects[this.currentProjectIndex];
-      if (activeProject.setTransition) {
-        activeProject.setTransition(transitionValue);
-      }
+    // Aplicar transición al proyecto activo
+    const activeProject = this.projects[this.currentProjectIndex];
+    if (activeProject && activeProject.setTransition) {
+      activeProject.setTransition(transitionValue);
     }
 
+    // Manejo de zoom cinemático para el Proyecto 3
+    if (this.currentProjectIndex === 2 && activeProject.getCameraTarget) {
+      const camTarget = activeProject.getCameraTarget(cycleNorm);
+      this.targetCamPos = camTarget.pos;
+      this.targetLookY = camTarget.lookY;
+    }
+
+    // Transición suave de cámara
     if (this.targetCamPos) {
-      this.camera.position.lerp(this.targetCamPos, 0.05);
+      this.camera.position.lerp(this.targetCamPos, 0.04);
       if (this.targetLookY !== undefined) {
-        this.controls.target.y += (this.targetLookY - this.controls.target.y) * 0.05;
+        this.controls.target.y += (this.targetLookY - this.controls.target.y) * 0.04;
       }
-      if (this.camera.position.distanceTo(this.targetCamPos) < 0.08) {
+      if (this.camera.position.distanceTo(this.targetCamPos) < 0.06) {
         this.targetCamPos = null;
       }
     }
 
+    // Giro orbital suave continuo
     this.controls.update();
+
     this.renderer.render(this.scene, this.camera);
   }
 }
 
-// Inicialización automática si se carga directamente en modelo-3d/index.html
-if (typeof document !== 'undefined') {
-  const initSelf = () => {
-    const standaloneEl = document.getElementById('canvas-container');
-    if (standaloneEl) {
-      new Viewer3DApp(standaloneEl);
-    }
-  };
-
-  if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', initSelf);
-  } else {
-    initSelf();
-  }
-}
+window.addEventListener('DOMContentLoaded', () => {
+  new Viewer3DApp();
+});
