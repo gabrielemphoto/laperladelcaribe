@@ -4090,3 +4090,135 @@ button, input, select, textarea {
     line-height: 1.35 !important;
   }
 }
+
+/* ================= MANIFIESTO DE INVERSIÓN: TESIS DE PLUSVALÍA ================= */
+.manifesto-section {
+  padding: 3.5rem 0 2.8rem 0;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 0%, rgba(212, 160, 23, 0.08) 0%, #04070c 70%);
+  border-bottom: 1px solid rgba(212, 160, 23, 0.15);
+}
+
+.manifesto-card {
+  background: linear-gradient(145deg, rgba(14, 24, 38, 0.92) 0%, rgba(6, 10, 16, 0.96) 100%);
+  border: 1.5px solid var(--glass-border-gold);
+  border-radius: var(--radius-lg);
+  padding: 2.8rem 2.4rem;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5), 0 0 35px rgba(212, 160, 23, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  text-align: center;
+}
+
+.manifesto-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.manifesto-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 3.4vw, 2.1rem);
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.manifesto-subquote {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 740px;
+}
+
+.manifesto-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  text-align: left;
+}
+
+.manifesto-pillar-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 160, 23, 0.22);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  transition: all 0.25s ease;
+}
+
+.manifesto-pillar-box:hover {
+  background: rgba(212, 160, 23, 0.06);
+  border-color: var(--c-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.pillar-icon-wrap {
+  font-size: 1.8rem;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+  filter: drop-shadow(0 2px 8px rgba(212, 160, 23, 0.3));
+}
+
+.manifesto-pillar-box h4 {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fbbf24;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.manifesto-pillar-box p {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .manifesto-section {
+    padding: 2rem 0 1.5rem 0;
+  }
+
+  .manifesto-card {
+    padding: 1.6rem 1.1rem;
+    gap: 1.6rem;
+  }
+
+  .manifesto-quote {
+    font-size: 1.25rem;
+    line-height: 1.38;
+  }
+
+  .manifesto-subquote {
+    font-size: 0.84rem;
+  }
+
+  .manifesto-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .manifesto-pillar-box {
+    padding: 1.2rem 1.1rem;
+  }
+
+  .manifesto-pillar-box h4 {
+    font-size: 0.98rem;
+  }
+
+  .manifesto-pillar-box p {
+    font-size: 0.82rem;
+  }
+}

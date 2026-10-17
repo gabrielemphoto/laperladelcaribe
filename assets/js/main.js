@@ -119,8 +119,8 @@ const DESTINATIONS_DATA = [
     ticketSuffix: ' USD',
     subTicket: 'USD para parcelas registradas',
     fiscal: '0% Aranceles de Importación (Puerto Libre) y exenciones fiscales completas bajo la Ley de Zonas Económicas Especiales (ZEE). Sin impuestos asfixiantes.',
-    calloutTitle: 'Ventaja Competitiva de Margarita',
-    calloutDesc: 'Por el costo de 1 m² en Ibiza o Miami, en Margarita puedes adquirir hasta 60 m² de terreno frente al mar con un ROI anual 3 a 4 veces más elevado.'
+    calloutTitle: 'Invertir Cuando Todo Empieza: La Verdadera Plusvalía',
+    calloutDesc: 'Invertir cuando todo empieza es la diferencia entre la inversión de tu vida y otra cualquiera: eso se llama plusvalía. Diversifica tu patrimonio en el Caribe y asegura tu libertad financiera en una isla con el mayor potencial de crecimiento de la región.'
   },
   {
     id: 'espana-ibiza',
