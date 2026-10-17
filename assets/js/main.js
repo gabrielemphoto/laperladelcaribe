@@ -1,7 +1,7 @@
 /**
  * MIGUEL ANGEL - LA PERLA DEL CARIBE
  * Personal Shopper Inmobiliario & Constructor • Isla de Margarita
- * Lógica Interactiva: Escenario Cinemático de Transformación, Mapa de Margarita, Marketplace Dinámico, Formularios y Modales
+ * Lógica Interactiva: Google Maps, Google Forms Modal, Escenario Cinemático y Marketplace
  */
 
 // Catálogo base de propiedades en Isla de Margarita
@@ -13,8 +13,8 @@ const DEFAULT_PROPERTIES = [
     type: 'terreno',
     typeName: 'Terreno Frente al Mar',
     title: 'Lote Estratégico Bahía de Pampatar',
-    desc: 'Terreno virgen con zonificación turística-residencial de alta densidad. Ideal para desarrollo de hotel boutique o complejo de 6 villas privadas.',
-    specs: ['1,450 m² Terreno', 'Frente de Playa', 'Factibilidad Eléctrica & Pozo', 'Papeles 100% en Regla'],
+    desc: 'Terreno virgen con zonificación turística-residencial de alta densidad. Ideal para desarrollo de hotel boutique o complejo de villas privadas.',
+    specs: ['1,450 m² Terreno', 'Frente de Playa', 'Factibilidad de Pozo', 'Papeles 100% en Regla'],
     price: '$85,000 USD',
     roi: '22% Anual Est.',
     status: 'disponible',
@@ -101,27 +101,18 @@ const DEFAULT_PROPERTIES = [
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initCinematicStage();
+  initGoogleMapsIntegration();
   initMarketplace();
-  initMapInteractivity();
-  initPropertyPostulationModal();
+  initGoogleFormsModal();
   initGeneralModals();
   initHeroLeadForm();
-  initScrollAnimations();
 });
 
-/* ================= 1. Navbar & Mobile Drawer ================= */
+/* ================= 1. Navbar Mobile ================= */
 function initNavbar() {
   const header = document.querySelector('.header');
   const mobileBtn = document.querySelector('.mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
-    }
-  });
 
   if (mobileBtn && navLinks) {
     mobileBtn.addEventListener('click', () => {
@@ -138,91 +129,82 @@ function initNavbar() {
   }
 }
 
-/* ================= 2. Cinematic Interactive Stage (Terreno -> Construcción -> Rentas) ================= */
+/* ================= 2. Cinematic Stage (Carousel Seguro) ================= */
 function initCinematicStage() {
+  const tabs = document.querySelectorAll('.stage-tab-btn');
   const slides = document.querySelectorAll('.stage-slide');
-  const buttons = document.querySelectorAll('.timeline-btn');
-  if (slides.length === 0 || buttons.length === 0) return;
+  if (tabs.length === 0 || slides.length === 0) return;
 
-  let currentSlide = 0;
+  let current = 0;
   let autoplayTimer = null;
-  const slideDuration = 6000; // 6 segundos por fase
 
-  function goToSlide(index) {
+  function setSlide(index) {
+    current = index % slides.length;
+
+    tabs.forEach(t => t.classList.remove('active'));
     slides.forEach(s => s.classList.remove('active'));
-    buttons.forEach(b => b.classList.remove('active'));
 
-    currentSlide = (index + slides.length) % slides.length;
-
-    slides[currentSlide].classList.add('active');
-    buttons[currentSlide].classList.add('active');
-
-    // Reiniciar barra de progreso CSS
-    const activeProgressBar = buttons[currentSlide].querySelector('.timeline-progress-bar');
-    if (activeProgressBar) {
-      activeProgressBar.style.animation = 'none';
-      void activeProgressBar.offsetWidth; // trigger reflow
-      activeProgressBar.style.animation = null;
-    }
+    tabs[current].classList.add('active');
+    slides[current].classList.add('active');
   }
 
-  function nextSlide() {
-    goToSlide(currentSlide + 1);
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    autoplayTimer = setInterval(nextSlide, slideDuration);
-  }
-
-  function stopAutoplay() {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
-  }
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = parseInt(btn.dataset.target, 10);
-      goToSlide(target);
-      startAutoplay();
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = parseInt(tab.dataset.target, 10);
+      setSlide(target);
+      restartAutoplay();
     });
   });
 
-  const stageCard = document.querySelector('.cinematic-stage-card');
-  stageCard?.addEventListener('mouseenter', stopAutoplay);
-  stageCard?.addEventListener('mouseleave', startAutoplay);
-  stageCard?.addEventListener('touchstart', stopAutoplay, { passive: true });
+  function startAutoplay() {
+    autoplayTimer = setInterval(() => {
+      setSlide(current + 1);
+    }, 7000);
+  }
+
+  function restartAutoplay() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+    startAutoplay();
+  }
 
   startAutoplay();
 }
 
-/* ================= 3. Marketplace de Propiedades ================= */
+/* ================= 3. Google Maps Integration & Zone Filtering ================= */
+function initGoogleMapsIntegration() {
+  const chips = document.querySelectorAll('.map-chip-btn');
+  const mapFrame = document.getElementById('google-maps-frame');
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      const query = chip.dataset.mapQ;
+      const zone = chip.dataset.zone;
+
+      // Actualizar el mapa de Google Maps dinámicamente
+      if (mapFrame && query) {
+        mapFrame.src = `https://www.google.com/maps?q=${query}&t=m&z=12&output=embed`;
+      }
+
+      // Filtrar el marketplace
+      activeZoneFilter = zone || 'all';
+      renderMarketplace();
+    });
+  });
+}
+
+/* ================= 4. Marketplace de Propiedades ================= */
 let activeZoneFilter = 'all';
 let activeTypeFilter = 'all';
-
-function getStoredProperties() {
-  const custom = localStorage.getItem('margarita_custom_properties');
-  if (custom) {
-    try {
-      const parsed = JSON.parse(custom);
-      return [...parsed, ...DEFAULT_PROPERTIES];
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  return DEFAULT_PROPERTIES;
-}
 
 function renderMarketplace() {
   const grid = document.getElementById('marketplace-grid');
   const countEl = document.getElementById('marketplace-count');
   if (!grid) return;
 
-  const properties = getStoredProperties();
-
-  const filtered = properties.filter(item => {
+  const filtered = DEFAULT_PROPERTIES.filter(item => {
     const matchZone = activeZoneFilter === 'all' || item.zone === activeZoneFilter;
     const matchType = activeTypeFilter === 'all' || item.type === activeTypeFilter;
     return matchZone && matchType;
@@ -234,18 +216,18 @@ function renderMarketplace() {
 
   if (filtered.length === 0) {
     grid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: var(--c-card-bg); border-radius: var(--radius-lg); border: 1px dashed var(--glass-border);">
-        <p style="color: var(--c-text-muted); font-size: 1.05rem;">No hay propiedades con los filtros seleccionados.</p>
-        <button class="btn btn-gold" style="margin-top: 1rem;" onclick="resetMarketplaceFilters()">Ver Todas las Propiedades</button>
+      <div style="grid-column: 1/-1; text-align: center; padding: 2.5rem; background: var(--c-card-bg); border-radius: var(--radius-lg); border: 1px dashed var(--glass-border);">
+        <p style="color: var(--c-text-muted); font-size: 1rem;">No hay propiedades con este filtro de zona o tipo.</p>
+        <button class="btn btn-gold" style="margin-top: 0.8rem;" onclick="resetFilters()">Ver Todas las Propiedades</button>
       </div>
     `;
     return;
   }
 
   grid.innerHTML = filtered.map(item => `
-    <article class="property-card reveal active" data-id="${item.id}">
+    <article class="property-card" data-id="${item.id}">
       <div class="property-img-wrap">
-        <img src="${item.image || 'assets/images/margarita-sunset-villa.jpg'}" alt="${item.title}" class="property-img" loading="lazy">
+        <img src="${item.image}" alt="${item.title}" class="property-img" loading="lazy">
         <span class="property-badge-zone">${item.zoneName}</span>
         <span class="property-badge-status status-${item.status}">${item.statusText}</span>
       </div>
@@ -263,7 +245,7 @@ function renderMarketplace() {
             <span>Inversión</span>
             <strong>${item.price}</strong>
           </div>
-          <button class="btn btn-sunset" style="padding: 0.55rem 1rem; font-size: 0.78rem;" onclick="openPropertyDetail('${item.id}')">
+          <button class="btn btn-sunset" style="padding: 0.5rem 0.9rem; font-size: 0.78rem;" onclick="openPropertyDetail('${item.id}')">
             <span>Consultar Ficha</span>
           </button>
         </div>
@@ -272,16 +254,21 @@ function renderMarketplace() {
   `).join('');
 }
 
-window.resetMarketplaceFilters = function() {
+window.resetFilters = function() {
   activeZoneFilter = 'all';
   activeTypeFilter = 'all';
 
-  document.querySelectorAll('.zone-filter-btn').forEach(btn => {
+  document.querySelectorAll('.map-chip-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.zone === 'all');
   });
   document.querySelectorAll('.type-filter-pill').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.type === 'all');
   });
+
+  const mapFrame = document.getElementById('google-maps-frame');
+  if (mapFrame) {
+    mapFrame.src = 'https://www.google.com/maps?q=Isla+de+Margarita,+Nueva+Esparta,+Venezuela&t=m&z=11&output=embed';
+  }
 
   renderMarketplace();
 };
@@ -297,58 +284,24 @@ function initMarketplace() {
     });
   });
 
-  const zoneBtns = document.querySelectorAll('.zone-filter-btn');
-  zoneBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      zoneBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeZoneFilter = btn.dataset.zone;
-      renderMarketplace();
-    });
-  });
-
   renderMarketplace();
 }
 
-/* ================= 4. Mapa Interactivo de Margarita ================= */
-function initMapInteractivity() {
-  const pins = document.querySelectorAll('.map-pin-group');
-  pins.forEach(pin => {
-    pin.addEventListener('click', () => {
-      const zone = pin.dataset.zone;
-      if (!zone) return;
+/* ================= 5. Google Forms Modal ================= */
+function initGoogleFormsModal() {
+  const openBtns = [
+    document.getElementById('btn-open-google-form'),
+    document.getElementById('footer-google-form-btn')
+  ];
+  const modal = document.getElementById('modal-google-forms');
+  const closeBtn = document.getElementById('close-google-forms-modal');
 
-      activeZoneFilter = zone;
-
-      document.querySelectorAll('.zone-filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.zone === zone);
-      });
-
-      renderMarketplace();
-
-      const marketplaceSec = document.getElementById('marketplace-sec');
-      if (marketplaceSec) {
-        marketplaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+  openBtns.forEach(btn => {
+    btn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal?.classList.add('open');
     });
   });
-}
-
-/* ================= 5. Modal Postular Propiedad ================= */
-function initPropertyPostulationModal() {
-  const openBtn = document.getElementById('btn-open-postulate');
-  const footerPostulate = document.getElementById('footer-link-postulate');
-  const modal = document.getElementById('modal-postulate');
-  const closeBtn = document.getElementById('close-postulate-modal');
-  const form = document.getElementById('form-postulate-property');
-
-  function openModal(e) {
-    e?.preventDefault();
-    modal?.classList.add('open');
-  }
-
-  openBtn?.addEventListener('click', openModal);
-  footerPostulate?.addEventListener('click', openModal);
 
   closeBtn?.addEventListener('click', () => {
     modal?.classList.remove('open');
@@ -357,72 +310,17 @@ function initPropertyPostulationModal() {
   modal?.addEventListener('click', (e) => {
     if (e.target === modal) modal.classList.remove('open');
   });
-
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const title = form.querySelector('[name="prop_title"]').value;
-      const zone = form.querySelector('[name="prop_zone"]').value;
-      const type = form.querySelector('[name="prop_type"]').value;
-      const status = form.querySelector('[name="prop_status"]').value;
-      const papers = form.querySelector('[name="prop_papers"]').value;
-      const priceVal = form.querySelector('[name="prop_price"]').value;
-      const photoLink = form.querySelector('[name="prop_photo_link"]').value || 'assets/images/margarita-beachfront-land.jpg';
-      const ownerName = form.querySelector('[name="owner_name"]').value;
-      const ownerPhone = form.querySelector('[name="owner_phone"]').value;
-
-      const newProperty = {
-        id: 'prop-' + Date.now(),
-        zone: zone,
-        zoneName: zone.toUpperCase(),
-        type: type,
-        typeName: type.toUpperCase(),
-        title: title,
-        desc: `Propiedad postulada por ${ownerName}. Estatus: ${status}. Papeles: ${papers}.`,
-        specs: [`Estado: ${status}`, `Legal: ${papers}`, 'Verificación en Curso'],
-        price: `$${priceVal} USD`,
-        roi: 'Por Calcular',
-        status: 'proyecto',
-        statusText: 'Postulada',
-        image: photoLink
-      };
-
-      const existing = JSON.parse(localStorage.getItem('margarita_custom_properties') || '[]');
-      existing.unshift(newProperty);
-      localStorage.setItem('margarita_custom_properties', JSON.stringify(existing));
-
-      renderMarketplace();
-      modal?.classList.remove('open');
-
-      alert('¡Propiedad postulada con éxito! Se ha añadido de forma inmediata a la vista del marketplace y ha sido enviada al equipo de Miguel Ángel para verificación legal.');
-
-      const waMsg = encodeURIComponent(
-        `*Nueva Propiedad Postulada en La Perla del Caribe:*\n` +
-        `*Título:* ${title}\n` +
-        `*Zona:* ${zone}\n` +
-        `*Precio:* $${priceVal} USD\n` +
-        `*Papeles:* ${papers}\n` +
-        `*Propietario:* ${ownerName} (${ownerPhone})\n` +
-        `*Fotos:* ${photoLink}`
-      );
-      window.open(`https://api.whatsapp.com/send?phone=584120000000&text=${waMsg}`, '_blank');
-      form.reset();
-    });
-  }
 }
 
-/* ================= 6. Modales Generales ================= */
+/* ================= 6. Modales Generales (VIP & Agendar) ================= */
 function initGeneralModals() {
-  const vipBtns = [document.getElementById('btn-open-vip'), document.getElementById('footer-link-vip')];
+  const vipBtn = document.getElementById('btn-open-vip');
   const vipModal = document.getElementById('modal-vip');
   const closeVip = document.getElementById('close-vip-modal');
 
-  vipBtns.forEach(btn => {
-    btn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      vipModal?.classList.add('open');
-    });
+  vipBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    vipModal?.classList.add('open');
   });
 
   closeVip?.addEventListener('click', () => {
@@ -512,10 +410,9 @@ function initHeroLeadForm() {
           submitBtn.disabled = false;
           submitBtn.style.background = '';
         }
-      }, 1200);
+      }, 1000);
 
     } catch (err) {
-      console.warn('Fallback WhatsApp directo:', err);
       const waMsg = encodeURIComponent(
         `*Hola Miguel Ángel, deseo información de inversión en Margarita:*\n` +
         `*Nombre:* ${name}\n` +
@@ -534,33 +431,13 @@ function initHeroLeadForm() {
   });
 }
 
-/* ================= 8. Scroll Reveal Animations ================= */
-function initScrollAnimations() {
-  const revealElements = document.querySelectorAll('.reveal');
-
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -40px 0px'
-  });
-
-  revealElements.forEach(el => observer.observe(el));
-}
-
-// Global modal trigger for individual property
+// Detalle por WhatsApp de propiedad individual
 window.openPropertyDetail = function(id) {
-  const properties = getStoredProperties();
-  const prop = properties.find(p => p.id === id);
+  const prop = DEFAULT_PROPERTIES.find(p => p.id === id);
   if (!prop) return;
 
   const waMsg = encodeURIComponent(
-    `*Hola Miguel Ángel, deseo consultar detalles y coordinar visita para:*\n` +
+    `*Hola Miguel Ángel, deseo consultar detalles sobre:*\n` +
     `*Propiedad:* ${prop.title} (${prop.zoneName})\n` +
     `*Precio:* ${prop.price}\n` +
     `*Tipo:* ${prop.typeName}`
