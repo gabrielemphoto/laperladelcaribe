@@ -3,142 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Modelo 3D Interactivo • Terreno y Fases de Construcción | La Perla del Caribe</title>
+  <title>Modelo 3D Interactivo • La Perla del Caribe</title>
 
-  <meta name="description" content="Visor 3D interactivo en tiempo real del terreno virgen, cabaña modular sustentable y resort boutique con piscina infinity en Isla de Margarita.">
-  
-  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
-
-  <!-- Tipografías de Prestigio -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-  <!-- Contenedor 3D WebGL -->
+  <!-- Contenedor 3D WebGL con Fondo 100% Transparente -->
   <div id="canvas-container"></div>
 
-  <!-- Header Flotante Superior -->
-  <header class="top-header">
-    <a href="../" class="brand-badge" title="Volver a la web principal">
-      <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo La Perla del Caribe" class="brand-logo-small">
-      <div class="brand-info">
-        <span class="brand-title">LA PERLA DEL CARIBE</span>
-        <span class="brand-subtitle">Modelo 3D Interactivo</span>
-      </div>
-    </a>
+  <!-- Flecha de Navegación Izquierda (Proyecto Anterior) -->
+  <button class="nav-arrow nav-arrow-left" id="btn-arrow-prev" aria-label="Proyecto Anterior" title="Proyecto Anterior">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
 
-    <div class="top-controls-group">
-      <!-- Iluminación Horaria -->
-      <div class="glass-toolbar">
-        <button class="btn-pill-icon btn-time active" data-time="day" title="Luz de Día Soleado" aria-label="Día">☀️</button>
-        <button class="btn-pill-icon btn-time" data-time="sunset" title="Atardecer Dorado (Golden Hour)" aria-label="Atardecer">🌅</button>
-        <button class="btn-pill-icon btn-time" data-time="night" title="Noche Iluminada con Luces LED" aria-label="Noche">🌙</button>
-      </div>
+  <!-- Flecha de Navegación Derecha (Proyecto Siguiente) -->
+  <button class="nav-arrow nav-arrow-right" id="btn-arrow-next" aria-label="Proyecto Siguiente" title="Proyecto Siguiente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </button>
 
-      <!-- Utilidades -->
-      <div class="glass-toolbar">
-        <button class="btn-pill-icon" id="btn-autorotate" title="Activar / Pausar Auto-Giro" aria-label="Auto Rotar">🔄</button>
-        <button class="btn-pill-icon active" id="btn-sound-toggle" title="Efectos de Sonido" aria-label="Sonido">🔊</button>
-        <button class="btn-pill-icon" id="btn-screenshot" title="Descargar Captura en Alta Resolución" aria-label="Foto HD">📸</button>
-        <button class="btn-pill-icon" id="btn-fullscreen" title="Pantalla Completa" aria-label="Pantalla Completa">⛶</button>
-      </div>
-
-      <!-- Botón para Incrustar en Cualquier Web -->
-      <button class="btn-embed-action" id="btn-open-embed" title="Obtener código para incrustar en tu web">
-        <span>Incrustar 3D</span>
-        <span>&lt;/&gt;</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Muelle Lateral de Perspectivas de Cámara -->
-  <aside class="side-presets-dock" aria-label="Vistas de Cámara">
-    <button class="btn-view" data-view="isometric" title="Perspectiva Isométrica">📐 Isométrica</button>
-    <button class="btn-view" data-view="top" title="Vista Cenital / Planta Topográfica">👁️ Planta</button>
-    <button class="btn-view" data-view="front" title="Fachada Frontal">🏛️ Fachada</button>
-    <button class="btn-view" data-view="pool" title="Zona Solarium & Piscina">🏊 Piscina</button>
-  </aside>
-
-  <!-- Dock Inferior: Fases, Botón de Construcción y Métricas -->
-  <section class="bottom-dock">
-    <!-- Pestañas de Fases Directas -->
-    <div class="phase-selector-bar" role="tablist">
-      <button class="phase-tab-btn active" data-phase="0" role="tab" aria-selected="true">
-        <span>🌱</span>
-        <span>Fase 0: Terreno Virgen</span>
-      </button>
-      <button class="phase-tab-btn" data-phase="1" role="tab" aria-selected="false">
-        <span>🏡</span>
-        <span>Fase 1: Cabaña Modular</span>
-      </button>
-      <button class="phase-tab-btn" data-phase="2" role="tab" aria-selected="false">
-        <span>🏨</span>
-        <span>Fase 2: Resort &amp; Spa</span>
-      </button>
-    </div>
-
-    <!-- Tarjeta Principal de Acción y Ficha -->
-    <div class="main-dock-card">
-      <div class="phase-info-block">
-        <div class="phase-thumb-wrap">
-          <img src="assets/fase-0-terreno.jpg" alt="Terreno Virgen" id="hud-thumb-img" class="phase-thumb-img">
-        </div>
-        <div class="phase-text-col">
-          <span class="phase-badge-pill" id="hud-phase-badge">FASE 0 • OPORTUNIDAD INICIAL</span>
-          <h2 class="phase-title-text" id="hud-phase-title">Terreno Virgen (Lote en Bruto)</h2>
-          <p class="phase-desc-text" id="hud-phase-desc">
-            Parcela de 500 m² con topografía óptima en Isla de Margarita. Corte geológico de alta fertilidad, suelo compactado y roca madre. Ideal para desarrollo personalizado.
-          </p>
-          <div class="phase-metrics-row" id="hud-phase-metrics">
-            <!-- Métricas dinámicas -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Botón Gigante Interactivo de Construcción -->
-      <button class="btn-build-interactive" id="btn-main-action" aria-label="Avanzar construcción">
-        <span>🏗️ Construir Cabaña Modular (Fase 1)</span>
-        <span class="btn-icon">⚡</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- Modal para Incrustar en Otras Webs (Iframe & Código) -->
-  <div class="embed-modal-overlay" id="embed-modal">
-    <div class="embed-modal-box">
-      <div class="embed-modal-header">
-        <h3 class="embed-modal-title">Incrustar Modelo 3D en tu Web</h3>
-        <button class="btn-close-modal" id="btn-close-embed" aria-label="Cerrar modal">&times;</button>
-      </div>
-
-      <p class="embed-modal-desc">
-        Copia y pega este código HTML en cualquier sitio web (WordPress, Webflow, Shopify, Wix o HTML personalizado) para mostrar este visor 3D interactivo a pantalla completa o dentro de cualquier sección.
-      </p>
-
-      <div class="embed-options-row">
-        <label class="embed-option-label">
-          <input type="radio" name="embed-variant" value="responsive" checked>
-          <span>Responsivo 100% (Recomendado)</span>
-        </label>
-        <label class="embed-option-label">
-          <input type="radio" name="embed-variant" value="fixed">
-          <span>Tamaño Fijo (600px)</span>
-        </label>
-      </div>
-
-      <textarea class="embed-code-area" id="embed-code-textarea" readonly></textarea>
-
-      <div class="embed-actions-row">
-        <button class="btn-copy-code" id="btn-copy-embed">Copiar Código HTML</button>
-      </div>
+  <!-- Píldora Minimalista del Proyecto Activo -->
+  <div class="project-pill-badge" id="project-pill">
+    <span class="pill-dot"></span>
+    <div class="pill-text-col">
+      <span class="pill-title" id="project-badge-text">PROYECTO 1 • TERRENO A CONSTRUCCIÓN</span>
+      <span class="pill-sub" id="project-badge-sub">Lote Virgen ➔ Cabaña Modular Autosuficiente</span>
     </div>
   </div>
 
-  <!-- Script Principal de la Aplicación -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>

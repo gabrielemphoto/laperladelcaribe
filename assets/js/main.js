@@ -177,95 +177,15 @@ function initHeroWordRotator() {
   }, 2000); // bucle fluido de 2 segundos exactos
 }
 
-/* ================= 2. Interactive 3D Model & Transformation Controls ================= */
-
+/* ================= 2. Interactive 3D Model Viewport ================= */
 function initInteractiveModel3D() {
   const iframe = document.getElementById('model-3d-iframe');
-  const btnTransform = document.getElementById('btn-transform-3d');
-  const phaseBtns = document.querySelectorAll('.model-3d-phase-btn');
-  const glassCards = document.querySelectorAll('.phase-glass-card');
+  if (!iframe) return;
 
-  if (!iframe && !btnTransform && phaseBtns.length === 0) return;
-
-  let currentPhase = 0;
-  const phaseLabels = [
-    { name: 'Terreno Virgen', nextAction: '🏗️ Transformar Modelo (Construir Cabaña)' },
-    { name: 'Cabaña Autosustentable', nextAction: '🏨 Transformar Modelo (Construir Resort)' },
-    { name: 'Resort Hotelero', nextAction: '🌱 Reiniciar al Terreno Virgen' }
-  ];
-
-  function updateActivePhase(phase, syncIframe = false) {
-    currentPhase = phase % 3;
-
-    // 1. Actualizar botones de pestañas
-    phaseBtns.forEach(btn => {
-      const p = parseInt(btn.dataset.phase, 10);
-      const isActive = p === currentPhase;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
-
-    // 2. Actualizar tarjetas glassmorfismo
-    glassCards.forEach(card => {
-      const p = parseInt(card.dataset.phase, 10);
-      card.classList.toggle('active', p === currentPhase);
-    });
-
-    // 3. Actualizar texto del botón principal de transformación
-    if (btnTransform) {
-      const transformText = btnTransform.querySelector('.btn-transform-text');
-      if (transformText) {
-        transformText.textContent = phaseLabels[currentPhase].nextAction;
-      }
-    }
-
-    // 4. Enviar mensaje postMessage al iframe si la acción provino de la landing
-    if (syncIframe && iframe && iframe.contentWindow) {
-      try {
-        iframe.contentWindow.postMessage({
-          action: 'setPhase',
-          phase: currentPhase
-        }, '*');
-      } catch (err) {
-        console.warn('No se pudo enviar mensaje al iframe 3D:', err);
-      }
-    }
-  }
-
-  // Clic en el botón principal de transformación
-  if (btnTransform) {
-    btnTransform.addEventListener('click', () => {
-      const nextP = (currentPhase + 1) % 3;
-      updateActivePhase(nextP, true);
-    });
-  }
-
-  // Clic en las pestañas directas de fase
-  phaseBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const p = parseInt(btn.dataset.phase, 10);
-      if (!isNaN(p)) {
-        updateActivePhase(p, true);
-      }
-    });
-  });
-
-  // Clic directo en las tarjetas glassmorfismo para transformar el modelo a esa fase
-  glassCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const p = parseInt(card.dataset.phase, 10);
-      if (!isNaN(p)) {
-        updateActivePhase(p, true);
-      }
-    });
-  });
-
-  // Escuchar mensajes provenientes del iframe 3D (cuando el usuario interactúa dentro del visor)
+  // El visor 3D gestiona internamente sus fases, animaciones y controles autónomos.
   window.addEventListener('message', (e) => {
     if (!e.data) return;
-    if (e.data.action === 'phaseChanged' && typeof e.data.phase === 'number') {
-      updateActivePhase(e.data.phase, false);
-    }
+    // Manejo pasivo de eventos emitidos por el modelo 3D
   });
 }
 

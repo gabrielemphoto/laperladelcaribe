@@ -44,7 +44,7 @@
         <ul class="nav-links">
           <li><a href="#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
           <li><a href="marketplace/" class="nav-link">Marketplace</a></li>
-          <li><a href="modelo-3d/" class="nav-link" style="color: #ffd175; font-weight: 600;">✨ Modelo 3D</a></li>
+          <li><a href="#simulador-3d" class="nav-link" style="color: #c5a880; font-weight: 600;">✨ Modelo 3D</a></li>
           <li><a href="#mapa-margarita" class="nav-link">Zonas de Inversión</a></li>
           <li><a href="#comparativa" class="nav-link">Comparativa ROI</a></li>
           <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="nav-link text-gold-nav">Comunidad VIP</a></li>
@@ -70,7 +70,7 @@
         <li><a href="#inicio" class="mobile-nav-link">Inicio</a></li>
         <li><a href="#proceso" class="mobile-nav-link">¿Cómo Trabajamos?</a></li>
         <li><a href="marketplace/" class="mobile-nav-link">Marketplace de Propiedades</a></li>
-        <li><a href="modelo-3d/" class="mobile-nav-link" style="color: var(--c-gold); font-weight: 700;">✨ Modelo 3D Interactivo</a></li>
+        <li><a href="#simulador-3d" class="mobile-nav-link" style="color: var(--c-gold); font-weight: 700;">✨ Modelo 3D Interactivo</a></li>
         <li><a href="#mapa-margarita" class="mobile-nav-link">Zonas de Inversión</a></li>
         <li><a href="#comparativa" class="mobile-nav-link">Comparativa ROI</a></li>
         <li><a href="#postulacion-forms" class="mobile-nav-link">Postular Propiedad (Google Forms)</a></li>
@@ -151,42 +151,18 @@
     <div class="container">
       
       <!-- Encabezado de Sección -->
-      <div class="section-head text-center" style="margin-bottom: 2.2rem;">
-        <div class="glass-pill gold" style="margin-bottom: 0.6rem;">Modelo 3D Interactivo • Isla de Margarita</div>
-        <h2 class="section-title">
+      <div class="section-head text-center" style="margin-bottom: 2rem;">
+        <div class="glass-pill gold" style="margin-bottom: 0.75rem; color: #9c7b4a; background: rgba(197, 168, 128, 0.14); border: 1px solid rgba(197, 168, 128, 0.35); font-weight: 700;">Modelo 3D Interactivo • Isla de Margarita</div>
+        <h2 class="section-title" style="color: #0f172a; margin-bottom: 0.8rem;">
           De Terreno Virgen a <span class="italic-serif text-sunset">Activo de Alta Rentabilidad</span>
         </h2>
-        <p class="section-subtitle" style="max-width: 780px; margin: 0 auto; color: var(--c-text-muted);">
+        <p class="section-subtitle" style="max-width: 780px; margin: 0 auto; color: #334155; font-weight: 500; font-size: 1.05rem; line-height: 1.6;">
           Visualiza en 3D el potencial de transformación: compra de suelo estratégico a bajo costo, construcción bioclimática autónoma con pozo y luz propia, o desarrollo hotelero con rentas en dólares.
         </p>
       </div>
 
-      <!-- Barra de Control de Fases y Botón de Transformación -->
-      <div class="model-3d-controls-bar">
-        <div class="model-3d-phase-tabs" role="tablist" aria-label="Seleccionar Fase del Modelo 3D">
-          <button class="model-3d-phase-btn active" data-phase="0" role="tab" aria-selected="true" title="Ver Fase 0: Terreno Virgen">
-            <span class="phase-btn-badge">01</span>
-            <span class="phase-btn-name">🌱 Terreno Virgen</span>
-          </button>
-          <button class="model-3d-phase-btn" data-phase="1" role="tab" aria-selected="false" title="Ver Fase 1: Cabaña Autosustentable">
-            <span class="phase-btn-badge">02</span>
-            <span class="phase-btn-name">🏡 Cabaña Autosustentable</span>
-          </button>
-          <button class="model-3d-phase-btn" data-phase="2" role="tab" aria-selected="false" title="Ver Fase 2: Resort Hotelero">
-            <span class="phase-btn-badge">03</span>
-            <span class="phase-btn-name">🏨 Resort Hotelero &amp; Spa</span>
-          </button>
-        </div>
-
-        <!-- Botón Principal que Ejecuta la Transformación -->
-        <button class="btn-transform-3d" id="btn-transform-3d" aria-label="Ejecutar transformación en el modelo 3D">
-          <span class="btn-transform-text">🏗️ Transformar Modelo (Construir Cabaña)</span>
-          <span class="btn-transform-icon">⚡</span>
-        </button>
-      </div>
-
       <!-- Visor 3D Interactivo Local (Sin dominio externo) -->
-      <div class="model-3d-viewport-wrapper" style="position: relative; width: 100%; max-width: 1200px; height: 650px; margin: 2rem auto; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.2);">
+      <div class="model-3d-viewport-wrapper" style="position: relative; width: 100%; max-width: 1200px; height: 650px; margin: 1.5rem auto 0 auto; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.2);">
         <iframe 
           id="model-3d-iframe"
           src="./modelo-3d/?embed=true" 
@@ -197,111 +173,6 @@
           loading="lazy"
           title="Modelo 3D Interactivo">
         </iframe>
-      </div>
-
-      <!-- Explicación de Cada Fase con Etiquetas y Tarjetas Glassmorfismo & ROI -->
-      <div class="phase-glass-grid" id="phase-glass-cards">
-        
-        <!-- Tarjeta Fase 01 -->
-        <div class="phase-glass-card active" data-phase="0">
-          <div class="phase-glass-header">
-            <span class="phase-glass-num">FASE 01</span>
-            <span class="phase-glass-tag gold">Adquisición Estratégica</span>
-          </div>
-          <h3 class="phase-glass-title">🌱 Terreno Virgen</h3>
-          <p class="phase-glass-desc">
-            Adquisición de lotes y macrolotes en zonas de alta proyección turística antes del ciclo alcista inmobiliario.
-          </p>
-          <div class="phase-glass-perks">
-            <div class="perk-item">
-              <span class="perk-icon">🏷️</span>
-              <span><strong>$1 a $100 USD / m²</strong> de suelo virgen</span>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">⚖️</span>
-              <span><strong>Auditoría Notarial 100%</strong> títulos limpios y solvencias</span>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">💧</span>
-              <span><strong>Factibilidad de pozo</strong> de agua dulce certificada</span>
-            </div>
-          </div>
-          <div class="phase-glass-roi">
-            <span class="roi-label">Plusvalía Proyectada</span>
-            <span class="roi-val">+20% a +25% Anual (ZEE)</span>
-          </div>
-        </div>
-
-        <!-- Tarjeta Fase 02 -->
-        <div class="phase-glass-card" data-phase="1">
-          <div class="phase-glass-header">
-            <span class="phase-glass-num">FASE 02</span>
-            <span class="phase-glass-tag blue">Construcción Autónoma</span>
-          </div>
-          <h3 class="phase-glass-title">🏡 Cabaña Ecosostenible</h3>
-          <p class="phase-glass-desc">
-            Vivienda modular bioclimática con 100% de independencia de servicios públicos e impacto ecológico mínimo.
-          </p>
-          <div class="phase-glass-perks">
-            <div class="perk-item">
-              <span class="perk-icon">⚡</span>
-              <span><strong>100% Autosuficiente:</strong> energía solar + pozo propio</span>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">🏗️</span>
-              <span><strong>Llave en mano:</strong> ejecución rápida en 6 a 8 meses</span>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">💻</span>
-              <span><strong>Alta ocupación:</strong> nómadas digitales y turismo premium</span>
-            </div>
-          </div>
-          <div class="phase-glass-roi">
-            <span class="roi-label">Rentabilidad Operativa</span>
-            <span class="roi-val">15% - 18% ROI Anual en USD</span>
-          </div>
-        </div>
-
-        <!-- Tarjeta Fase 03 -->
-        <div class="phase-glass-card" data-phase="2">
-          <div class="phase-glass-header">
-            <span class="phase-glass-num">FASE 03</span>
-            <span class="phase-glass-tag gold">Explotación Hotelera</span>
-          </div>
-          <h3 class="phase-glass-title">🏨 Hotel &amp; Resort Boutique</h3>
-          <p class="phase-glass-desc">
-            Complejo de suites de lujo con solárium, piscina infinity en roca y operación turística integral para inversores extranjeros.
-          </p>
-          <div class="phase-glass-perks">
-            <div class="perk-item">
-              <span class="perk-icon">🏊</span>
-              <span><strong>Piscina infinity panorámica</strong> excavada en roca</span>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">🌍</span>
-              <span><strong>Comercialización global:</strong> turismo europeo, ruso y local</span>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">🛡️</span>
-              <span><strong>Gestión 100% manos libres:</strong> dividendos liquidados mensualmente</span>
-            </div>
-          </div>
-          <div class="phase-glass-roi">
-            <span class="roi-label">Rendimiento Neto Dividendo</span>
-            <span class="roi-val">22% - 28% Neto Anual en USD</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Acciones Inferiores: Redirección al Marketplace y Contacto Asesor -->
-      <div class="model-3d-actions-row">
-        <a href="marketplace/" class="btn btn-sunset" style="padding: 0.95rem 2.2rem; font-size: 0.95rem;">
-          <span>🏬 Explorar Oportunidades en Marketplace ↗</span>
-        </a>
-        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%2C%20estoy%20viendo%20el%20modelo%203D%20y%20quiero%20informaci%C3%B3n%20para%20invertir%20en%20Isla%20de%20Margarita." target="_blank" class="btn btn-outline-gold" style="padding: 0.95rem 2rem; font-size: 0.95rem;">
-          <span>💬 Agendar Asesoría por WhatsApp</span>
-        </a>
       </div>
 
     </div>

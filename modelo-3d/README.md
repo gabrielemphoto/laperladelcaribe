@@ -1,101 +1,50 @@
-# 🌐 Modelo 3D Interactivo • La Perla del Caribe
+# 🌐 Visor 3D Interactivo Ultraligero • La Perla del Caribe
 
-Visor 3D WebGL interactivo en tiempo real que modela la evolución arquitectónica de un lote de terreno en Isla de Margarita a través de 3 fases continuas:
-
-1. **🌱 Fase 0: Terreno Virgen (Lote en Bruto)**: Bloque de tierra con corte geológico estratigráfico (humus fértil, raíces colgantes, arcilla y roca madre) y delimitación topográfica con hitos perimetrales.
-2. **🏡 Fase 1: Cabaña Modular Sustentable**: Casa prefabricada moderna con listones de madera de teca, revestimiento antracita, cubierta solar fotovoltaica 100% autosuficiente, terraza de madera, sendero de gravilla con balizas LED y climatización.
-3. **🏨 Fase 2: Resort Boutique & Spa Caribeño**: Complejo hotelero de 4 plantas con suites de lujo, balcones voladizos de cristal, **piscina infinity excavada en la roca con corte transversal visible**, solarium con tumbonas y sombrillas multicolores, palmeras caribeñas y zona de estacionamiento.
+Visor 3D WebGL con **fondo 100% transparente**, rotación continua interactiva y navegación limpia mediante **únicamente dos flechas laterales** (⬅️ y ➡️).
 
 ---
 
-## 🚀 Inicio Rápido Local
+## 🏗️ Los 3 Proyectos / Modelos Incluidos
 
-Para visualizar el modelo en desarrollo local:
+El visor cicla automáticamente cada proyecto en un bucle continuo de **2 segundos por fase** (con transición fluida de 0.7s):
 
-```bash
-npm run dev
-```
+1. **🌱 Proyecto 1: Terreno Virgen ➔ Construcción Eco-Sostenible**
+   * **Fase A (2s):** Lote de terreno virgen con corte estratigráfico (humus, raíces, arcilla y roca madre) y delimitación topográfica.
+   * **Animación (0.7s):** La cabaña desciende suavemente sobre el terreno mientras la maleza se adapta.
+   * **Fase B (2s):** Cabaña modular terminada con cubierta solar fotovoltaica 100% autosuficiente, listones de madera de teca, terraza y acabados modernos.
 
-Abre en tu navegador:
-👉 **`http://localhost:5173/modelo-3d/`**
+2. **🏨 Proyecto 2: Hotel Abandonado ➔ Resort de Lujo (+Ganancias)**
+   * **Fase A (2s):** Estructura hotelera en ruinas con hormigón envejecido y manchado, ventanas tapiadas y fosa de piscina seca y abandonada.
+   * **Animación (0.7s):** Ola de remodelación integral.
+   * **Fase B (2s):** Hotel boutique remodelado de hormigón blanco y madera, piscina llena de agua turquesa cristalina con iluminación, palmeras, tumbonas con sombrillas caribeñas y huéspedes disfrutando mientras genera rentas activas.
 
-Para compilar la versión optimizada de producción:
-
-```bash
-npm run build
-```
-
-Los archivos generados se ubicarán en `dist/modelo-3d/`.
+3. **🔑 Proyecto 3: Habitación en Obra Gris ➔ Suite "EN ALQUILER"**
+   * **Fase A (2s):** Habitación abierta con paredes peladas de bloques de cemento, cables eléctricos colgados y suelo rústico de concreto.
+   * **Animación (0.7s):** Transformación y amoblado en tiempo real.
+   * **Fase B (2s):** Apartamento de diseño contemporáneo con paredes lisas, panel acústico de madera, cama queen size de lujo, lámparas de noche cálidas, ventanal panorámico y cartel destacado flotante: **"🔑 EN ALQUILER • 100% Amoblado • ROI +24%"**.
 
 ---
 
-## 📦 Cómo Incrustar en Cualquier Página Web
+## 🎮 Controles y Experiencia
 
-El visor está diseñado para ser **100% incrustable** en cualquier gestor de contenidos o web personalizada mediante una etiqueta `<iframe>`:
+* **Flechas Laterales (⬅️ / ➡️):** Cambian inmediatamente entre los 3 proyectos. También admite teclas de flecha del teclado y deslizamiento táctil (*swipe* en móviles).
+* **Giro Continuo:** El modelo siempre está en movimiento suave y elegante (`autoRotate`). El usuario puede además agarrar y arrastrar para orbitar en 360°, hacer zoom o inspeccionar desde cualquier ángulo.
+* **Fondo Transparente:** No tiene marcos, cajas ni fondos opacos. Se integra naturalmente sobre cualquier sección de tu web.
+* **Sin menús pesados:** Sin selectores de hora, sin botones de captura, sin pestañas sobrecargadas.
 
-### 1. Inserción Responsiva (Recomendada)
-```html
-<div style="position: relative; width: 100%; max-width: 1200px; height: 650px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.18);">
-  <iframe 
-    src="https://tudominio.com/modelo-3d/?embed=true" 
-    width="100%" 
-    height="100%" 
-    style="border: none;" 
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-    loading="lazy"
-    title="Modelo 3D Interactivo - La Perla del Caribe">
-  </iframe>
-</div>
-```
+---
 
-### 2. Inserción Directa con Tamaño Fijo
+## 📦 Cómo Incrustarlo en Tu Web
+
+Al tener fondo transparente y diseño responsivo, simplemente añade una etiqueta `<iframe>`:
+
 ```html
 <iframe 
-  src="https://tudominio.com/modelo-3d/?embed=true" 
+  src="./modelo-3d/" 
   width="100%" 
   height="600" 
-  style="border: none; border-radius: 16px;" 
-  allow="fullscreen">
+  style="border: none; background: transparent;" 
+  allow="accelerometer; autoplay; encrypted-media; gyroscope"
+  loading="lazy">
 </iframe>
-```
-
----
-
-## 🎛️ Parámetros de URL Disponibles
-
-Puedes controlar el comportamiento del visor al incrustarlo añadiendo parámetros en la URL:
-
-| Parámetro | Valores | Descripción |
-|---|---|---|
-| `phase` | `0`, `1`, `2` | Define la fase con la que inicia el modelo (`0` = Terreno, `1` = Cabaña, `2` = Resort). |
-| `embed` | `true` | Activa el modo embebido limpio (oculta la cabecera superior de la marca para no duplicar menús). |
-| `time` | `day`, `sunset`, `night` | Controla la iluminación horaria (`day` = Sol Caribeño, `sunset` = Atardecer Dorado, `night` = Luces nocturnas). |
-| `autorotate` | `true` | Activa el giro orbital automático continuo de 360° ideal para vitrinas inmobiliarias. |
-
-**Ejemplo:**
-```text
-https://tudominio.com/modelo-3d/?phase=1&time=sunset&autorotate=true&embed=true
-```
-
----
-
-## 📁 Estructura de Archivos
-
-```
-b:\LAPERLADELCARIBE\modelo-3d\
-├── index.html           # Página del visor, UI glassmorphic y modal de incrustación
-├── style.css            # Estilos modernos, dock inferior responsivo y temas
-├── main.js              # Controlador principal Three.js, cámara, luces y animación
-├── modules/
-│   ├── terrain.js       # Bloque de tierra geológico con fosa de excavación dinámica
-│   ├── vegetation.js    # Maleza silvestre y palmeras tropicales / setos
-│   ├── cabin.js         # Cabaña modular con cubierta solar fotovoltaica
-│   ├── resort.js        # Hotel de 4 plantas y piscina infinity excavada
-│   ├── textures.js      # Texturas procedurales de alta definición (estratos, madera, agua, celdas solares)
-│   ├── sound.js         # Motor de audio con Web Audio API (efectos de clic y construcción)
-│   └── embed-helper.js  # Gestor de iframe, capturas HD y pantalla completa
-└── assets/
-    ├── fase-0-terreno.jpg
-    ├── fase-1-cabana.jpg
-    └── fase-2-resort.jpg
 ```
