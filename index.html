@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=4.3">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.4">
 </head>
 <body>
 
@@ -151,7 +151,7 @@
     <div class="container">
       
       <!-- Encabezado de Sección -->
-      <div class="section-head text-center" style="margin-bottom: 2rem;">
+      <div class="section-head text-center reveal-on-scroll" style="margin-bottom: 2rem;">
         <div class="glass-pill gold" style="margin-bottom: 0.75rem; color: #9c7b4a; background: rgba(197, 168, 128, 0.14); border: 1px solid rgba(197, 168, 128, 0.35); font-weight: 700;">Modelo 3D Interactivo • Isla de Margarita</div>
         <h2 class="section-title" style="color: #0f172a; margin-bottom: 0.8rem;">
           De Terreno Virgen a <span class="italic-serif text-sunset">Activo de Alta Rentabilidad</span>
@@ -162,7 +162,7 @@
       </div>
 
       <!-- Escenario 3D 100% Integrado en la Página (Sin Ventana ni Encapsulamiento) -->
-      <div class="model-3d-stage-container" id="interactive-3d-stage-container">
+      <div class="model-3d-stage-container reveal-scale" id="interactive-3d-stage-container">
         
         <!-- Píldora Descriptiva Espaciosa y Amplia (No apretada en móvil) -->
         <div class="project-pill-badge" id="project-pill">
@@ -197,7 +197,7 @@
   <!-- ================= MAPA DE CALOR LEAFLET & MUNICIPIOS ================= -->
   <section class="section section-alt" id="mapa-margarita">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal-on-scroll">
         <div class="glass-pill gold">Inteligencia Inmobiliaria &bull; Nueva Esparta</div>
         <h2 class="section-title">
           Mapa de Calor de Inversión en <span class="italic-serif text-sunset">Isla de Margarita</span>
@@ -208,7 +208,7 @@
       </div>
 
       <!-- MAPA DE CALOR CARD -->
-      <div class="investment-map-card">
+      <div class="investment-map-card reveal-scale">
         <div class="map-header-bar">
           <div class="map-header-left">
             <h3>🌍 MAPA DE CALOR DE INVERSIÓN</h3>
@@ -243,160 +243,174 @@
         </div>
       </div>
 
-      <!-- MUNICIPIOS DE ALTO CRECIMIENTO -->
-      <div class="municipalities-header">
-        <h3>Municipios de Alto Crecimiento</h3>
-        <span>Toca cualquier zona para enfocar el mapa de calor</span>
-      </div>
-
-      <div class="muni-grid">
-        <!-- Pampatar -->
-        <div class="muni-card" data-zone="pampatar">
-          <div class="muni-top-row">
-            <span class="muni-title">Pampatar</span>
-            <span class="muni-badge green">Zona Premium &bull; ZEE</span>
+      <!-- MUNICIPIOS DE ALTO CRECIMIENTO (TICKER VERTICAL BEIGE & DORADO) -->
+      <div class="muni-vertical-section reveal-on-scroll">
+        <div class="muni-vertical-header">
+          <div>
+            <h3>Municipios de Alto Crecimiento</h3>
+            <span>Desplaza en vertical o pulsa las flechas para explorar cada polo &bull; Toca para enfocar en el mapa de calor</span>
           </div>
-          <div class="muni-metrics">
-            <div class="muni-metric-col">
-              <span>Promedio Suelo</span>
-              <strong>$60 - $100 / m²</strong>
-            </div>
-            <div class="muni-metric-col">
-              <span>Retorno Estimado</span>
-              <strong style="color: #4ade80;">18% - 22% Anual</strong>
-            </div>
+          <div class="muni-vertical-nav">
+            <button class="muni-arrow-btn" id="muni-prev-btn" aria-label="Zona Anterior" title="Zona Anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+            </button>
+            <button class="muni-arrow-btn" id="muni-next-btn" aria-label="Siguiente Zona" title="Siguiente Zona">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
           </div>
-          <p class="muni-desc">
-            Milla de Oro y polo gastronómico con alta demanda de villas de lujo y alquileres temporales prémium en USD.
-          </p>
-          <a href="marketplace/?zone=pampatar" class="muni-cta-link">
-            <span>Explorar Inmuebles en Pampatar ↗</span>
-          </a>
         </div>
 
-        <!-- Playa El Yaque -->
-        <div class="muni-card" data-zone="el-yaque">
-          <div class="muni-top-row">
-            <span class="muni-title">Playa El Yaque</span>
-            <span class="muni-badge green">Kitesurf &amp; Posadas</span>
-          </div>
-          <div class="muni-metrics">
-            <div class="muni-metric-col">
-              <span>Promedio Suelo</span>
-              <strong>$45 - $85 / m²</strong>
+        <div class="muni-vertical-viewport" id="muni-vertical-viewport">
+          <div class="muni-vertical-track" id="muni-vertical-track">
+            <!-- Pampatar -->
+            <div class="muni-card-beige" data-zone="pampatar">
+              <div class="muni-top-row">
+                <span class="muni-title-beige">Pampatar</span>
+                <span class="muni-badge-gold">Zona Premium &bull; ZEE</span>
+              </div>
+              <div class="muni-metrics-beige">
+                <div class="muni-metric-col">
+                  <span>Promedio Suelo</span>
+                  <strong class="muni-price-val">$60 - $100 / m²</strong>
+                </div>
+                <div class="muni-metric-col">
+                  <span>Retorno Estimado</span>
+                  <strong class="muni-roi-val">18% - 22% Anual</strong>
+                </div>
+              </div>
+              <p class="muni-desc-beige">
+                Milla de Oro y polo gastronómico con alta demanda de villas de lujo y alquileres temporales prémium en USD.
+              </p>
+              <a href="marketplace/?zone=pampatar" class="muni-cta-beige">
+                <span>Explorar Inmuebles en Pampatar ↗</span>
+              </a>
             </div>
-            <div class="muni-metric-col">
-              <span>Retorno Estimado</span>
-              <strong style="color: #4ade80;">20% - 25% Anual</strong>
-            </div>
-          </div>
-          <p class="muni-desc">
-            Destino internacional con ocupación europea constante todo el año. Oportunidades en hoteles boutique y parcelas de playa.
-          </p>
-          <a href="marketplace/?zone=el-yaque" class="muni-cta-link">
-            <span>Explorar Inmuebles en El Yaque ↗</span>
-          </a>
-        </div>
 
-        <!-- Playa El Agua -->
-        <div class="muni-card" data-zone="playa-el-agua">
-          <div class="muni-top-row">
-            <span class="muni-title">Playa El Agua</span>
-            <span class="muni-badge green">Macro Parcelas ZEE</span>
-          </div>
-          <div class="muni-metrics">
-            <div class="muni-metric-col">
-              <span>Promedio Suelo</span>
-              <strong>$25 - $50 / m²</strong>
+            <!-- Playa El Yaque -->
+            <div class="muni-card-beige" data-zone="el-yaque">
+              <div class="muni-top-row">
+                <span class="muni-title-beige">Playa El Yaque</span>
+                <span class="muni-badge-gold">Kitesurf &amp; Posadas</span>
+              </div>
+              <div class="muni-metrics-beige">
+                <div class="muni-metric-col">
+                  <span>Promedio Suelo</span>
+                  <strong class="muni-price-val">$45 - $85 / m²</strong>
+                </div>
+                <div class="muni-metric-col">
+                  <span>Retorno Estimado</span>
+                  <strong class="muni-roi-val">20% - 25% Anual</strong>
+                </div>
+              </div>
+              <p class="muni-desc-beige">
+                Destino internacional con ocupación europea constante todo el año. Oportunidades en hoteles boutique y parcelas de playa.
+              </p>
+              <a href="marketplace/?zone=el-yaque" class="muni-cta-beige">
+                <span>Explorar Inmuebles en El Yaque ↗</span>
+              </a>
             </div>
-            <div class="muni-metric-col">
-              <span>Plusvalía ZEE</span>
-              <strong style="color: #4ade80;">22% - 28% Anual</strong>
-            </div>
-          </div>
-          <p class="muni-desc">
-            Extensa costa oceánica apta para desarrollo de resorts de gran escala y complejos hoteleros bajo exenciones arancelarias.
-          </p>
-          <a href="marketplace/?zone=playa-el-agua" class="muni-cta-link">
-            <span>Explorar Inmuebles en El Agua ↗</span>
-          </a>
-        </div>
 
-        <!-- Porlamar / Costa Azul -->
-        <div class="muni-card" data-zone="costa-azul">
-          <div class="muni-top-row">
-            <span class="muni-title">Costa Azul (Porlamar)</span>
-            <span class="muni-badge yellow">Comercial &amp; Condos</span>
-          </div>
-          <div class="muni-metrics">
-            <div class="muni-metric-col">
-              <span>Promedio Suelo</span>
-              <strong>$40 - $75 / m²</strong>
+            <!-- Playa El Agua -->
+            <div class="muni-card-beige" data-zone="playa-el-agua">
+              <div class="muni-top-row">
+                <span class="muni-title-beige">Playa El Agua</span>
+                <span class="muni-badge-gold">Macro Parcelas ZEE</span>
+              </div>
+              <div class="muni-metrics-beige">
+                <div class="muni-metric-col">
+                  <span>Promedio Suelo</span>
+                  <strong class="muni-price-val">$25 - $50 / m²</strong>
+                </div>
+                <div class="muni-metric-col">
+                  <span>Plusvalía ZEE</span>
+                  <strong class="muni-roi-val">22% - 28% Anual</strong>
+                </div>
+              </div>
+              <p class="muni-desc-beige">
+                Extensa costa oceánica apta para desarrollo de resorts de gran escala y complejos hoteleros bajo exenciones arancelarias.
+              </p>
+              <a href="marketplace/?zone=playa-el-agua" class="muni-cta-beige">
+                <span>Explorar Inmuebles en El Agua ↗</span>
+              </a>
             </div>
-            <div class="muni-metric-col">
-              <span>Retorno Estimado</span>
-              <strong style="color: #fbbf24;">14% - 17% Anual</strong>
-            </div>
-          </div>
-          <p class="muni-desc">
-            Centro financiero con centros comerciales, clínicas privadas y condominios residenciales de alta liquidez y demanda local.
-          </p>
-          <a href="marketplace/?zone=costa-azul" class="muni-cta-link">
-            <span>Explorar Inmuebles en Costa Azul ↗</span>
-          </a>
-        </div>
 
-        <!-- Juan Griego -->
-        <div class="muni-card" data-zone="juan-griego">
-          <div class="muni-top-row">
-            <span class="muni-title">Juan Griego</span>
-            <span class="muni-badge red">Crecimiento Emergente</span>
-          </div>
-          <div class="muni-metrics">
-            <div class="muni-metric-col">
-              <span>Promedio Suelo</span>
-              <strong>$15 - $35 / m²</strong>
+            <!-- Porlamar / Costa Azul -->
+            <div class="muni-card-beige" data-zone="costa-azul">
+              <div class="muni-top-row">
+                <span class="muni-title-beige">Costa Azul (Porlamar)</span>
+                <span class="muni-badge-gold">Comercial &amp; Condos</span>
+              </div>
+              <div class="muni-metrics-beige">
+                <div class="muni-metric-col">
+                  <span>Promedio Suelo</span>
+                  <strong class="muni-price-val">$40 - $75 / m²</strong>
+                </div>
+                <div class="muni-metric-col">
+                  <span>Retorno Estimado</span>
+                  <strong class="muni-roi-val">14% - 17% Anual</strong>
+                </div>
+              </div>
+              <p class="muni-desc-beige">
+                Centro financiero con centros comerciales, clínicas privadas y condominios residenciales de alta liquidez y demanda local.
+              </p>
+              <a href="marketplace/?zone=costa-azul" class="muni-cta-beige">
+                <span>Explorar Inmuebles en Costa Azul ↗</span>
+              </a>
             </div>
-            <div class="muni-metric-col">
-              <span>Retorno Estimado</span>
-              <strong style="color: #f87171;">15% - 19% Anual</strong>
-            </div>
-          </div>
-          <p class="muni-desc">
-            Bahía emblemática famosa por sus atardeceres. Atractivas opciones de inversión a precios de entrada competitivos.
-          </p>
-          <a href="marketplace/?zone=juan-griego" class="muni-cta-link">
-            <span>Explorar Inmuebles en Juan Griego ↗</span>
-          </a>
-        </div>
 
-        <!-- Macanao -->
-        <div class="muni-card" data-zone="macanao">
-          <div class="muni-top-row">
-            <span class="muni-title">Península de Macanao</span>
-            <span class="muni-badge green">Ecoturismo Virgen</span>
-          </div>
-          <div class="muni-metrics">
-            <div class="muni-metric-col">
-              <span>Promedio Suelo</span>
-              <strong>$1 - $15 / m²</strong>
+            <!-- Juan Griego -->
+            <div class="muni-card-beige" data-zone="juan-griego">
+              <div class="muni-top-row">
+                <span class="muni-title-beige">Juan Griego</span>
+                <span class="muni-badge-gold">Crecimiento Emergente</span>
+              </div>
+              <div class="muni-metrics-beige">
+                <div class="muni-metric-col">
+                  <span>Promedio Suelo</span>
+                  <strong class="muni-price-val">$15 - $35 / m²</strong>
+                </div>
+                <div class="muni-metric-col">
+                  <span>Retorno Estimado</span>
+                  <strong class="muni-roi-val">15% - 19% Anual</strong>
+                </div>
+              </div>
+              <p class="muni-desc-beige">
+                Bahía emblemática famosa por sus atardeceres. Atractivas opciones de inversión a precios de entrada competitivos.
+              </p>
+              <a href="marketplace/?zone=juan-griego" class="muni-cta-beige">
+                <span>Explorar Inmuebles en Juan Griego ↗</span>
+              </a>
             </div>
-            <div class="muni-metric-col">
-              <span>Plusvalía Proyectada</span>
-              <strong style="color: #4ade80;">16% - 24% Anual</strong>
+
+            <!-- Macanao -->
+            <div class="muni-card-beige" data-zone="macanao">
+              <div class="muni-top-row">
+                <span class="muni-title-beige">Península de Macanao</span>
+                <span class="muni-badge-gold">Ecoturismo Virgen</span>
+              </div>
+              <div class="muni-metrics-beige">
+                <div class="muni-metric-col">
+                  <span>Promedio Suelo</span>
+                  <strong class="muni-price-val">$1 - $15 / m²</strong>
+                </div>
+                <div class="muni-metric-col">
+                  <span>Plusvalía Proyectada</span>
+                  <strong class="muni-roi-val">16% - 24% Anual</strong>
+                </div>
+              </div>
+              <p class="muni-desc-beige">
+                Playas vírgenes y reservas naturales idóneas para eco-glamping solar, retiros wellness y proyectos de ultra-exclusividad.
+              </p>
+              <a href="marketplace/?zone=macanao" class="muni-cta-beige">
+                <span>Explorar Inmuebles en Macanao ↗</span>
+              </a>
             </div>
           </div>
-          <p class="muni-desc">
-            Playas vírgenes y reservas naturales idóneas para eco-glamping solar, retiros wellness y proyectos de ultra-exclusividad.
-          </p>
-          <a href="marketplace/?zone=macanao" class="muni-cta-link">
-            <span>Explorar Inmuebles en Macanao ↗</span>
-          </a>
         </div>
       </div>
 
       <!-- BOTÓN REDIRECCIÓN AL MARKETPLACE (CERO PROPIEDADES EN LA PRINCIPAL) -->
-      <div class="marketplace-cta-banner">
+      <div class="marketplace-cta-banner reveal-on-scroll">
         <div class="marketplace-cta-icon">🏬</div>
         <h3>Catálogo Completo en el Marketplace</h3>
         <p>
@@ -416,7 +430,7 @@
   <!-- ================= PREVISUALIZACIÓN EN VIVO DE GOOGLE FORMS ================= -->
   <section class="forms-preview-section" id="postulacion-forms">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal-on-scroll">
         <div class="glass-pill sunset">Registro Oficial &bull; Formulario de Postulación</div>
         <h2 class="section-title">
           Postula tu Terreno o Inmueble en <span class="italic-serif text-gold">Isla de Margarita</span>
@@ -427,7 +441,7 @@
       </div>
 
       <!-- TARJETA DE POSTULACIÓN DE INMUEBLE -->
-      <div class="forms-preview-card" style="background: rgba(10, 18, 30, 0.95); border: 1px solid var(--glass-border-gold); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.4);">
+      <div class="forms-preview-card reveal-scale" style="background: rgba(10, 18, 30, 0.95); border: 1px solid var(--glass-border-gold); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.4);">
         
         <!-- Header Principal de Postulación con Icono y Texto Solicitado -->
         <div class="postula-lead-card" style="padding: 2.4rem 1.8rem 2rem 1.8rem; text-align: center; background: radial-gradient(circle at 50% 0%, rgba(212, 160, 23, 0.16) 0%, rgba(6, 9, 14, 0.98) 75%); border-bottom: 1px solid var(--glass-border);">
@@ -564,53 +578,106 @@
         </p>
       </div>
 
-      <div class="workflow-steps-grid">
-        <div class="workflow-card">
-          <div class="workflow-number">01</div>
-          <h3>Búsqueda &amp; Filtrado Quirúrgico</h3>
-          <p>
-            Descartamos el 95% de las opciones del mercado. Solo seleccionamos parcelas y propiedades con título de propiedad privado registrado, tradición legal inobjetable y factibilidad técnica de agua y electricidad.
-          </p>
-          <ul class="workflow-check-list">
-            <li>✓ Auditoría legal en Registro Inmobiliario</li>
-            <li>✓ Negociación bajo valor de mercado</li>
-          </ul>
+      <div class="workflow-carousel-wrap reveal-on-scroll">
+        <!-- Barra de Pasos / Tabs Superiores -->
+        <div class="workflow-steps-nav">
+          <button class="workflow-step-tab active" data-step="0">
+            <span class="step-nav-num">01</span>
+            <span class="step-nav-label">Búsqueda &amp; Filtrado</span>
+          </button>
+          <button class="workflow-step-tab" data-step="1">
+            <span class="step-nav-num">02</span>
+            <span class="step-nav-label">Blindaje Legal</span>
+          </button>
+          <button class="workflow-step-tab" data-step="2">
+            <span class="step-nav-num">03</span>
+            <span class="step-nav-label">Diseño &amp; Obra</span>
+          </button>
+          <button class="workflow-step-tab" data-step="3">
+            <span class="step-nav-num">04</span>
+            <span class="step-nav-label">Gestión de Rentas</span>
+          </button>
         </div>
 
-        <div class="workflow-card">
-          <div class="workflow-number">02</div>
-          <h3>Blindaje Legal &amp; Notarial</h3>
-          <p>
-            Estructuramos la compraventa bajo contratos en moneda fuerte (USD o EUR). Gestionamos poderes notariales para que puedas comprar legalmente sin salir de tu país de residencia.
-          </p>
-          <ul class="workflow-check-list">
-            <li>✓ Constitución de empresas o fideicomisos</li>
-            <li>✓ Exenciones tributarias bajo la Ley ZEE</li>
-          </ul>
+        <!-- Viewport del Carousel Horizontal -->
+        <div class="workflow-carousel-viewport" id="workflow-viewport">
+          <div class="workflow-carousel-track" id="workflow-track">
+            <!-- Slide 01 -->
+            <div class="workflow-slide">
+              <div class="workflow-card-inner">
+                <div class="workflow-number">01</div>
+                <h3>Búsqueda &amp; Filtrado Quirúrgico</h3>
+                <p>
+                  Descartamos el 95% de las opciones del mercado. Solo seleccionamos parcelas y propiedades con título de propiedad privado registrado, tradición legal inobjetable y factibilidad técnica de agua y electricidad.
+                </p>
+                <ul class="workflow-check-list">
+                  <li>✓ Auditoría legal en Registro Inmobiliario</li>
+                  <li>✓ Negociación bajo valor de mercado</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Slide 02 -->
+            <div class="workflow-slide">
+              <div class="workflow-card-inner">
+                <div class="workflow-number">02</div>
+                <h3>Blindaje Legal &amp; Notarial</h3>
+                <p>
+                  Estructuramos la compraventa bajo contratos en moneda fuerte (USD o EUR). Gestionamos poderes notariales para que puedas comprar legalmente sin salir de tu país de residencia.
+                </p>
+                <ul class="workflow-check-list">
+                  <li>✓ Constitución de empresas o fideicomisos</li>
+                  <li>✓ Exenciones tributarias bajo la Ley ZEE</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Slide 03 -->
+            <div class="workflow-slide">
+              <div class="workflow-card-inner">
+                <div class="workflow-number">03</div>
+                <h3>Diseño &amp; Construcción Llave en Mano</h3>
+                <p>
+                  Construimos tu villa, posada boutique u hotel. Garantizamos autonomía absoluta: perforación de pozos de agua dulce propios y plantas eléctricas para 100% de la carga.
+                </p>
+                <ul class="workflow-check-list">
+                  <li>✓ Cámaras en vivo y reportes de obra</li>
+                  <li>✓ Presupuesto cerrado sin sorpresas</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Slide 04 -->
+            <div class="workflow-slide">
+              <div class="workflow-card-inner">
+                <div class="workflow-number">04</div>
+                <h3>Gestión de Rentas &amp; Tus Ganancias</h3>
+                <p>
+                  Una vez terminada la propiedad, la incorporamos a nuestro circuito de hospitalidad (Airbnb Luxe, Booking y turoperadores de Europa). Cobramos las reservas y depositamos tus dividendos mensuales.
+                </p>
+                <ul class="workflow-check-list">
+                  <li>✓ Liquidación en cuenta extranjera o USDT</li>
+                  <li>✓ Mantenimiento y seguridad permanente</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="workflow-card">
-          <div class="workflow-number">03</div>
-          <h3>Diseño &amp; Construcción Llave en Mano</h3>
-          <p>
-            Construimos tu villa, posada boutique u hotel. Garantizamos autonomía absoluta: perforación de pozos de agua dulce propios y plantas eléctricas para 100% de la carga.
-          </p>
-          <ul class="workflow-check-list">
-            <li>✓ Cámaras en vivo y reportes de obra</li>
-            <li>✓ Presupuesto cerrado sin sorpresas</li>
-          </ul>
-        </div>
-
-        <div class="workflow-card">
-          <div class="workflow-number">04</div>
-          <h3>Gestión de Rentas &amp; Tus Ganancias</h3>
-          <p>
-            Una vez terminada la propiedad, la incorporamos a nuestro circuito de hospitalidad (Airbnb Luxe, Booking y turoperadores de Europa). Cobramos las reservas y depositamos tus dividendos mensuales.
-          </p>
-          <ul class="workflow-check-list">
-            <li>✓ Liquidación en cuenta extranjera o USDT</li>
-            <li>✓ Mantenimiento y seguridad permanente</li>
-          </ul>
+        <!-- Controles Inferiores: Flechas y Puntos -->
+        <div class="workflow-carousel-controls">
+          <button class="workflow-nav-arrow" id="workflow-prev-btn" aria-label="Paso Anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="workflow-dots" id="workflow-dots">
+            <span class="workflow-dot active" data-step="0"></span>
+            <span class="workflow-dot" data-step="1"></span>
+            <span class="workflow-dot" data-step="2"></span>
+            <span class="workflow-dot" data-step="3"></span>
+          </div>
+          <button class="workflow-nav-arrow" id="workflow-next-btn" aria-label="Paso Siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -619,7 +686,7 @@
   <!-- ================= COMPARATIVA DE PRECIOS & ROI ================= -->
   <section class="section section-alt" id="comparativa">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal-on-scroll">
         <div class="glass-pill gold">Análisis Financiero Global</div>
         <h2 class="section-title">
           ¿Por qué Margarita Frente a <span class="italic-serif text-sunset">España y el Resto del Mundo?</span>
@@ -629,66 +696,179 @@
         </p>
       </div>
 
-      <div>
-        <div class="comparison-table-wrapper">
-          <table class="comparison-table">
-            <thead>
-              <tr>
-                <th>Destino Inmobiliario</th>
-                <th>Precio Promedio m²</th>
-                <th>Rendimiento Anual (Yield)</th>
-                <th>Costo Construcción m²</th>
-                <th>Régimen Fiscal &amp; Aranceles</th>
-                <th>Ticket Mínimo Entrada</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="highlight-col">
-                  <strong style="color: #ffffff; font-size: 0.95rem;">🌴 Isla de Margarita (Venezuela)</strong>
-                  <div style="font-size: 0.72rem; color: #fbbf24; margin-top: 0.2rem;">Zona Económica Especial ZEE</div>
-                </td>
-                <td class="highlight-col text-solid-gold">
-                  <strong style="font-size: 1.05rem; display: block;">$1 - $100 USD / m²</strong>
-                  <div style="font-size: 0.72rem; color: #cbd5e1; margin-top: 0.2rem; font-weight: normal;">(Desde $1 virgen a $100 Milla de Oro)</div>
-                </td>
-                <td class="highlight-col text-solid-sunset">
-                  <strong style="font-size: 1.02rem; display: block;">Supera el 10%</strong>
-                  <div style="font-size: 0.75rem; color: #ffaa55; margin-top: 0.2rem; font-weight: 600;">(14% - 24% Anual)</div>
-                </td>
-                <td class="highlight-col"><strong>$380 - $550 USD</strong></td>
-                <td class="highlight-col"><strong>0% Arancel Importación (Puerto Libre)</strong></td>
-                <td class="highlight-col"><strong>$25,000 USD</strong></td>
-              </tr>
-              <tr>
-                <td><strong>🇪🇸 Costa del Sol / Ibiza (España)</strong></td>
-                <td>€4,200 - €7,500 EUR</td>
-                <td>4.5% - 6.5% Anual</td>
-                <td>€1,600 - €2,400 EUR</td>
-                <td>ITP (7-10%) + IBI + Plusvalía Municipal</td>
-                <td>€250,000 EUR</td>
-              </tr>
-              <tr>
-                <td><strong>🇲🇽 Cancún / Riviera Maya (México)</strong></td>
-                <td>$2,800 - $4,200 USD</td>
-                <td>7.0% - 9.5% Anual</td>
-                <td>$900 - $1,300 USD</td>
-                <td>ISAI (2-5%) + Fideicomiso Extranjeros</td>
-                <td>$150,000 USD</td>
-              </tr>
-              <tr>
-                <td><strong>🇺🇸 Miami / Florida (EE.UU.)</strong></td>
-                <td>$7,500 - $12,000 USD</td>
-                <td>4.0% - 5.5% Anual</td>
-                <td>$2,500 - $4,000 USD</td>
-                <td>Property Tax (1.8-2.2% anual) + HOA altos</td>
-                <td>$380,000 USD</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- SHOWCASE INTERACTIVO DE DESTINOS GLOBALES & ROI ANIMADO -->
+      <div class="world-comparison-showcase reveal-on-scroll" id="world-comparison-showcase">
+        <!-- Barra de Destinos (Tabs) -->
+        <div class="dest-tabs-bar" role="tablist">
+          <button class="dest-tab-btn active" data-dest="0" role="tab" aria-selected="true">
+            <span>🌴</span>
+            <span>1. Isla de Margarita</span>
+          </button>
+          <button class="dest-tab-btn" data-dest="1" role="tab" aria-selected="false">
+            <span>🇪🇸</span>
+            <span>2. España (Ibiza)</span>
+          </button>
+          <button class="dest-tab-btn" data-dest="2" role="tab" aria-selected="false">
+            <span>🇲🇽</span>
+            <span>3. Cancún (México)</span>
+          </button>
+          <button class="dest-tab-btn" data-dest="3" role="tab" aria-selected="false">
+            <span>🇺🇸</span>
+            <span>4. Miami (EE.UU.)</span>
+          </button>
         </div>
 
-        <div style="text-align: center; margin-top: 1.5rem;">
+        <!-- Cuadrícula Principal de Destino Activo -->
+        <div class="dest-main-grid">
+          <!-- Columna Izquierda: Mapa con Bandera & Punto Dorado -->
+          <div class="dest-visual-col">
+            <div class="dest-map-svg-wrap" id="dest-map-container">
+              <!-- SVG dinámico inyectado y animado por JS (Margarita, España/Ibiza, Cancún, Miami) -->
+            </div>
+            <div class="dest-location-badge" id="dest-location-badge">
+              <span id="dest-badge-flag">🌴</span>
+              <span id="dest-badge-text">Isla de Margarita &bull; ZEE</span>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Datos Financieros & Contadores Animados -->
+          <div class="dest-data-col">
+            <div class="dest-data-header">
+              <div>
+                <h3 id="dest-title">🌴 Isla de Margarita</h3>
+                <span style="font-size: 0.82rem; color: var(--c-text-muted);" id="dest-subtitle">Venezuela &bull; Zona Económica Especial (ZEE)</span>
+              </div>
+              <span class="dest-tag-pill gold" id="dest-status-tag">Líder en Rentabilidad</span>
+            </div>
+
+            <!-- Grilla de 4 Métricas con Contadores -->
+            <div class="dest-metrics-grid">
+              <div class="dest-metric-box highlight">
+                <span class="label">Precio Suelo Promedio</span>
+                <div class="metric-value" id="counter-price">$1 - $100</div>
+                <small class="sub" id="sub-price">USD / m² de terreno</small>
+              </div>
+
+              <div class="dest-metric-box highlight">
+                <span class="label">Rendimiento Anual (Yield)</span>
+                <div class="metric-value text-solid-gold" id="counter-roi">18.0% - 24.0%</div>
+                <small class="sub" id="sub-roi">Retorno neto en rentas vacacionales</small>
+              </div>
+
+              <div class="dest-metric-box">
+                <span class="label">Costo Construcción Llave en Mano</span>
+                <div class="metric-value" id="counter-build">$380 - $550</div>
+                <small class="sub" id="sub-build">USD / m² edificado con alta gama</small>
+              </div>
+
+              <div class="dest-metric-box">
+                <span class="label">Ticket Mínimo de Entrada</span>
+                <div class="metric-value" id="counter-ticket">$25,000</div>
+                <small class="sub" id="sub-ticket">USD para parcelas registradas</small>
+              </div>
+            </div>
+
+            <!-- Régimen Fiscal & Aranceles -->
+            <div class="dest-fiscal-box" id="dest-fiscal-box">
+              <strong>⚖️ Régimen Fiscal &amp; Beneficios:</strong> 
+              <span id="dest-fiscal-text">0% Arancel de Importación (Puerto Libre) y exenciones fiscales completas bajo la Ley de Zonas Económicas Especiales (ZEE).</span>
+            </div>
+
+            <!-- Comparativa con Margarita -->
+            <div class="dest-comparative-callout" id="dest-callout">
+              <div class="dest-callout-icon">💡</div>
+              <div class="dest-callout-text">
+                <h4 id="dest-callout-title">Ventaja Competitiva de Margarita</h4>
+                <p id="dest-callout-desc">
+                  Por el costo de 1 m² en Ibiza o Miami, en Margarita puedes adquirir hasta 60 m² de terreno frente al mar con un ROI anual 3 a 4 veces más elevado.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila de Navegación (Flechas & Contador de Destinos) -->
+        <div class="dest-nav-row">
+          <div class="dest-nav-buttons">
+            <button class="dest-arrow-btn" id="dest-prev-btn" aria-label="Destino Anterior">
+              <span>←</span>
+              <span>Anterior</span>
+            </button>
+            <button class="dest-arrow-btn" id="dest-next-btn" aria-label="Siguiente Destino">
+              <span>Siguiente</span>
+              <span>→</span>
+            </button>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--c-text-muted);" id="dest-indicator-text">
+            Destino 1 de 4 &bull; Toca cualquier pestaña para comparar
+          </div>
+        </div>
+
+        <!-- Tabla Completa Desplegable (Para inversores institucionales) -->
+        <details style="margin-top: 1rem; border-top: 1px solid var(--glass-border); padding-top: 1.2rem; cursor: pointer;">
+          <summary style="color: var(--c-gold); font-size: 0.85rem; font-weight: 700; outline: none;">
+            📊 Ver Tabla Comparativa Completa en un Solo Vistazo ▾
+          </summary>
+          <div class="comparison-table-wrapper" style="margin-top: 1.2rem;">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Destino Inmobiliario</th>
+                  <th>Precio Promedio m²</th>
+                  <th>Rendimiento Anual (Yield)</th>
+                  <th>Costo Construcción m²</th>
+                  <th>Régimen Fiscal &amp; Aranceles</th>
+                  <th>Ticket Mínimo Entrada</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="highlight-col">
+                    <strong style="color: #ffffff; font-size: 0.95rem;">🌴 Isla de Margarita (Venezuela)</strong>
+                    <div style="font-size: 0.72rem; color: #fbbf24; margin-top: 0.2rem;">Zona Económica Especial ZEE</div>
+                  </td>
+                  <td class="highlight-col text-solid-gold">
+                    <strong style="font-size: 1.05rem; display: block;">$1 - $100 USD / m²</strong>
+                    <div style="font-size: 0.72rem; color: #cbd5e1; margin-top: 0.2rem;">(Desde $1 virgen a $100 Milla de Oro)</div>
+                  </td>
+                  <td class="highlight-col text-solid-sunset">
+                    <strong style="font-size: 1.02rem; display: block;">Supera el 10%</strong>
+                    <div style="font-size: 0.75rem; color: #ffaa55; margin-top: 0.2rem; font-weight: 600;">(14% - 24% Anual)</div>
+                  </td>
+                  <td class="highlight-col"><strong>$380 - $550 USD</strong></td>
+                  <td class="highlight-col"><strong>0% Arancel Importación (Puerto Libre)</strong></td>
+                  <td class="highlight-col"><strong>$25,000 USD</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>🇪🇸 Costa del Sol / Ibiza (España)</strong></td>
+                  <td>€4,200 - €7,500 EUR</td>
+                  <td>4.5% - 6.5% Anual</td>
+                  <td>€1,600 - €2,400 EUR</td>
+                  <td>ITP (7-10%) + IBI + Plusvalía Municipal</td>
+                  <td>€250,000 EUR</td>
+                </tr>
+                <tr>
+                  <td><strong>🇲🇽 Cancún / Riviera Maya (México)</strong></td>
+                  <td>$2,800 - $4,200 USD</td>
+                  <td>7.0% - 9.5% Anual</td>
+                  <td>$900 - $1,300 USD</td>
+                  <td>ISAI (2-5%) + Fideicomiso Extranjeros</td>
+                  <td>$150,000 USD</td>
+                </tr>
+                <tr>
+                  <td><strong>🇺🇸 Miami / Florida (EE.UU.)</strong></td>
+                  <td>$7,500 - $12,000 USD</td>
+                  <td>4.0% - 5.5% Anual</td>
+                  <td>$2,500 - $4,000 USD</td>
+                  <td>Property Tax (1.8-2.2% anual) + HOA altos</td>
+                  <td>$380,000 USD</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <div style="text-align: center; margin-top: 0.5rem;">
           <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-gold">
             <span>Solicitar Corrida Financiera Detallada vía WhatsApp</span>
           </a>
@@ -700,7 +880,7 @@
   <!-- ================= CONTACTO ================= -->
   <section class="section" id="contacto">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal-on-scroll">
         <div class="glass-pill sunset">Hablemos de tu Proyecto</div>
         <h2 class="section-title">
           Inicia tu Proyecto con <span class="italic-serif text-gold">Miguel Ángel</span>
@@ -710,7 +890,7 @@
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem;" class="reveal-on-scroll">
         <div class="glass-panel" style="padding: 2rem;">
           <h4 style="font-family: var(--font-serif); font-size: 1.35rem; margin-bottom: 0.8rem; color: #ffffff;">Contacto Directo</h4>
           <p style="color: var(--c-text-muted); font-size: 0.88rem; margin-bottom: 1.5rem;">
@@ -841,6 +1021,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Script Principal con Cache-Buster -->
-  <script type="module" src="assets/js/main.js?v=3.5"></script>
+  <script type="module" src="assets/js/main.js?v=3.6"></script>
 </body>
 </html>
