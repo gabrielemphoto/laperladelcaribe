@@ -13,8 +13,23 @@ import { ProjectRoomRemodel } from './modules/project-room.js';
  * - Navegación exclusiva con 2 flechas laterales (⬅️ / ➡️)
  */
 export class Viewer3DApp {
-  constructor() {
-    this.container = document.getElementById('canvas-container');
+  constructor(containerOrId = 'canvas-container') {
+    if (typeof containerOrId === 'string') {
+      this.container = document.getElementById(containerOrId) || document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+    } else {
+      this.container = containerOrId || document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+    }
+
+    if (!this.container) {
+      console.warn('Viewer3DApp: Contenedor 3D no encontrado');
+      return;
+    }
+
+    if (this.container.dataset.appInitialized === 'true') {
+      return;
+    }
+    this.container.dataset.appInitialized = 'true';
+
     this.currentProjectIndex = 0; // 0: Terreno, 1: Hotel, 2: Torre/Apartamento
     this.projectCycleTime = 0;
 
@@ -34,20 +49,32 @@ export class Viewer3DApp {
     this.scene = new THREE.Scene();
     this.scene.background = null;
 
-    const aspect = this.container.clientWidth / this.container.clientHeight;
+    let w = this.container.clientWidth;
+    let h = this.container.clientHeight;
+    if (!w || !h || w <= 0 || h <= 0) {
+      w = this.container.offsetWidth || window.innerWidth || 800;
+      h = this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 600);
+    }
+
+    const aspect = w / h;
     this.camera = new THREE.PerspectiveCamera(38, aspect, 0.1, 100);
     this.camera.position.set(14, 11, 14);
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
-      powerPreference: 'high-performance'
+      powerPreference: 'default',
+      failIfMajorPerformanceCaveat: false
     });
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    this.renderer.setSize(w, h);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
     this.renderer.setClearColor(0x000000, 0); // Fondo 100% transparente
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
     this.container.appendChild(this.renderer.domElement);
 
     // Controles orbitales con giro suave continuo
@@ -213,16 +240,16 @@ export class Viewer3DApp {
 
     const projectInfo = [
       {
-        title: 'PROYECTO 1 • LOTE A CABAÑA ECO',
-        sub: 'Terreno Virgen ➔ Construcción Sostenible 100% Solar'
+        title: 'PROYECTO 1 • TERRENO A CABAÑA ECO',
+        sub: 'Lote Virgen ➔ Construcción Sostenible 100% Solar'
       },
       {
-        title: 'PROYECTO 2 • HOTEL ABANDONADO A RESORT',
-        sub: 'Estructura en Ruinas ➔ Hotel Operativo con Piscina y Rentas 💵'
+        title: 'PROYECTO 2 • HOTEL EN RUINAS A RESORT',
+        sub: 'Estructura Abandonada ➔ Hotel Boutique con Piscina y Rentas 💵'
       },
       {
-        title: 'PROYECTO 3 • OBRA GRIS A "EN ALQUILER"',
-        sub: 'Torre Residencial ➔ Apartamento Remodelado de Lujo 🔑'
+        title: 'PROYECTO 3 • DE OBRA GRIS A ACTIVO EN RENTA',
+        sub: 'Torre Residencial ➔ Apartamento de Lujo Remodelado 🔑'
       }
     ];
 
@@ -232,15 +259,23 @@ export class Viewer3DApp {
   }
 
   setupEvents() {
-    window.addEventListener('resize', () => {
-      const w = this.container.clientWidth;
-      const h = this.container.clientHeight;
-      this.camera.aspect = w / h;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(w, h);
-    });
+    const handleResize = () => {
+      if (!this.container || !this.renderer || !this.camera) return;
+      let w = this.container.clientWidth || this.container.offsetWidth || window.innerWidth;
+      let h = this.container.clientHeight || this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 600);
+      if (w > 0 && h > 0) {
+        this.camera.aspect = w / h;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(w, h);
+      }
+    };
 
-    window.addEventListener('contextmenu', (e) => e.preventDefault());
+    window.addEventListener('resize', handleResize, { passive: true });
+    if (typeof ResizeObserver !== 'undefined' && this.container) {
+      new ResizeObserver(handleResize).observe(this.container);
+    }
+
+    this.container.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 
   // ==========================================
@@ -248,6 +283,17 @@ export class Viewer3DApp {
   // ==========================================
   animate() {
     requestAnimationFrame(() => this.animate());
+
+    // Auto-recuperación si el contenedor comenzó con dimensiones 0 (en carga móvil o pestañas en segundo plano)
+    if (this.container && this.renderer && this.renderer.domElement) {
+      const cw = this.container.clientWidth;
+      const ch = this.container.clientHeight;
+      if (cw > 0 && ch > 0 && (this.renderer.domElement.width === 0 || this.renderer.domElement.height === 0)) {
+        this.camera.aspect = cw / ch;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(cw, ch);
+      }
+    }
 
     const delta = 0.016; // ~60fps
     this.projectCycleTime += delta;
@@ -311,6 +357,17 @@ export class Viewer3DApp {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  new Viewer3DApp();
-});
+// Auto-inicialización segura si se carga como script directo en modelo-3d/index.html
+if (typeof window !== 'undefined') {
+  const initViewer = () => {
+    const el = document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+    if (el && el.dataset.appInitialized !== 'true') {
+      new Viewer3DApp(el);
+    }
+  };
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initViewer);
+  } else {
+    initViewer();
+  }
+}

@@ -187,15 +187,26 @@ html, body {
 
   .project-pill-badge {
     bottom: 14px;
-    padding: 6px 14px;
-    max-width: 80%;
+    top: auto;
+    width: calc(100% - 24px);
+    max-width: 440px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+
+  .pill-text-col {
+    gap: 5px;
   }
 
   .pill-title {
-    font-size: 0.65rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
   }
 
   .pill-sub {
-    font-size: 0.58rem;
+    font-size: 0.70rem;
+    line-height: 1.45;
   }
 }
