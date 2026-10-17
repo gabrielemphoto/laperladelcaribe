@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Marketplace de Inversiones Inmobiliarias • Isla de Margarita | Miguel Ángel</title>
-  <meta name="description" content="Catálogo exclusivo de terrenos frente al mar, villas llave en mano y hoteles boutique en Isla de Margarita, Venezuela. Asesoría legal, construcción y gestión de rentas.">
-  <meta name="theme-color" content="#06090e">
+  <meta name="description" content="Catálogo exclusivo de terrenos frente al mar, villas de autor y hoteles boutique en Isla de Margarita, Venezuela. Asesoría legal, construcción y gestión de rentas.">
+  <meta name="theme-color" content="#ffffff">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Marketplace de Inversiones • Isla de Margarita">
@@ -15,313 +15,266 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
-  <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Estilos Globales & Marketplace -->
+  <link rel="stylesheet" href="../assets/css/style.css?v=4.1">
+  <link rel="stylesheet" href="marketplace.css?v=1.0">
 </head>
 <body class="marketplace-page">
 
-  <!-- ================= HEADER / NAVEGACIÓN ================= -->
-  <header class="header">
-    <div class="container nav-container">
-      <div class="marketplace-nav" style="width: 100%;">
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <a href="../" class="btn btn-outline-gold" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem;">
-            <span>← Inicio</span>
-          </a>
-          
-          <a href="../" class="brand-wrapper" style="text-decoration: none;">
-            <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="brand-logo-img">
-            <div class="brand-text-col">
-              <span class="brand-title">MIGUEL ANGEL</span>
-              <span class="brand-tagline">LA PERLA DEL CARIBE</span>
-            </div>
-          </a>
+  <!-- ================= TOP NAVBAR MARKETPLACE ================= -->
+  <header class="mp-topbar">
+    <div class="mp-topbar-inner">
+      <!-- Marca y Retorno al Inicio -->
+      <div class="mp-brand-group">
+        <a href="../" class="mp-btn-back" title="Volver a la página principal">
+          <span>←</span>
+          <span>Inicio</span>
+        </a>
+
+        <a href="../" class="mp-brand-wrap">
+          <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="mp-brand-logo">
+          <div class="mp-brand-text">
+            <span class="mp-brand-title">MIGUEL ÁNGEL</span>
+            <span class="mp-brand-sub">LA PERLA DEL CARIBE</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Píldoras de Categoría Centrales -->
+      <nav class="mp-category-pills" aria-label="Categorías de Propiedades">
+        <button class="mp-cat-pill active" data-cat-type="all">Todos los Activos</button>
+        <button class="mp-cat-pill" data-cat-type="terreno">Terrenos Vírgenes</button>
+        <button class="mp-cat-pill" data-cat-type="villa">Villas de Autor</button>
+        <button class="mp-cat-pill" data-cat-type="hotel">Hoteles &amp; Posadas</button>
+        <button class="mp-cat-pill" data-cat-type="reforma">Para Reformar</button>
+      </nav>
+
+      <!-- Barra de Búsqueda y Botón Postular -->
+      <div class="mp-topbar-actions">
+        <div class="mp-search-box">
+          <svg class="mp-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="marketplace-search" class="mp-search-input" placeholder="Buscar por zona, tipo..." autocomplete="off">
+          <button id="search-clear-btn" class="mp-search-clear" title="Limpiar búsqueda">&times;</button>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 0.8rem;">
-          <button class="btn btn-outline-gold btn-open-google-form" style="padding: 0.5rem 1rem; font-size: 0.82rem;">
-            <span>📋 Postular Propiedad</span>
-          </button>
-          
-          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
-             target="_blank" 
-             rel="noopener noreferrer" 
-             class="btn btn-sunset" 
-             style="padding: 0.5rem 1rem; font-size: 0.82rem;">
-            <span>💬 WhatsApp</span>
-          </a>
-        </div>
+        <button class="mp-btn-postular btn-open-google-form" title="Postula tu inmueble para nuestro catálogo">
+          <span>📋 Postular Inmueble</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- ================= HERO DEL MARKETPLACE ================= -->
-  <section class="marketplace-hero-section">
-    <div class="container">
-      <div class="marketplace-hero-content">
-        <div class="glass-pill gold" style="margin-bottom: 1rem;">
-          Marketplace Oficial &bull; Isla de Margarita, Venezuela
+  <!-- ================= LAYOUT PRINCIPAL DE 3 COLUMNAS ================= -->
+  <main class="mp-layout-container">
+
+    <!-- ================= COLUMNA 1: FILTROS (CUSTOM FILTER) ================= -->
+    <aside class="mp-sidebar-filters" id="sidebar-filters">
+      <div class="mp-filters-header">
+        <h2 class="mp-filters-title">Filtros Personalizados</h2>
+        <button type="button" class="mp-btn-clear-all" id="btn-clear-all-filters">Limpiar todo</button>
+      </div>
+
+      <!-- Filtro 1: Ubicación / Zonas -->
+      <div class="mp-filter-card">
+        <div class="mp-filter-label-bar">
+          <span>📍 Ubicación (Margarita)</span>
+          <span class="mp-filter-reset-icon" title="Isla de Margarita">ZEE</span>
         </div>
-        <h1 class="hero-title" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem;">
-          Catálogo Exclusivo de <span class="italic-serif text-sunset">Inversiones Inmobiliarias</span>
-        </h1>
-        <p class="hero-subtitle" style="max-width: 680px; margin: 0 auto;">
-          Terrenos vírgenes frente al mar, villas llave en mano con pozo y luz propia, y posadas boutique operativas en la Zona Económica Especial (ZEE) de Nueva Esparta.
-        </p>
+        <div class="mp-checkbox-list">
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-zone" value="pampatar">
+            <span>Pampatar (Milla de Oro)</span>
+            <span class="mp-check-badge">3</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-zone" value="el-yaque">
+            <span>Playa El Yaque</span>
+            <span class="mp-check-badge">1</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-zone" value="costa-azul">
+            <span>Costa Azul / Porlamar</span>
+            <span class="mp-check-badge">1</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-zone" value="playa-el-agua">
+            <span>Playa El Agua &amp; Manzanillo</span>
+            <span class="mp-check-badge">1</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-zone" value="juan-griego">
+            <span>Juan Griego &amp; La Galera</span>
+            <span class="mp-check-badge">1</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-zone" value="macanao">
+            <span>Península de Macanao</span>
+            <span class="mp-check-badge">1</span>
+          </label>
+        </div>
+      </div>
 
-        <!-- FILTROS INTERACTIVOS -->
-        <div class="marketplace-filter-card">
-          <div class="filter-rows-container">
-            <!-- Fila: Zona -->
-            <div class="filter-row-group">
-              <span class="filter-row-label">📍 Zona:</span>
-              <div class="filter-pills-list">
-                <button class="filter-pill-btn active" data-filter-zone="all">Todas las Zonas</button>
-                <button class="filter-pill-btn" data-filter-zone="pampatar">Pampatar</button>
-                <button class="filter-pill-btn" data-filter-zone="el-yaque">Playa El Yaque</button>
-                <button class="filter-pill-btn" data-filter-zone="costa-azul">Costa Azul</button>
-                <button class="filter-pill-btn" data-filter-zone="playa-el-agua">Playa El Agua</button>
-                <button class="filter-pill-btn" data-filter-zone="macanao">Macanao</button>
-              </div>
-            </div>
+      <!-- Filtro 2: Rango de Inversión (Price Range) -->
+      <div class="mp-filter-card">
+        <div class="mp-filter-label-bar">
+          <span>💵 Rango de Inversión</span>
+          <span class="mp-filter-reset-icon">USD</span>
+        </div>
+        <div class="mp-radio-list">
+          <label class="mp-check-item">
+            <input type="radio" name="filter-price-preset" value="all" checked>
+            <span>Todos los Precios</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="radio" name="filter-price-preset" value="under-50k">
+            <span>Menos de $75,000 USD</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="radio" name="filter-price-preset" value="50k-150k">
+            <span>$75,000 - $150,000 USD</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="radio" name="filter-price-preset" value="150k-300k">
+            <span>$150,000 - $300,000 USD</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="radio" name="filter-price-preset" value="over-300k">
+            <span>Más de $300,000 USD</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="radio" name="filter-price-preset" value="custom">
+            <span>Personalizado</span>
+          </label>
+        </div>
 
-            <!-- Fila: Tipo -->
-            <div class="filter-row-group">
-              <span class="filter-row-label">🏷️ Tipo:</span>
-              <div class="filter-pills-list">
-                <button class="filter-pill-btn active" data-filter-type="all">Todos los Tipos</button>
-                <button class="filter-pill-btn" data-filter-type="terreno">Terrenos Vírgenes</button>
-                <button class="filter-pill-btn" data-filter-type="villa">Villas &amp; Condominios</button>
-                <button class="filter-pill-btn" data-filter-type="hotel">Hoteles &amp; Posadas</button>
-              </div>
-            </div>
+        <div class="mp-inputs-row" id="price-custom-wrap" style="display: none; margin-top: 0.65rem;">
+          <div class="mp-input-wrap">
+            <input type="number" id="price-min-input" placeholder="Min" min="0" step="5000">
+            <span class="mp-input-unit">$</span>
           </div>
-
-          <!-- Barra de Estado de Filtros -->
-          <div class="marketplace-status-bar">
-            <div class="marketplace-count-badge" id="marketplace-count">
-              6 Activos Encontrados
-            </div>
-            <button class="btn btn-outline-gold" id="btn-reset-filters" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;">
-              <span>Restablecer Filtros</span>
-            </button>
+          <span style="color: var(--mp-text-light);">-</span>
+          <div class="mp-input-wrap">
+            <input type="number" id="price-max-input" placeholder="Max" min="0" step="5000">
+            <span class="mp-input-unit">$</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ================= GRID DE PROPIEDADES ================= -->
-  <section class="section" style="padding-top: 1rem; padding-bottom: 4rem;">
-    <div class="container">
-      <div class="marketplace-grid" id="marketplace-grid">
-        <!-- Renderizado dinámicamente vía marketplace.js -->
-        
-        <!-- PROP 1 -->
-        <article class="property-card" data-id="prop-1">
-          <div class="property-img-wrap">
-            <img src="../assets/images/margarita-beachfront-land.jpg" alt="Lote Estratégico Bahía de Pampatar" class="property-img">
-            <span class="property-badge-zone">📍 Pampatar</span>
-            <span class="property-badge-status status-disponible">Disponible ZEE</span>
+      <!-- Filtro 3: Superficie / Área (m²) -->
+      <div class="mp-filter-card">
+        <div class="mp-filter-label-bar">
+          <span>📐 Superficie Total</span>
+          <span class="mp-filter-reset-icon">m²</span>
+        </div>
+        <div class="mp-inputs-row">
+          <div class="mp-input-wrap">
+            <input type="number" id="area-min-input" placeholder="Min" min="0" step="100">
+            <span class="mp-input-unit">m²</span>
           </div>
-          <div class="property-body">
-            <div class="property-type-tag">Terreno Frente al Mar</div>
-            <h3 class="property-title">Lote Estratégico Bahía de Pampatar</h3>
-            <p class="property-desc">Terreno virgen con zonificación turística-residencial de alta densidad en la Milla de Oro. Ideal para desarrollo de hotel boutique o complejo de villas privadas.</p>
-            <div class="property-specs">
-              <span class="spec-item">1,450 m² Terreno</span>
-              <span class="spec-item">Frente de Playa</span>
-              <span class="spec-item">Factibilidad de Pozo</span>
-              <span class="spec-item">Papeles 100% en Regla</span>
-            </div>
-            <div class="property-footer">
-              <div class="price-box">
-                <span>Inversión</span>
-                <strong>$85,000 USD</strong>
-              </div>
-              <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn-whatsapp-prop">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                <span>Consultar</span>
-              </a>
-            </div>
+          <span style="color: var(--mp-text-light);">-</span>
+          <div class="mp-input-wrap">
+            <input type="number" id="area-max-input" placeholder="Max" min="0" step="500">
+            <span class="mp-input-unit">m²</span>
           </div>
-        </article>
-
-        <!-- PROP 2 -->
-        <article class="property-card" data-id="prop-2">
-          <div class="property-img-wrap">
-            <img src="../assets/images/margarita-sunset-villa.jpg" alt="Villa Sunset Horizon Pampatar" class="property-img">
-            <span class="property-badge-zone">📍 Pampatar (La Caranta)</span>
-            <span class="property-badge-status status-disponible">Rentando $3,800/mes</span>
-          </div>
-          <div class="property-body">
-            <div class="property-type-tag">Villa de Lujo Llave en Mano</div>
-            <h3 class="property-title">Villa Sunset Horizon Pampatar</h3>
-            <p class="property-desc">Arquitectura moderna de autor con piscina infinity, 4 suites, acabados en madera de teca y sistema solar autónomo 100%. Generando rentas en Airbnb Luxe.</p>
-            <div class="property-specs">
-              <span class="spec-item">420 m² Const.</span>
-              <span class="spec-item">4 Suites</span>
-              <span class="spec-item">Piscina Infinity</span>
-              <span class="spec-item">Planta Eléctrica 100%</span>
-            </div>
-            <div class="property-footer">
-              <div class="price-box">
-                <span>Inversión</span>
-                <strong>$260,000 USD</strong>
-              </div>
-              <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn-whatsapp-prop">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                <span>Consultar</span>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROP 3 -->
-        <article class="property-card" data-id="prop-3">
-          <div class="property-img-wrap">
-            <img src="../assets/images/margarita-boutique-hotel.jpg" alt="Eco-Resort Boutique El Yaque" class="property-img">
-            <span class="property-badge-zone">📍 Playa El Yaque</span>
-            <span class="property-badge-status status-negociacion">En Negociación</span>
-          </div>
-          <div class="property-body">
-            <div class="property-type-tag">Posada Boutique &amp; Eco-Resort</div>
-            <h3 class="property-title">Eco-Resort Boutique El Yaque</h3>
-            <p class="property-desc">Propiedad hotelera operativa de 12 cabañas de lujo con restaurante frente al mar, escuela de kitesurf y clientela internacional recurrente de Europa.</p>
-            <div class="property-specs">
-              <span class="spec-item">12 Suites</span>
-              <span class="spec-item">1,800 m² Parcela</span>
-              <span class="spec-item">Licencia Turística ZEE</span>
-              <span class="spec-item">Ocupación 82%</span>
-            </div>
-            <div class="property-footer">
-              <div class="price-box">
-                <span>Inversión</span>
-                <strong>$390,000 USD</strong>
-              </div>
-              <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn-whatsapp-prop">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                <span>Consultar</span>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROP 4 -->
-        <article class="property-card" data-id="prop-4">
-          <div class="property-img-wrap">
-            <img src="../assets/images/margarita-lifestyle-enjoy.jpg" alt="Penthouse Miramar Costa Azul" class="property-img">
-            <span class="property-badge-zone">📍 Costa Azul</span>
-            <span class="property-badge-status status-disponible">Disponible</span>
-          </div>
-          <div class="property-body">
-            <div class="property-type-tag">Penthouse &amp; Condominio</div>
-            <h3 class="property-title">Penthouse Miramar Costa Azul</h3>
-            <p class="property-desc">Exclusivo ático con terraza panorámica de 360° a la bahía, acabados en mármol, pozo de agua propio y doble puesto techado en la zona comercial más segura.</p>
-            <div class="property-specs">
-              <span class="spec-item">280 m² Const.</span>
-              <span class="spec-item">3 Habitaciones</span>
-              <span class="spec-item">Doble Balcón</span>
-              <span class="spec-item">Pozo Propio</span>
-            </div>
-            <div class="property-footer">
-              <div class="price-box">
-                <span>Inversión</span>
-                <strong>$135,000 USD</strong>
-              </div>
-              <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn-whatsapp-prop">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                <span>Consultar</span>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROP 5 -->
-        <article class="property-card" data-id="prop-5">
-          <div class="property-img-wrap">
-            <img src="../assets/images/margarita-beachfront-land.jpg" alt="Parcela de Gran Extensión El Agua" class="property-img">
-            <span class="property-badge-zone">📍 Playa El Agua</span>
-            <span class="property-badge-status status-proyecto">Proyecto ZEE</span>
-          </div>
-          <div class="property-body">
-            <div class="property-type-tag">Macrolote Turístico</div>
-            <h3 class="property-title">Parcela de Gran Extensión El Agua</h3>
-            <p class="property-desc">Terreno plano de 5,000 m² a 150 metros del bulevar de Playa El Agua. Apto para resort hotelero o desarrollo habitacional bajo beneficios tributarios ZEE.</p>
-            <div class="property-specs">
-              <span class="spec-item">5,000 m² Terreno</span>
-              <span class="spec-item">Uso Turístico</span>
-              <span class="spec-item">Acceso Asfaltado</span>
-              <span class="spec-item">Solvencia Notarial</span>
-            </div>
-            <div class="property-footer">
-              <div class="price-box">
-                <span>Inversión</span>
-                <strong>$175,000 USD</strong>
-              </div>
-              <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn-whatsapp-prop">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                <span>Consultar</span>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROP 6 -->
-        <article class="property-card" data-id="prop-6">
-          <div class="property-img-wrap">
-            <img src="../assets/images/margarita-beachfront-land.jpg" alt="Lote Costero Punta Arenas" class="property-img">
-            <span class="property-badge-zone">📍 Península de Macanao</span>
-            <span class="property-badge-status status-disponible">Disponible</span>
-          </div>
-          <div class="property-body">
-            <div class="property-type-tag">Terreno Ecoturístico Virgen</div>
-            <h3 class="property-title">Lote Costero Punta Arenas</h3>
-            <p class="property-desc">Paraíso de arenas doradas y aguas cristalinas, ideal para glamping de ultra-lujo, wellness retreat o villa autosustentable con energía fotovoltaica.</p>
-            <div class="property-specs">
-              <span class="spec-item">3,200 m² Terreno</span>
-              <span class="spec-item">Playa Virgen</span>
-              <span class="spec-item">Atardecer Panorámico</span>
-              <span class="spec-item">Título Privado</span>
-            </div>
-            <div class="property-footer">
-              <div class="price-box">
-                <span>Inversión</span>
-                <strong>$65,000 USD</strong>
-              </div>
-              <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn-whatsapp-prop">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                <span>Consultar</span>
-              </a>
-            </div>
-          </div>
-        </article>
-
+        </div>
       </div>
 
-      <!-- BANNER DE POSTULACIÓN DE PROPIEDADES -->
-      <div class="marketplace-cta-banner">
-        <div class="marketplace-cta-icon">📋</div>
-        <h3>¿Tienes un Terreno o Inmueble en Margarita?</h3>
-        <p>
-          Postula tu parcela, propiedad en construcción o villa para ser incluida en nuestro catálogo ante inversionistas extranjeros. Evaluamos ubicación, estado de obras y solvencia documental.
-        </p>
+      <!-- Filtro 4: Tipo de Inmueble (Type of Place) -->
+      <div class="mp-filter-card">
+        <div class="mp-filter-label-bar">
+          <span>🏷️ Tipo de Inmueble</span>
+          <span class="mp-filter-reset-icon">✓</span>
+        </div>
+        <div class="mp-checkbox-list">
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-type" value="terreno">
+            <span>Terrenos Vírgenes &amp; Lotes</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-type" value="villa">
+            <span>Villas de Autor Llave en Mano</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-type" value="hotel">
+            <span>Hoteles &amp; Posadas Boutique</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-type" value="apartamento">
+            <span>Penthouse &amp; Condominios</span>
+          </label>
+          <label class="mp-check-item">
+            <input type="checkbox" name="filter-type" value="reforma">
+            <span>Inmuebles para Reformar</span>
+          </label>
+        </div>
+      </div>
 
-        <div class="marketplace-cta-buttons">
-          <button class="btn btn-sunset btn-open-google-form" style="padding: 1rem 1.8rem; font-size: 0.95rem;">
-            <span>📋 Abrir Formulario de Postulación (Google Forms)</span>
+      <!-- Filtro 5: Factibilidad & Autonomía (Amenities) -->
+      <div class="mp-filter-card">
+        <div class="mp-filter-label-bar">
+          <span>⚡ Factibilidad &amp; Servicios</span>
+          <span class="mp-filter-reset-icon">★</span>
+        </div>
+        <div class="mp-amenities-tags">
+          <span class="mp-amenity-tag" data-amenity="pozo">💧 Pozo de Agua</span>
+          <span class="mp-amenity-tag" data-amenity="planta">⚡ Planta / Solar</span>
+          <span class="mp-amenity-tag" data-amenity="playa">🌊 Frente al Mar</span>
+          <span class="mp-amenity-tag" data-amenity="notaria">⚖️ Título Limpio</span>
+          <span class="mp-amenity-tag" data-amenity="zee">🏛️ Ley ZEE</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= COLUMNA 2: GRID CENTRAL DE PROPIEDADES ================= -->
+    <section class="mp-center-section">
+      <!-- Toolbar Superior -->
+      <div class="mp-grid-toolbar">
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+          <button type="button" class="mp-mobile-filters-trigger" id="btn-mobile-filters-trigger">
+            <span>⚙️ Filtros</span>
           </button>
-          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-outline-gold" style="padding: 1rem 1.8rem;">
-            <span>💬 Enviar Datos Directo a WhatsApp</span>
-          </a>
+          <div class="mp-results-count" id="results-count-text">
+            <span>8</span> Propiedades Encontradas
+          </div>
+        </div>
+
+        <div class="mp-sort-box">
+          <label for="sort-select" class="mp-sort-label">Ordenar:</label>
+          <select id="sort-select" class="mp-sort-select">
+            <option value="default">Recomendados</option>
+            <option value="price-asc">Menor Precio</option>
+            <option value="price-desc">Mayor Precio</option>
+            <option value="roi-desc">Mayor Rentabilidad %</option>
+            <option value="area-desc">Mayor Superficie m²</option>
+          </select>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ================= MODAL GOOGLE FORMS ================= -->
+      <!-- Grid Reactivo de Propiedades (2 Columnas) -->
+      <div class="mp-cards-grid" id="properties-grid">
+        <!-- Generado dinámicamente vía marketplace.js -->
+      </div>
+    </section>
+
+    <!-- ================= COLUMNA 3: FICHA DETALLADA / MOBILE BOTTOM SHEET ================= -->
+    <aside class="mp-detail-panel" id="detail-panel" aria-label="Ficha Detallada de la Propiedad">
+      <!-- Generado dinámicamente según la propiedad seleccionada -->
+    </aside>
+
+  </main>
+
+  <!-- ================= BACKDROP DIMMER (MÓVIL BOTTOM SHEET & FILTROS) ================= -->
+  <div class="mp-backdrop-dimmer" id="mp-backdrop-dimmer"></div>
+
+  <!-- ================= MODAL GOOGLE FORMS PARA POSTULACIÓN ================= -->
   <div class="custom-modal" id="modal-google-forms" role="dialog" aria-modal="true" aria-labelledby="google-forms-title">
     <div class="custom-modal-content" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
       <button class="modal-close-btn" id="close-google-forms-modal" aria-label="Cerrar modal">&times;</button>
@@ -334,7 +287,6 @@
           </p>
         </div>
 
-        <!-- Direct Callout for Photo Upload -->
         <div style="background: rgba(230, 92, 0, 0.12); border: 1px solid rgba(230, 92, 0, 0.35); border-radius: var(--radius-sm); padding: 0.85rem 1rem; margin-bottom: 1rem; text-align: center;">
           <p style="font-size: 0.82rem; color: var(--c-sand); margin-bottom: 0.5rem; line-height: 1.4;">
             📸 Para subir fotos y archivos desde tu cuenta de Google de forma directa:
@@ -344,107 +296,25 @@
           </a>
         </div>
 
-        <!-- Google Form Embed Container (Compact 380px) -->
         <div class="google-form-embed-wrap" style="position: relative; width: 100%; height: 380px; border-radius: var(--radius-md); overflow: hidden; background: #ffffff; border: 1px solid var(--glass-border);">
           <iframe 
             src="https://docs.google.com/forms/d/e/1FAIpQLSfwykXEqjDewDMoEnmDlJEFr7RbxYodhzhnuDohCcunplARQw/viewform?embedded=true" 
             width="100%" 
             height="380" 
             frameborder="0" 
-            marginheight="0" 
-            marginwidth="0"
             style="display: block; width: 100%; height: 380px; border: none;"
-            title="Formulario Oficial Google Forms de Postulación de Propiedades">
+            title="Formulario Oficial Google Forms">
             Cargando formulario oficial de Google Forms...
           </iframe>
-        </div>
-
-        <!-- Opciones Alternativas vía WhatsApp Directo -->
-        <div style="text-align: center; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid var(--glass-border);">
-          <p style="color: var(--c-text-muted); font-size: 0.85rem; max-width: 480px; margin: 0 auto 1rem auto;">
-            ¿Prefieres enviar las fotos, planos y precio directamente a Miguel Ángel?
-          </p>
-          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20deseo%20postular%20mi%20propiedad%20en%20Isla%20de%20Margarita." 
-             target="_blank" 
-             class="btn btn-sunset" 
-             style="padding: 0.75rem 1.4rem;">
-            <span>Postular Inmueble vía WhatsApp Directo</span>
-          </a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-top">
-        <div>
-          <div class="brand-wrapper">
-            <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="brand-logo-img">
-            <div class="brand-text-col">
-              <span class="brand-title">MIGUEL ANGEL</span>
-              <span class="brand-tagline">LA PERLA DEL CARIBE</span>
-            </div>
-          </div>
-          <p class="footer-brand-bio">
-            Personal shopper inmobiliario y constructora integral para inversionistas en la Isla de Margarita, Venezuela.
-          </p>
-        </div>
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-        <div class="footer-col">
-          <h4>Navegación</h4>
-          <ul>
-            <li><a href="../#inicio">Inicio</a></li>
-            <li><a href="../#proceso">¿Cómo Trabajamos?</a></li>
-            <li><a href="index.html">Marketplace Oficial</a></li>
-            <li><a href="../#comparativa">Comparativa ROI</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Zonas Clave</h4>
-          <ul>
-            <li><a href="?zone=pampatar">Pampatar &bull; Milla de Oro</a></li>
-            <li><a href="?zone=el-yaque">Playa El Yaque &bull; Posadas</a></li>
-            <li><a href="?zone=costa-azul">Costa Azul &bull; Porlamar</a></li>
-            <li><a href="?zone=playa-el-agua">Playa El Agua &bull; Resorts</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Contacto</h4>
-          <ul>
-            <li><a href="https://instagram.com/miguelangel.laperladelcaribe" target="_blank">Instagram: @miguelangel</a></li>
-            <li><a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank">WhatsApp: +34 676 59 70 68</a></li>
-            <li><a href="#" class="btn-open-google-form">Postular Propiedad (Google Forms)</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div>
-          &copy; 2026 Miguel Ángel - La Perla del Caribe. Todos los derechos reservados.
-        </div>
-        <div>
-          "Más que inversiones. Un estilo de vida real." &bull; Isla de Margarita, Venezuela.
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ================= BOTÓN FLOTANTE OFICIAL DE WHATSAPP ================= -->
-  <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
-     class="floating-whatsapp" 
-     target="_blank" 
-     rel="noopener noreferrer" 
-     aria-label="Contactar a Miguel Ángel por WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#ffffff">
-      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-    </svg>
-  </a>
-
-  <!-- Script del Marketplace -->
+  <!-- Lógica Reactiva del Marketplace -->
   <script type="module" src="marketplace.js"></script>
 </body>
 </html>

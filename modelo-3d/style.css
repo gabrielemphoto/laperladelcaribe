@@ -1,0 +1,664 @@
+/* ==========================================================================
+   ESTILOS VISOR 3D INTERACTIVO - LA PERLA DEL CARIBE
+   ========================================================================== */
+
+:root {
+  --primary-gold: #c5a880;
+  --primary-gold-dark: #a28358;
+  --caribbean-blue: #0ea5e9;
+  --caribbean-cyan: #06b6d4;
+  --bg-dark: #0b111e;
+  --bg-glass: rgba(15, 23, 42, 0.78);
+  --bg-glass-light: rgba(255, 255, 255, 0.88);
+  --border-glass: rgba(255, 255, 255, 0.14);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-float: 0 20px 40px rgba(0, 0, 0, 0.35);
+  --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  background-color: #f6f8fa;
+  color: var(--text-main);
+  user-select: none;
+}
+
+/* Contenedor WebGL */
+#canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  outline: none;
+  cursor: grab;
+}
+
+#canvas-container:active {
+  cursor: grabbing;
+}
+
+/* ==========================================================================
+   TOP BAR / HEADER FLOTANTE GLASSMORPHIC
+   ========================================================================== */
+.top-header {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.top-header > * {
+  pointer-events: auto;
+}
+
+/* Marca */
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-float);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-smooth);
+}
+
+.brand-badge:hover {
+  border-color: var(--primary-gold);
+  transform: translateY(-2px);
+}
+
+.brand-logo-small {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--primary-gold);
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+
+.brand-subtitle {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--primary-gold);
+  text-transform: uppercase;
+}
+
+/* Grupo de Controles Superiores */
+.top-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.glass-toolbar {
+  display: flex;
+  align-items: center;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 5px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-float);
+  gap: 4px;
+}
+
+.btn-pill-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+}
+
+.btn-pill-icon:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.05);
+}
+
+.btn-pill-icon.active {
+  color: #ffffff;
+  background: var(--primary-gold);
+  box-shadow: 0 0 12px rgba(197, 168, 128, 0.5);
+}
+
+.btn-embed-action {
+  background: linear-gradient(135deg, var(--caribbean-blue), var(--caribbean-cyan));
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
+  transition: var(--transition-smooth);
+}
+
+.btn-embed-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.5);
+}
+
+/* ==========================================================================
+   PANEL FLOTANTE INFERIOR & SELECTOR DE FASES
+   ========================================================================== */
+.bottom-dock {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: calc(100% - 40px);
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.bottom-dock > * {
+  pointer-events: auto;
+}
+
+/* Barra de Pestañas de Fases */
+.phase-selector-bar {
+  display: flex;
+  background: var(--bg-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-float);
+  gap: 6px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.phase-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: var(--transition-smooth);
+}
+
+.phase-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.phase-tab-btn.active {
+  color: #111827;
+  background: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Tarjeta Principal Flotante (Botón de Acción + Métricas) */
+.main-dock-card {
+  width: 100%;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-glass);
+  padding: 16px 22px;
+  box-shadow: var(--shadow-float);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Ficha Informativa Izquierda */
+.phase-info-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.phase-thumb-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--primary-gold);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.phase-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.phase-thumb-wrap:hover .phase-thumb-img {
+  transform: scale(1.15);
+}
+
+.phase-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phase-badge-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--primary-gold);
+  text-transform: uppercase;
+}
+
+.phase-title-text {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.phase-desc-text {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  max-width: 480px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Botón Gigante de Acción Interactiva (Construir Siguiente) */
+.btn-build-interactive {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border: none;
+  color: #ffffff;
+  padding: 16px 28px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.45);
+  transition: var(--transition-smooth);
+}
+
+.btn-build-interactive:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 32px rgba(217, 119, 6, 0.65);
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+}
+
+.btn-build-interactive:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+  animation: pulse-icon 1.8s infinite;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+/* Métricas en Grid */
+.phase-metrics-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.metric-val {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--caribbean-cyan);
+}
+
+.metric-label {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   DRAWER / FICHA TÉCNICA LATERAL (OPCIONAL / EXPANDIBLE)
+   ========================================================================== */
+.side-presets-dock {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-float);
+}
+
+.btn-view {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-smooth);
+}
+
+.btn-view:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   MODAL DE INCRUSTACIÓN (IFRAME & COMPARTIR)
+   ========================================================================== */
+.embed-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.embed-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.embed-modal-box {
+  background: #0f172a;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  max-width: 620px;
+  width: 100%;
+  padding: 28px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.embed-modal-overlay.active .embed-modal-box {
+  transform: translateY(0);
+}
+
+.embed-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.embed-modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.btn-close-modal:hover {
+  color: #ffffff;
+}
+
+.embed-modal-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.embed-options-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.embed-option-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.embed-code-area {
+  width: 100%;
+  height: 140px;
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  color: #38bdf8;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  resize: none;
+  outline: none;
+  margin-bottom: 18px;
+}
+
+.embed-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-copy-code {
+  background: var(--primary-gold);
+  border: none;
+  color: #111827;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-copy-code:hover {
+  background: #deb887;
+  transform: translateY(-2px);
+}
+
+.btn-copy-code.copied {
+  background: #10b981;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   MODO INCRUSTADO LIMPIO (?embed=true)
+   ========================================================================== */
+body.embed-mode .top-header .brand-badge {
+  display: none;
+}
+
+body.embed-mode .btn-embed-action {
+  display: none;
+}
+
+body.embed-mode .side-presets-dock {
+  display: none;
+}
+
+body.embed-mode .bottom-dock {
+  bottom: 14px;
+  max-width: 95%;
+}
+
+body.embed-mode .phase-metrics-row {
+  display: none;
+}
+
+body.embed-mode .main-dock-card {
+  padding: 12px 18px;
+}
+
+/* ==========================================================================
+   RESPONSIVIDAD MÓVIL
+   ========================================================================== */
+@media (max-width: 768px) {
+  .top-header {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    flex-wrap: wrap;
+  }
+
+  .brand-badge {
+    padding: 6px 14px;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .side-presets-dock {
+    display: none;
+  }
+
+  .bottom-dock {
+    bottom: 12px;
+    width: calc(100% - 20px);
+  }
+
+  .main-dock-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .phase-info-block {
+    gap: 12px;
+  }
+
+  .phase-thumb-wrap {
+    width: 52px;
+    height: 52px;
+  }
+
+  .phase-title-text {
+    font-size: 0.95rem;
+  }
+
+  .phase-desc-text {
+    display: none;
+  }
+
+  .phase-metrics-row {
+    display: none;
+  }
+
+  .btn-build-interactive {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 0.88rem;
+  }
+}
