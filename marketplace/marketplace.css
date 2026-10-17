@@ -285,14 +285,13 @@ body.marketplace-page {
   background: var(--mp-card-bg);
   border: 1px solid var(--mp-border);
   border-radius: var(--mp-radius-lg);
-  padding: 1.3rem;
+  padding: 1.4rem;
   box-shadow: var(--mp-shadow-sm);
-  position: sticky;
-  top: 85px;
-  max-height: calc(100vh - 105px);
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  position: relative;
+  height: auto;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
 }
 
 .mp-filters-header {
@@ -698,35 +697,49 @@ body.marketplace-page {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.45rem;
+  flex-wrap: nowrap;
 }
 
 .mp-card-price-box {
   display: flex;
   align-items: baseline;
   gap: 0.25rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .mp-card-price {
   font-size: 1.15rem;
   font-weight: 800;
   color: var(--mp-text-main);
+  white-space: nowrap;
 }
 
 .mp-card-price-sub {
   font-size: 0.68rem;
   color: var(--mp-text-muted);
+  white-space: nowrap;
 }
 
 .mp-card-rating {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  color: #d97706;
+  color: #b45309;
   background: #fffbeb;
-  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  padding: 0.22rem 0.52rem;
   border-radius: var(--mp-radius-full);
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.mp-card-rating span {
+  white-space: nowrap !important;
 }
 
 /* Empty State */
@@ -763,17 +776,16 @@ body.marketplace-page {
   background: var(--mp-card-bg);
   border: 1px solid var(--mp-border);
   border-radius: var(--mp-radius-lg);
-  padding: 1.3rem;
+  padding: 1.4rem;
   box-shadow: var(--mp-shadow-md);
-  position: sticky;
-  top: 85px;
-  max-height: calc(100vh - 105px);
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  position: relative;
+  height: auto;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1.2rem;
 }
 
 /* Galería de Fotos */
@@ -1544,12 +1556,12 @@ body.marketplace-page {
   margin-top: 0.4rem;
 }
 
-/* ================= FOOTER MARKETPLACE COMPACTO & LUXURY ================= */
+/* ================= FOOTER MARKETPLACE COMPACTO & LUXURY (TEMA BLANCO) ================= */
 .mp-footer-compact {
-  background: #090d16;
-  border-top: 1px solid rgba(212, 160, 23, 0.25);
-  padding: 2.2rem 1.5rem 2.2rem 1.5rem;
-  color: #94a3b8;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  padding: 2.5rem 1.5rem;
+  color: #64748b;
   position: relative;
   z-index: 10;
 }
@@ -1569,7 +1581,7 @@ body.marketplace-page {
   flex-wrap: wrap;
   gap: 1.5rem;
   padding-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .mp-footer-nav {
@@ -1580,7 +1592,7 @@ body.marketplace-page {
 }
 
 .mp-footer-link {
-  color: rgba(255, 255, 255, 0.85);
+  color: #475569;
   font-size: 0.84rem;
   font-weight: 500;
   text-decoration: none;
@@ -1593,11 +1605,11 @@ body.marketplace-page {
 }
 
 .mp-footer-link:hover {
-  color: #fbbf24;
+  color: #b45309;
 }
 
 .mp-footer-link.text-gold {
-  color: #fbbf24;
+  color: #b45309;
   font-weight: 600;
 }
 
@@ -1608,12 +1620,12 @@ body.marketplace-page {
   flex-wrap: wrap;
   gap: 0.8rem;
   font-size: 0.76rem;
-  color: #64748b;
+  color: #94a3b8;
 }
 
 .mp-footer-quote {
   font-style: italic;
-  color: rgba(251, 191, 36, 0.75);
+  color: #b45309;
 }
 
 @media (max-width: 768px) {
@@ -1644,4 +1656,174 @@ body.marketplace-page {
     gap: 0.4rem;
     font-size: 0.72rem;
   }
+}
+
+/* ================= MARKETPLACE WHITE LUXURY THEME ================= */
+.marketplace-page {
+  background: #ffffff !important;
+}
+
+/* Header Glass Bar en Marketplace (Limpio y Blanco) */
+.marketplace-page .header-glass-bar {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 0 1px 1px rgba(0, 0, 0, 0.04) !important;
+}
+
+.marketplace-page .header-floating-wrap.scrolled .header-glass-bar {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(212, 160, 23, 0.35) !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+.marketplace-page .brand-title {
+  color: #0f172a !important;
+}
+
+.marketplace-page .brand-tagline {
+  color: #b45309 !important;
+}
+
+.marketplace-page .nav-link {
+  color: #475569 !important;
+}
+
+.marketplace-page .nav-link:hover {
+  color: #0f172a !important;
+}
+
+.marketplace-page .nav-link.active {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+.marketplace-page .nav-link.text-gold-nav {
+  color: #b45309 !important;
+}
+
+.marketplace-page .btn-invierte-pill {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15) !important;
+}
+
+.marketplace-page .btn-invierte-pill:hover {
+  background: #1e293b !important;
+  color: #ffffff !important;
+}
+
+.marketplace-page .mobile-menu-btn {
+  color: #0f172a !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.marketplace-page .mobile-nav-drawer {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12) !important;
+}
+
+.marketplace-page .mobile-nav-link {
+  color: #0f172a !important;
+}
+
+.marketplace-page .mobile-nav-section-title {
+  color: #b45309 !important;
+  border-top-color: #f1f5f9 !important;
+}
+
+/* Formulario de Postulación Blanco */
+.marketplace-page .forms-preview-section {
+  background: #ffffff !important;
+}
+
+.marketplace-page .forms-preview-card {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08) !important;
+}
+
+.marketplace-page .postula-lead-card {
+  background: linear-gradient(180deg, #fdfaf3 0%, #ffffff 100%) !important;
+  border-bottom: 1px solid #edf2f7 !important;
+}
+
+.marketplace-page .postula-lead-card h3 {
+  color: #0f172a !important;
+}
+
+.marketplace-page .postula-lead-card p {
+  color: #475569 !important;
+}
+
+.marketplace-page .postulation-form-body {
+  background: #ffffff !important;
+}
+
+.marketplace-page .postulation-form-body label {
+  color: #1e293b !important;
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.marketplace-page .post-input,
+.marketplace-page .post-select {
+  background: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 0.9rem !important;
+  font-size: 0.88rem !important;
+}
+
+.marketplace-page .post-input:focus,
+.marketplace-page .post-select:focus {
+  border-color: #d4a017 !important;
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.15) !important;
+  outline: none;
+}
+
+.marketplace-page .post-select option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.marketplace-page .glass-pill.gold {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+  border: 1px solid rgba(217, 119, 6, 0.25) !important;
+}
+
+/* Modal Postulación White */
+.marketplace-page .custom-modal-content {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1.5px solid #e2e8f0 !important;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2) !important;
+}
+
+.marketplace-page .custom-modal-content h3 {
+  color: #0f172a !important;
+}
+
+.marketplace-page .custom-modal-content p {
+  color: #475569 !important;
+}
+
+.marketplace-page .custom-modal-content label {
+  color: #1e293b !important;
+}
+
+.marketplace-page .modal-close-btn {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+}
+
+.marketplace-page .modal-close-btn:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
 }

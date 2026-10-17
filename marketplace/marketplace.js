@@ -109,7 +109,7 @@ const PROPERTIES = [
     baths: 4,
     garage: 2,
     amenities: ['pozo', 'planta', 'notaria'],
-    tagBadge: 'Apartment',
+    tagBadge: 'Penthouse',
     status: 'Llave en Mano',
     images: [
       '../assets/images/margarita-lifestyle-enjoy.jpg',
@@ -660,9 +660,9 @@ function renderGrid() {
               <span class="mp-card-price">${item.priceDisplay}</span>
               <span class="mp-card-price-sub">USD</span>
             </div>
-            <div class="mp-card-rating">
+            <div class="mp-card-rating" style="white-space: nowrap;">
               <span>★</span>
-              <span>${item.roi}</span>
+              <span style="white-space: nowrap;">${item.roi}</span>
             </div>
           </div>
         </div>
