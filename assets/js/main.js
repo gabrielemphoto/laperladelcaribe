@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeatmap();
   initMuniCards();
   initGeneralModals();
+  initGoogleFormSection();
 });
 
 /* ================= 1. Navbar Mobile ================= */
@@ -161,20 +162,22 @@ function initHeatmap() {
   const mapContainer = document.getElementById('leaflet-heatmap');
   if (!mapContainer || typeof L === 'undefined') return;
 
-  // Centro de Isla de Margarita
+  // Inicializar mapa centrado en Isla de Margarita
   leafletMap = L.map('leaflet-heatmap', {
-    center: [10.9972, -63.9113],
+    center: [10.985, -64.000],
     zoom: 11,
     zoomControl: true,
     scrollWheelZoom: false
   });
 
-  // Capa CartoDB Voyager de alta definición
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 18
+  // Capa OpenStreetMap 100% gratuita y sin requerimiento de API Key
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    subdomains: ['a', 'b', 'c'],
+    maxZoom: 19
   }).addTo(leafletMap);
+
+  const markersGroup = L.featureGroup();
 
   // Agregar pines interactivos
   ZONES_DATA.forEach(zone => {
@@ -212,15 +215,29 @@ function initHeatmap() {
     `;
 
     const marker = L.marker(zone.coords, { icon: customIcon })
-      .addTo(leafletMap)
       .bindPopup(popupHtml);
 
+    markersGroup.addLayer(marker);
     mapMarkers[zone.id] = marker;
 
     marker.on('click', () => {
       highlightMuniCard(zone.id);
     });
   });
+
+  markersGroup.addTo(leafletMap);
+
+  // Ajustar encuadre automático a todos los pines para que nunca se corten en móvil
+  try {
+    leafletMap.fitBounds(markersGroup.getBounds().pad(0.12));
+  } catch (err) {
+    // Fallback silencioso si no se han cargado las dimensiones
+  }
+
+  // Refrescar tamaño tras carga completa
+  setTimeout(() => {
+    leafletMap.invalidateSize();
+  }, 300);
 }
 
 function highlightMuniCard(zoneId) {
@@ -287,4 +304,74 @@ function initGeneralModals() {
       if (e.target === m) m.classList.remove('open');
     });
   });
+}
+
+/* ================= 6. Postulación de Propiedades (Directo & Google Forms) ================= */
+function initGoogleFormSection() {
+  const form = document.getElementById('property-direct-postulation-form');
+  const customUrlBtn = document.getElementById('btn-apply-google-url');
+  const customUrlInput = document.getElementById('input-google-form-url');
+  const iframeHolder = document.getElementById('google-form-iframe-wrap');
+  const directFormHolder = document.getElementById('property-direct-form-wrap');
+  const iframeEl = document.getElementById('google-forms-live-frame');
+
+  // Si hay una URL de Google Forms guardada previamente en localStorage, cargarla
+  try {
+    const savedUrl = localStorage.getItem('laperla_google_forms_url');
+    if (savedUrl && iframeEl && iframeHolder && directFormHolder) {
+      iframeEl.src = savedUrl;
+      iframeHolder.style.display = 'block';
+      directFormHolder.style.display = 'none';
+    }
+  } catch (err) {}
+
+  // Permitir pegar una URL de Google Forms para probar en vivo
+  if (customUrlBtn && customUrlInput) {
+    customUrlBtn.addEventListener('click', () => {
+      const url = customUrlInput.value.trim();
+      if (url.startsWith('https://docs.google.com/forms/')) {
+        let embedUrl = url;
+        if (!embedUrl.includes('embedded=true')) {
+          embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'embedded=true';
+        }
+        try {
+          localStorage.setItem('laperla_google_forms_url', embedUrl);
+        } catch (e) {}
+        if (iframeEl) iframeEl.src = embedUrl;
+        if (iframeHolder) iframeHolder.style.display = 'block';
+        if (directFormHolder) directFormHolder.style.display = 'none';
+      } else {
+        alert('Por favor ingresa una URL válida de Google Forms (https://docs.google.com/forms/...)');
+      }
+    });
+  }
+
+  // Manejador del formulario directo para postular con envío por WhatsApp
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const zone = form.querySelector('[name="prop_zone"]').value;
+      const type = form.querySelector('[name="prop_type"]').value;
+      const status = form.querySelector('[name="prop_status"]').value;
+      const legal = form.querySelector('[name="prop_legal"]').value;
+      const price = form.querySelector('[name="prop_price"]').value;
+      const details = form.querySelector('[name="prop_details"]').value;
+      const owner = form.querySelector('[name="prop_owner"]').value;
+      const contact = form.querySelector('[name="prop_contact"]').value;
+
+      const waMsg = encodeURIComponent(
+        `*¡Hola Miguel Ángel! Deseo postular una propiedad para venta en Margarita:*\n\n` +
+        `📍 *Ubicación/Zona:* ${zone}\n` +
+        `🏷️ *Tipo de Inmueble:* ${type}\n` +
+        `🏗️ *Estado de Construcción:* ${status}\n` +
+        `⚖️ *Títulos y Papeles:* ${legal}\n` +
+        `💰 *Precio Pretendido:* ${price}\n` +
+        `📝 *Detalles/Fotos:* ${details}\n\n` +
+        `👤 *Propietario:* ${owner}\n` +
+        `📞 *Contacto:* ${contact}`
+      );
+
+      window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
+    });
+  }
 }

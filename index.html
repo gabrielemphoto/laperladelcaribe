@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.1">
 </head>
 <body>
 
@@ -482,56 +482,140 @@
         </p>
       </div>
 
-      <!-- TARJETA CON PREVISUALIZACIÓN EN VIVO DE GOOGLE FORMS -->
+      <!-- TARJETA CON PREVISUALIZACIÓN DE FORMULARIO -->
       <div class="forms-preview-card">
         <div class="forms-top-bar">
           <div class="forms-top-bar-left">
             <span class="forms-top-bar-icon">📋</span>
             <div class="forms-top-bar-title">
-              <h3>Formulario Oficial de Postulación (Google Forms)</h3>
+              <h3>Formulario Oficial de Postulación de Propiedades</h3>
               <p>Dirección, estado de construcción, papeles en regla, precio y fotos</p>
             </div>
           </div>
           <div class="glass-pill gold" style="font-size: 0.72rem;">
-            Previsualización en Vivo &bull; 100% Confidencial
+            Auditoría Notarial Confidencial
           </div>
         </div>
 
-        <!-- EMBEDDED GOOGLE FORM IFRAME -->
-        <div class="forms-iframe-holder">
+        <!-- BARRA PARA INCRUSTAR ENLACE REAL DE GOOGLE FORMS -->
+        <div style="background: rgba(14, 26, 45, 0.98); padding: 0.9rem 1.4rem; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+          <div style="font-size: 0.82rem; color: var(--c-sand);">
+            💡 <strong>¿Ya creaste tu formulario en Google Forms?</strong> Pega tu enlace aquí para previsualizarlo:
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-grow: 1; max-width: 480px;">
+            <input type="url" id="input-google-form-url" class="post-input" placeholder="https://docs.google.com/forms/d/e/.../viewform" style="padding: 0.45rem 0.8rem; font-size: 0.78rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: #fff; border-radius: var(--radius-sm); width: 100%;">
+            <button type="button" id="btn-apply-google-url" class="btn btn-gold" style="padding: 0.45rem 0.9rem; font-size: 0.75rem; white-space: nowrap;">
+              <span>Incrustar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CONTENEDOR IFRAME (SE ACTIVA AL PEGAR TU URL REAL DE GOOGLE FORMS) -->
+        <div class="forms-iframe-holder" id="google-form-iframe-wrap" style="display: none;">
           <iframe 
-            src="https://docs.google.com/forms/d/e/1FAIpQLScP-placeholder/viewform?embedded=true" 
+            id="google-forms-live-frame"
+            src="" 
             title="Formulario Oficial Google Forms de Captación de Inmuebles"
             loading="lazy">
             Cargando formulario oficial de Google Forms...
           </iframe>
         </div>
 
+        <!-- FORMULARIO DIRECTO INTERACTIVO LISTO PARA USAR -->
+        <div id="property-direct-form-wrap" class="postulation-form-body">
+          <form id="property-direct-postulation-form">
+            <div class="postulation-grid-2">
+              <div class="postulation-field">
+                <label for="post-owner">Nombre del Propietario / Representante</label>
+                <input type="text" id="post-owner" name="prop_owner" class="post-input" placeholder="Ej. Carlos Mendoza" required>
+              </div>
+              <div class="postulation-field">
+                <label for="post-contact">Teléfono / WhatsApp de Contacto</label>
+                <input type="tel" id="post-contact" name="prop_contact" class="post-input" placeholder="+34... / +58..." required>
+              </div>
+            </div>
+
+            <div class="postulation-grid-2">
+              <div class="postulation-field">
+                <label for="post-zone">Zona / Ubicación en Margarita</label>
+                <select id="post-zone" name="prop_zone" class="post-select">
+                  <option value="Pampatar">Pampatar (Milla de Oro / La Caranta)</option>
+                  <option value="Playa El Yaque">Playa El Yaque</option>
+                  <option value="Playa El Agua">Playa El Agua / Manzanillo</option>
+                  <option value="Costa Azul">Costa Azul / Porlamar</option>
+                  <option value="Juan Griego">Juan Griego</option>
+                  <option value="Macanao">Península de Macanao / Punta de Arenas</option>
+                  <option value="Otra zona de Margarita">Otra ubicación en Nueva Esparta</option>
+                </select>
+              </div>
+              <div class="postulation-field">
+                <label for="post-type">Tipo de Inmueble</label>
+                <select id="post-type" name="prop_type" class="post-select">
+                  <option value="Terreno Frente al Mar">Terreno Frente al Mar</option>
+                  <option value="Parcela Residencial / Comercial">Parcela Residencial / Comercial</option>
+                  <option value="Villa / Casa de Lujo">Villa / Casa de Lujo</option>
+                  <option value="Posada u Hotel Boutique">Posada u Hotel Boutique</option>
+                  <option value="Apartamento o Penthouse">Apartamento o Penthouse</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="postulation-grid-2">
+              <div class="postulation-field">
+                <label for="post-status">¿En qué estado está la construcción?</label>
+                <select id="post-status" name="prop_status" class="post-select">
+                  <option value="Terreno virgen sin construir">Terreno virgen sin obras</option>
+                  <option value="Estructura en obra gris / iniciada">Estructura iniciada / Obra gris</option>
+                  <option value="Construcción finalizada lista para habitar">Construcción finalizada 100%</option>
+                  <option value="En remodelación / remodelar">Para remodelar</option>
+                </select>
+              </div>
+              <div class="postulation-field">
+                <label for="post-legal">¿Papeles y títulos en regla?</label>
+                <select id="post-legal" name="prop_legal" class="post-select">
+                  <option value="Título privado registrado y al día (100% en regla)">Título privado registrado (100% en regla)</option>
+                  <option value="En trámite notarial / actualización">En trámite notarial</option>
+                  <option value="Sucesión hereditaria en proceso">Sucesión familiar en proceso</option>
+                  <option value="Adjudicación / Concesión municipal">Adjudicación municipal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="postulation-grid-2">
+              <div class="postulation-field">
+                <label for="post-price">Precio Pretendido (USD)</label>
+                <input type="text" id="post-price" name="prop_price" class="post-input" placeholder="Ej. $65,000 USD" required>
+              </div>
+              <div class="postulation-field">
+                <label for="post-details">Fotos / Planos / Enlace de Drive</label>
+                <input type="text" id="post-details" name="prop_details" class="post-input" placeholder="Pega link de Google Drive / Dropbox o pon 'Las envío por WhatsApp'">
+              </div>
+            </div>
+
+            <div style="margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.8rem;">
+              <button type="submit" class="btn btn-sunset" style="width: 100%; padding: 1rem; font-size: 0.95rem;">
+                <span>🚀 Enviar Datos de Postulación Directo a Miguel Ángel por WhatsApp</span>
+              </button>
+              <p style="color: var(--c-text-muted); font-size: 0.78rem; text-align: center; margin: 0;">
+                Auditoría legal y viabilidad técnica 100% confidencial. Conectamos con compradores extranjeros reales.
+              </p>
+            </div>
+          </form>
+        </div>
+
         <div class="forms-bottom-actions">
           <p style="color: var(--c-text-muted); font-size: 0.82rem; margin: 0;">
             ¿Prefieres enviar las fotos, planos o coordenadas directamente por chat?
           </p>
-          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScP-placeholder/viewform" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="btn btn-outline-gold" 
-               style="padding: 0.65rem 1.2rem; font-size: 0.82rem;">
-              <span>Abrir Formulario en Pestaña Completa ↗</span>
-            </a>
-            <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="btn btn-sunset" 
-               style="padding: 0.65rem 1.2rem; font-size: 0.82rem;">
-              <span>💬 Enviar Datos vía WhatsApp Directo</span>
-            </a>
-          </div>
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn btn-sunset" 
+             style="padding: 0.65rem 1.2rem; font-size: 0.82rem;">
+            <span>💬 Enviar Datos vía WhatsApp (+34 676 59 70 68)</span>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
-
     </div>
   </section>
 
@@ -819,6 +903,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Script Principal con Cache-Buster -->
-  <script type="module" src="assets/js/main.js?v=3.0"></script>
+  <script type="module" src="assets/js/main.js?v=3.1"></script>
 </body>
 </html>
