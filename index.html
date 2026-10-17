@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3.4">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.5">
 </head>
 <body>
 
@@ -119,15 +119,18 @@
           <div class="iso-phase-tabs">
             <button class="iso-tab-btn active" data-phase="0">
               <span class="tab-badge">01</span>
-              <span class="tab-label">🌱 Terreno Virgen</span>
+              <span class="tab-label-full">🌱 Terreno Virgen</span>
+              <span class="tab-label-mobile">🌱 Terreno</span>
             </button>
             <button class="iso-tab-btn" data-phase="1">
               <span class="tab-badge">02</span>
-              <span class="tab-label">🏗️ Construcción Autónoma</span>
+              <span class="tab-label-full">🏗️ Construcción Autónoma</span>
+              <span class="tab-label-mobile">🏗️ Obra</span>
             </button>
             <button class="iso-tab-btn" data-phase="2">
               <span class="tab-badge">03</span>
-              <span class="tab-label">🏨 Hotel &amp; Rentas</span>
+              <span class="tab-label-full">🏨 Hotel &amp; Rentas</span>
+              <span class="tab-label-mobile">🏨 Hotel</span>
             </button>
           </div>
 
@@ -554,15 +557,29 @@
           </div>
         </div>
 
-        <!-- CONTENEDOR IFRAME ACTIVO CON EL FORMULARIO OFICIAL DE GOOGLE FORMS -->
-        <div class="forms-iframe-holder" id="google-form-iframe-wrap" style="display: block;">
-          <iframe 
-            id="google-forms-live-frame"
-            src="https://docs.google.com/forms/d/e/1FAIpQLSfwykXEqjDewDMoEnmDlJEFr7RbxYodhzhnuDohCcunplARQw/viewform?embedded=true" 
-            title="Formulario Oficial Google Forms de Captación de Inmuebles"
-            loading="lazy">
-            Cargando formulario oficial de Google Forms...
-          </iframe>
+        <!-- CONTENEDOR GOOGLE FORMS CON CTA DIRECTO Y FRAME COMPACTO -->
+        <div id="google-form-iframe-wrap" style="display: block;">
+          <div class="google-form-direct-callout">
+            <div class="gform-callout-text">
+              <span class="glass-pill sunset" style="font-size: 0.72rem;">📸 Carga Directa de Fotos &bull; Google Forms</span>
+              <p style="font-size: 0.84rem; color: var(--c-sand); margin: 0.4rem 0 0.2rem 0; line-height: 1.4;">
+                Para subir fotos, planos y documentos con tu cuenta de Google de forma 100% segura, pulsa el botón directo:
+              </p>
+            </div>
+            <a href="https://forms.gle/feom29XWzAGYdLfg7" target="_blank" rel="noopener noreferrer" class="btn btn-sunset btn-open-gform-cta">
+              <span>🚀 Abrir Formulario en Google Forms (Subir Fotos) ↗</span>
+            </a>
+          </div>
+
+          <div class="forms-iframe-holder">
+            <iframe 
+              id="google-forms-live-frame"
+              src="https://docs.google.com/forms/d/e/1FAIpQLSfwykXEqjDewDMoEnmDlJEFr7RbxYodhzhnuDohCcunplARQw/viewform?embedded=true" 
+              title="Formulario Oficial Google Forms de Captación de Inmuebles"
+              loading="lazy">
+              Cargando formulario oficial de Google Forms...
+            </iframe>
+          </div>
         </div>
 
         <!-- FORMULARIO DIRECTO INTERACTIVO LISTO PARA USAR (MODO WHATSAPP) -->

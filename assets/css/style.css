@@ -561,6 +561,10 @@ button, input, select, textarea {
   font-weight: 800;
 }
 
+.tab-label-mobile {
+  display: none;
+}
+
 .iso-autoplay-toggle {
   display: inline-flex;
   align-items: center;
@@ -1511,7 +1515,7 @@ button, input, select, textarea {
 
 .forms-iframe-holder {
   width: 100%;
-  height: 820px;
+  height: 440px;
   background: #ffffff;
   position: relative;
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
@@ -1523,6 +1527,24 @@ button, input, select, textarea {
   height: 100%;
   border: none;
   display: block;
+}
+
+.google-form-direct-callout {
+  background: linear-gradient(135deg, rgba(230, 92, 0, 0.15), rgba(212, 160, 23, 0.12));
+  border: 1px solid rgba(230, 92, 0, 0.35);
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn-open-gform-cta {
+  white-space: nowrap;
+  font-size: 0.88rem;
+  padding: 0.7rem 1.3rem;
+  box-shadow: 0 4px 15px rgba(230, 92, 0, 0.35);
 }
 
 /* Postulation Form Interactive Styling */
@@ -2278,25 +2300,60 @@ button, input, select, textarea {
 
   /* 3D Isometric Stage Mobile */
   .iso-viewport {
-    height: 320px;
+    height: 310px;
   }
 
   .iso-stage-header {
     flex-direction: column;
     align-items: stretch;
     gap: 0.65rem;
-    padding: 0.8rem 1rem;
+    padding: 0.8rem 0.9rem;
   }
 
   .iso-phase-tabs {
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.2rem;
   }
 
   .iso-tab-btn {
-    padding: 0.35rem 0.55rem;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.45rem 0.2rem;
+    justify-content: center;
     font-size: 0.72rem;
-    gap: 0.3rem;
+    gap: 0.25rem;
+  }
+
+  .tab-label-full {
+    display: none !important;
+  }
+
+  .tab-label-mobile {
+    display: inline !important;
+  }
+
+  /* Ocultar pins flotantes en móvil para despejar completamente el cubo 3D */
+  .iso-pins-container {
+    display: none !important;
+  }
+
+  /* Anclar HUD como barra inferior elegante fuera del modelo 3D */
+  .iso-hud-overlay {
+    position: static;
+    background: rgba(6, 9, 14, 0.96);
+    padding: 0.65rem 0.85rem;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hud-phase-pill, .hud-metric-pill {
+    font-size: 0.68rem;
+    padding: 0.3rem 0.65rem;
   }
 
   .iso-hud-cards-grid {
@@ -2305,23 +2362,22 @@ button, input, select, textarea {
     gap: 0.8rem;
   }
 
-  .iso-pin {
-    font-size: 0.68rem;
-    padding: 0.3rem 0.65rem;
-  }
-
-  .hud-phase-pill, .hud-metric-pill {
-    font-size: 0.68rem;
-    padding: 0.35rem 0.75rem;
-  }
-
+  /* Grid simétrico 2x2 para el flujo de eslogan sin flechas partidas */
   .iso-slogan-flow {
-    gap: 0.35rem;
-    padding: 0.8rem 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    padding: 0.75rem 0.6rem;
+  }
+
+  .slogan-flow-arrow {
+    display: none !important;
   }
 
   .slogan-flow-item {
-    padding: 0.35rem 0.6rem;
+    padding: 0.45rem 0.5rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .slogan-title {
@@ -2349,8 +2405,22 @@ button, input, select, textarea {
     grid-template-columns: 1fr;
   }
 
+  /* Contenedor compacto de Google Forms sin espacio en blanco vacío */
   .forms-iframe-holder {
-    height: 720px;
+    height: 380px !important;
+  }
+
+  .google-form-direct-callout {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .btn-open-gform-cta {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 
   .postulation-grid-2 {
