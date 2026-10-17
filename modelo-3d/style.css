@@ -101,27 +101,30 @@ html, body {
    ========================================================================== */
 .project-pill-badge {
   position: absolute;
-  top: 20px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 8px 20px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 10px 24px;
+  border-radius: 16px; /* Squircle moderno con esquinas cómodas */
+  border: 1px solid rgba(197, 168, 128, 0.35);
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.25);
   pointer-events: none;
   text-align: center;
+  width: auto;
+  max-width: 92%;
 }
 
 .pill-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
+  min-width: 9px;
   border-radius: 50%;
   background: #10b981; /* Verde esmeralda vivo */
   box-shadow: 0 0 10px #10b981;
@@ -136,21 +139,24 @@ html, body {
 .pill-text-col {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  align-items: center;
 }
 
 .pill-title {
   font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   color: #fbbf24; /* Dorado */
   text-transform: uppercase;
+  line-height: 1.25;
 }
 
 .pill-sub {
-  font-size: 0.68rem;
-  color: #e2e8f0;
+  font-size: 0.72rem;
+  color: #f1f5f9;
   font-weight: 500;
+  line-height: 1.35;
 }
 
 /* ==========================================================================
@@ -176,16 +182,21 @@ html, body {
   }
 
   .project-pill-badge {
-    top: 14px;
-    padding: 6px 14px;
-    max-width: 85%;
+    top: 10px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    gap: 10px;
+    max-width: 94%;
+    background: rgba(15, 23, 42, 0.94);
   }
 
   .pill-title {
-    font-size: 0.68rem;
+    font-size: 0.70rem;
+    letter-spacing: 0.03em;
   }
 
   .pill-sub {
-    font-size: 0.6rem;
+    font-size: 0.66rem;
+    line-height: 1.3;
   }
 }

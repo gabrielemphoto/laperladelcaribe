@@ -177,16 +177,18 @@ function initHeroWordRotator() {
   }, 2000); // bucle fluido de 2 segundos exactos
 }
 
-/* ================= 2. Interactive 3D Model Viewport ================= */
-function initInteractiveModel3D() {
-  const iframe = document.getElementById('model-3d-iframe');
-  if (!iframe) return;
+import { Viewer3DApp } from '../../modelo-3d/main.js';
 
-  // El visor 3D gestiona internamente sus fases, animaciones y controles autónomos.
-  window.addEventListener('message', (e) => {
-    if (!e.data) return;
-    // Manejo pasivo de eventos emitidos por el modelo 3D
-  });
+/* ================= 2. Interactive 3D Model Integrated Viewport ================= */
+function initInteractiveModel3D() {
+  const container = document.getElementById('interactive-3d-canvas-wrap');
+  if (!container) return;
+
+  try {
+    new Viewer3DApp(container);
+  } catch (err) {
+    console.error('Error al inicializar el visor 3D integrado:', err);
+  }
 }
 
 /* ================= 3. Leaflet Investment Heatmap ================= */
