@@ -435,23 +435,55 @@ function initHorizontalMuniSlider() {
   const track = document.getElementById('muni-horizontal-track');
   const prevBtn = document.getElementById('muni-prev-btn');
   const nextBtn = document.getElementById('muni-next-btn');
-  const dots = document.querySelectorAll('#muni-carousel-dots .muni-dot');
+  const dotsContainer = document.getElementById('muni-carousel-dots');
   const cards = document.querySelectorAll('.muni-card-beige');
   if (!viewport || !track || !cards.length) return;
 
-  let currentIndex = 0;
+  let currentPage = 0;
   const total = cards.length;
   let isHovered = false;
   let isDragging = false;
   let startX = 0;
 
+  const getVisibleCount = () => {
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
+  };
+
+  const getTotalPages = () => {
+    return Math.ceil(total / getVisibleCount());
+  };
+
+  const renderDots = () => {
+    if (!dotsContainer) return;
+    const totalPages = getTotalPages();
+    if (currentPage >= totalPages) currentPage = totalPages - 1;
+
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < totalPages; i++) {
+      const dot = document.createElement('span');
+      dot.className = `muni-dot${i === currentPage ? ' active' : ''}`;
+      dot.dataset.page = i;
+      dot.setAttribute('role', 'button');
+      dot.setAttribute('aria-label', `Página ${i + 1} de ${totalPages}`);
+      dot.addEventListener('click', () => {
+        updateSlider(i, true);
+      });
+      dotsContainer.appendChild(dot);
+    }
+  };
+
   const getMaxScroll = () => {
     return Math.max(0, track.scrollWidth - viewport.clientWidth);
   };
 
-  const updateSlider = (index, smooth = true) => {
-    currentIndex = Math.min(Math.max(0, index), total - 1);
-    const targetCard = cards[currentIndex];
+  const updateSlider = (pageIndex, smooth = true) => {
+    const totalPages = getTotalPages();
+    currentPage = Math.min(Math.max(0, pageIndex), totalPages - 1);
+    const visible = getVisibleCount();
+    const firstCardIndex = Math.min(currentPage * visible, total - 1);
+    const targetCard = cards[firstCardIndex];
     if (!targetCard) return;
 
     const maxScroll = getMaxScroll();
@@ -461,8 +493,9 @@ function initHorizontalMuniSlider() {
     track.style.transition = smooth ? 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)' : 'none';
     track.style.transform = `translateX(-${targetOffset}px)`;
 
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentIndex);
+    const dots = dotsContainer?.querySelectorAll('.muni-dot');
+    dots?.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentPage);
     });
 
     const zoneId = targetCard.dataset.zone;
@@ -474,7 +507,10 @@ function initHorizontalMuniSlider() {
   const scrollToZone = (zoneId) => {
     const cardIdx = Array.from(cards).findIndex(c => c.dataset.zone === zoneId);
     if (cardIdx !== -1) {
-      updateSlider(cardIdx, true);
+      const visible = getVisibleCount();
+      const targetPage = Math.min(Math.floor(cardIdx / visible), getTotalPages() - 1);
+      updateSlider(targetPage, true);
+      highlightMuniCard(zoneId);
     }
   };
 
@@ -493,25 +529,21 @@ function initHorizontalMuniSlider() {
           }, 600);
         }
       }
-      updateSlider(idx, true);
+      const visible = getVisibleCount();
+      const targetPage = Math.min(Math.floor(idx / visible), getTotalPages() - 1);
+      updateSlider(targetPage, true);
     });
   });
 
   // Flechas inferiores
   prevBtn?.addEventListener('click', () => {
-    updateSlider(currentIndex > 0 ? currentIndex - 1 : total - 1, true);
+    const totalPages = getTotalPages();
+    updateSlider((currentPage - 1 + totalPages) % totalPages, true);
   });
 
   nextBtn?.addEventListener('click', () => {
-    updateSlider(currentIndex < total - 1 ? currentIndex + 1 : 0, true);
-  });
-
-  // Dots
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = parseInt(dot.dataset.index, 10);
-      updateSlider(idx, true);
-    });
+    const totalPages = getTotalPages();
+    updateSlider((currentPage + 1) % totalPages, true);
   });
 
   // Pausa en hover
@@ -530,10 +562,11 @@ function initHorizontalMuniSlider() {
     isDragging = false;
     const diff = startX - e.changedTouches[0].pageX;
     if (Math.abs(diff) > 40) {
+      const totalPages = getTotalPages();
       if (diff > 0) {
-        updateSlider(currentIndex < total - 1 ? currentIndex + 1 : 0, true);
+        updateSlider((currentPage + 1) % totalPages, true);
       } else {
-        updateSlider(currentIndex > 0 ? currentIndex - 1 : total - 1, true);
+        updateSlider((currentPage - 1 + totalPages) % totalPages, true);
       }
     }
     setTimeout(() => { isHovered = false; }, 2500);
@@ -542,18 +575,25 @@ function initHorizontalMuniSlider() {
   // Auto-avance suave continuo
   setInterval(() => {
     if (!isHovered && !isDragging) {
-      updateSlider(currentIndex < total - 1 ? currentIndex + 1 : 0, true);
+      const totalPages = getTotalPages();
+      updateSlider((currentPage + 1) % totalPages, true);
     }
   }, 4800);
 
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    updateSlider(currentIndex, false);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      renderDots();
+      updateSlider(currentPage, false);
+    }, 100);
   }, { passive: true });
 
   // Exponer para mapa Leaflet
   window.scrollMuniToZone = scrollToZone;
 
-  // Iniciar en primer municipio
+  // Iniciar render de dots y slider
+  renderDots();
   updateSlider(0, false);
 }
 
@@ -563,47 +603,63 @@ function initPersonalShopperCarousel() {
   const track = document.getElementById('workflow-track');
   const prevBtn = document.getElementById('workflow-prev-btn');
   const nextBtn = document.getElementById('workflow-next-btn');
-  const dots = document.querySelectorAll('#workflow-dots .workflow-dot');
+  const dotsContainer = document.getElementById('workflow-dots');
   const slides = document.querySelectorAll('.workflow-slide');
   if (!viewport || !track || !slides.length) return;
 
-  let currentStep = 0;
+  let currentPage = 0;
   const total = slides.length;
 
   const getVisibleCount = () => {
     return window.innerWidth >= 768 ? 2 : 1;
   };
 
-  const getMaxStep = () => {
-    const visible = getVisibleCount();
-    return Math.max(0, total - visible);
+  const getTotalPages = () => {
+    return Math.ceil(total / getVisibleCount());
   };
 
-  const updateCarousel = (index) => {
-    const max = getMaxStep();
-    currentStep = Math.min(Math.max(0, index), max);
+  const renderDots = () => {
+    if (!dotsContainer) return;
+    const totalPages = getTotalPages();
+    if (currentPage >= totalPages) currentPage = totalPages - 1;
 
-    const slideWidth = 100 / getVisibleCount();
-    track.style.transform = `translateX(-${currentStep * slideWidth}%)`;
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < totalPages; i++) {
+      const dot = document.createElement('span');
+      dot.className = `workflow-dot${i === currentPage ? ' active' : ''}`;
+      dot.dataset.page = i;
+      dot.setAttribute('role', 'button');
+      dot.setAttribute('aria-label', `Página ${i + 1} de ${totalPages}`);
+      dot.addEventListener('click', () => {
+        updateCarousel(i);
+      });
+      dotsContainer.appendChild(dot);
+    }
+  };
 
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentStep);
+  const updateCarousel = (pageIndex) => {
+    const totalPages = getTotalPages();
+    currentPage = Math.min(Math.max(0, pageIndex), totalPages - 1);
+
+    // En escritorio (>=768px): cada slide es 50%, 2 slides = 100% ancho total -> desplazamiento por página de 100%
+    // En móvil (<768px): cada slide es 100% -> desplazamiento por página de 100%
+    track.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+    track.style.transform = `translateX(-${currentPage * 100}%)`;
+
+    const dots = dotsContainer?.querySelectorAll('.workflow-dot');
+    dots?.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentPage);
     });
   };
 
   prevBtn?.addEventListener('click', () => {
-    updateCarousel(currentStep > 0 ? currentStep - 1 : getMaxStep());
+    const totalPages = getTotalPages();
+    updateCarousel((currentPage - 1 + totalPages) % totalPages);
   });
 
   nextBtn?.addEventListener('click', () => {
-    updateCarousel(currentStep < getMaxStep() ? currentStep + 1 : 0);
-  });
-
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const step = parseInt(dot.dataset.step, 10);
-      updateCarousel(step);
-    });
+    const totalPages = getTotalPages();
+    updateCarousel((currentPage + 1) % totalPages);
   });
 
   // Swipe táctil en móvil
@@ -620,19 +676,26 @@ function initPersonalShopperCarousel() {
     isSwiping = false;
     const diff = startX - e.changedTouches[0].pageX;
     if (Math.abs(diff) > 40) {
+      const totalPages = getTotalPages();
       if (diff > 0) {
-        updateCarousel(currentStep < getMaxStep() ? currentStep + 1 : 0);
+        updateCarousel((currentPage + 1) % totalPages);
       } else {
-        updateCarousel(currentStep > 0 ? currentStep - 1 : getMaxStep());
+        updateCarousel((currentPage - 1 + totalPages) % totalPages);
       }
     }
   });
 
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    updateCarousel(currentStep);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      renderDots();
+      updateCarousel(currentPage);
+    }, 100);
   }, { passive: true });
 
-  // Iniciar en primer slide
+  // Iniciar render de dots y carrusel
+  renderDots();
   updateCarousel(0);
 }
 

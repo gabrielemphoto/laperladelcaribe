@@ -443,12 +443,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <div class="muni-carousel-dots" id="muni-carousel-dots">
-            <span class="muni-dot active" data-index="0"></span>
-            <span class="muni-dot" data-index="1"></span>
-            <span class="muni-dot" data-index="2"></span>
-            <span class="muni-dot" data-index="3"></span>
-            <span class="muni-dot" data-index="4"></span>
-            <span class="muni-dot" data-index="5"></span>
+            <span class="muni-dot active" data-page="0" role="button" aria-label="Página 1 de 2"></span>
+            <span class="muni-dot" data-page="1" role="button" aria-label="Página 2 de 2"></span>
           </div>
           <button class="muni-arrow-btn" id="muni-next-btn" aria-label="Siguiente Zona" title="Siguiente Zona">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -502,22 +498,14 @@
             Conectamos tu propiedad directamente con inversores y compradores internacionales. Auditoría técnica y legal sin coste en Isla de Margarita.
           </p>
 
-          <!-- 2 Botones Solicitados: Postular (Google Form) y WhatsApp (con mensaje exacto) -->
+          <!-- Botón de Postulación a Google Forms -->
           <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
             <a href="https://forms.gle/feom29XWzAGYdLfg7" 
                target="_blank" 
                rel="noopener noreferrer" 
                class="btn btn-gold" 
-               style="padding: 0.85rem 1.8rem; font-size: 0.92rem; font-weight: 700; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(212, 160, 23, 0.35);">
+               style="padding: 0.85rem 2rem; font-size: 0.95rem; font-weight: 700; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(212, 160, 23, 0.35);">
               <span>📋 Postular en Google Forms ↗</span>
-            </a>
-
-            <a href="https://api.whatsapp.com/send?phone=34676597068&text=tengo%20una%20propiedad%20que%20quiero%20vender%20o%20postular%20para%20vender" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="btn btn-sunset" 
-               style="padding: 0.85rem 1.8rem; font-size: 0.92rem; font-weight: 700; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(255, 122, 0, 0.3);">
-              <span>💬 Enviar por WhatsApp</span>
             </a>
           </div>
         </div>
@@ -699,10 +687,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <div class="workflow-dots" id="workflow-dots">
-            <span class="workflow-dot active" data-step="0"></span>
-            <span class="workflow-dot" data-step="1"></span>
-            <span class="workflow-dot" data-step="2"></span>
-            <span class="workflow-dot" data-step="3"></span>
+            <span class="workflow-dot active" data-page="0" role="button" aria-label="Página 1 de 2"></span>
+            <span class="workflow-dot" data-page="1" role="button" aria-label="Página 2 de 2"></span>
           </div>
           <button class="workflow-nav-arrow" id="workflow-next-btn" aria-label="Paso Siguiente">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -954,6 +940,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Script Principal con Cache-Buster -->
-  <script type="module" src="assets/js/main.js?v=3.9"></script>
+  <script type="module" src="assets/js/main.js?v=4.0"></script>
 </body>
 </html>
