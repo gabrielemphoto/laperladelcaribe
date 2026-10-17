@@ -512,40 +512,36 @@ function initGeneralModals() {
 /* ================= 6. Postulación de Propiedades (Directo & Google Forms) ================= */
 function initGoogleFormSection() {
   const form = document.getElementById('property-direct-postulation-form');
-  const customUrlBtn = document.getElementById('btn-apply-google-url');
-  const customUrlInput = document.getElementById('input-google-form-url');
+  const tabGoogle = document.getElementById('tab-btn-google-form');
+  const tabDirect = document.getElementById('tab-btn-direct-form');
   const iframeHolder = document.getElementById('google-form-iframe-wrap');
   const directFormHolder = document.getElementById('property-direct-form-wrap');
   const iframeEl = document.getElementById('google-forms-live-frame');
 
-  // Si hay una URL de Google Forms guardada previamente en localStorage, cargarla
-  try {
-    const savedUrl = localStorage.getItem('laperla_google_forms_url');
-    if (savedUrl && iframeEl && iframeHolder && directFormHolder) {
-      iframeEl.src = savedUrl;
+  const GOOGLE_FORMS_EMBED_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfwykXEqjDewDMoEnmDlJEFr7RbxYodhzhnuDohCcunplARQw/viewform?embedded=true';
+
+  if (iframeEl && (!iframeEl.src || iframeEl.src === window.location.href)) {
+    iframeEl.src = GOOGLE_FORMS_EMBED_URL;
+  }
+
+  // Pestañas para alternar entre el formulario incrustado de Google Forms y el de WhatsApp
+  if (tabGoogle && tabDirect && iframeHolder && directFormHolder) {
+    tabGoogle.addEventListener('click', () => {
+      tabGoogle.classList.add('btn-gold', 'active');
+      tabGoogle.classList.remove('btn-outline-glass');
+      tabDirect.classList.remove('btn-gold', 'active');
+      tabDirect.classList.add('btn-outline-glass');
       iframeHolder.style.display = 'block';
       directFormHolder.style.display = 'none';
-    }
-  } catch (err) {}
+    });
 
-  // Permitir pegar una URL de Google Forms para probar en vivo
-  if (customUrlBtn && customUrlInput) {
-    customUrlBtn.addEventListener('click', () => {
-      const url = customUrlInput.value.trim();
-      if (url.startsWith('https://docs.google.com/forms/')) {
-        let embedUrl = url;
-        if (!embedUrl.includes('embedded=true')) {
-          embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'embedded=true';
-        }
-        try {
-          localStorage.setItem('laperla_google_forms_url', embedUrl);
-        } catch (e) {}
-        if (iframeEl) iframeEl.src = embedUrl;
-        if (iframeHolder) iframeHolder.style.display = 'block';
-        if (directFormHolder) directFormHolder.style.display = 'none';
-      } else {
-        alert('Por favor ingresa una URL válida de Google Forms (https://docs.google.com/forms/...)');
-      }
+    tabDirect.addEventListener('click', () => {
+      tabDirect.classList.add('btn-gold', 'active');
+      tabDirect.classList.remove('btn-outline-glass');
+      tabGoogle.classList.remove('btn-gold', 'active');
+      tabGoogle.classList.add('btn-outline-glass');
+      iframeHolder.style.display = 'none';
+      directFormHolder.style.display = 'block';
     });
   }
 
