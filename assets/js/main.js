@@ -403,7 +403,7 @@ function initHeroLeadForm() {
           `*Presupuesto:* ${budget}\n` +
           `*Interés:* ${projectType}`
         );
-        window.open(`https://api.whatsapp.com/send?phone=584120000000&text=${waMsg}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
         form.reset();
         if (submitBtn) {
           submitBtn.innerHTML = originalText;
@@ -421,7 +421,7 @@ function initHeroLeadForm() {
         `*Presupuesto:* ${budget}\n` +
         `*Interés:* ${projectType}`
       );
-      window.open(`https://api.whatsapp.com/send?phone=584120000000&text=${waMsg}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
       form.reset();
       if (submitBtn) {
         submitBtn.innerHTML = originalText;
@@ -442,5 +442,5 @@ window.openPropertyDetail = function(id) {
     `*Precio:* ${prop.price}\n` +
     `*Tipo:* ${prop.typeName}`
   );
-  window.open(`https://api.whatsapp.com/send?phone=584120000000&text=${waMsg}`, '_blank');
+  window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
 };

@@ -37,19 +37,17 @@
       <nav>
         <ul class="nav-links">
           <li><a href="#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
-          <li><a href="#mapa-margarita" class="nav-link">Mapa Google &amp; Mercado</a></li>
+          <li><a href="#mapa-margarita" class="nav-link">Mapa Google &amp; Zonas</a></li>
+          <li><a href="marketplace/" class="nav-link" style="color: var(--c-gold-light); font-weight: 700;">🏬 Marketplace</a></li>
           <li><a href="#comparativa" class="nav-link">Comparativa ROI</a></li>
           <li><a href="#contacto" class="nav-link">Contacto</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <button class="btn btn-outline-glass" id="btn-open-vip">
-          <span>🌟 Comunidad VIP</span>
-        </button>
-        <button class="btn btn-gold btn-open-call">
-          <span>Agendar Llamada</span>
-        </button>
+        <a href="marketplace/" class="btn btn-sunset" style="padding: 0.6rem 1rem; font-size: 0.8rem;">
+          <span>Ver Marketplace</span>
+        </a>
         <button class="mobile-menu-btn" aria-label="Abrir Menú" aria-expanded="false">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
@@ -89,16 +87,16 @@
 
         <!-- Botones de Acción -->
         <div class="hero-cta-row">
-          <button class="btn btn-sunset" onclick="document.getElementById('modal-vip').classList.add('open')">
-            <span>🌟 Unirse a la Comunidad VIP de Inversores</span>
-          </button>
-          <button class="btn btn-outline-gold btn-open-call">
-            <span>📅 Agendar Llamada Estratégica</span>
-          </button>
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-sunset">
+            <span>🌟 Contactar a Miguel Ángel por WhatsApp</span>
+          </a>
+          <a href="marketplace/" class="btn btn-outline-gold">
+            <span>🏬 Explorar Marketplace de Terrenos &amp; Propiedades</span>
+          </a>
         </div>
       </div>
 
-      <!-- ================= CINEMATIC STAGE (ROCK-SOLID CAROUSEL) ================= -->
+      <!-- ================= CINEMATIC STAGE ================= -->
       <div class="cinematic-stage-card">
         <!-- Navegación por Pestañas Arriba -->
         <div class="stage-tabs-header">
@@ -123,10 +121,10 @@
             <div class="slide-media-box">
               <img src="assets/images/margarita-beachfront-land.jpg" alt="Terreno Costero Virgen en Margarita" class="slide-img">
               <div class="slide-media-overlay"></div>
-              <div class="slide-tag-corner">
+              
+              <!-- Badges Container (Non-overlapping) -->
+              <div class="slide-badges-bar">
                 <span class="glass-pill sunset">📍 01. Terreno Frente al Mar</span>
-              </div>
-              <div class="slide-price-corner">
                 <span class="glass-pill gold">Desde $45,000 USD (-65% vs España)</span>
               </div>
             </div>
@@ -151,10 +149,9 @@
             <div class="slide-media-box">
               <img src="assets/images/margarita-sunset-villa.jpg" alt="Villa y Hotel en Construcción" class="slide-img">
               <div class="slide-media-overlay"></div>
-              <div class="slide-tag-corner">
+              
+              <div class="slide-badges-bar">
                 <span class="glass-pill sunset">🏗️ 02. Construcción a Medida</span>
-              </div>
-              <div class="slide-price-corner">
                 <span class="glass-pill gold">$380 - $550 USD / m² (0% Aranceles ZEE)</span>
               </div>
             </div>
@@ -179,10 +176,9 @@
             <div class="slide-media-box">
               <img src="assets/images/margarita-lifestyle-enjoy.jpg" alt="Personas disfrutando al atardecer y rentas" class="slide-img">
               <div class="slide-media-overlay"></div>
-              <div class="slide-tag-corner">
+              
+              <div class="slide-badges-bar">
                 <span class="glass-pill sunset">🥂 03. Recoge tus Ganancias</span>
-              </div>
-              <div class="slide-price-corner">
                 <span class="glass-pill gold">ROI Estimado: 18% - 24% Anual</span>
               </div>
             </div>
@@ -273,7 +269,7 @@
     </div>
   </section>
 
-  <!-- ================= GOOGLE MAPS & MARKETPLACE SECTION ================= -->
+  <!-- ================= GOOGLE MAPS & MARKETPLACE ENTRY SECTION ================= -->
   <section class="section section-alt" id="mapa-margarita">
     <div class="container">
       <div class="section-head">
@@ -282,7 +278,7 @@
           Ubicaciones Clave en <span class="italic-serif text-sunset">Isla de Margarita</span>
         </h2>
         <p class="section-desc">
-          Explora la isla directamente en el mapa satelital de Google. Selecciona una zona para enfocar el mapa y ver las propiedades disponibles.
+          Explora la isla en Google Maps. Selecciona una zona para enfocar el mapa y acceder al catálogo de terrenos e inmuebles de cada sector.
         </p>
       </div>
 
@@ -294,12 +290,12 @@
           </div>
           
           <div class="map-chips-row">
-            <button class="map-chip-btn active" data-map-q="Isla+de+Margarita,+Nueva+Esparta,+Venezuela" data-zone="all">🗺️ Toda Margarita</button>
-            <button class="map-chip-btn" data-map-q="Pampatar,+Nueva+Esparta,+Venezuela" data-zone="pampatar">📍 Pampatar</button>
-            <button class="map-chip-btn" data-map-q="Playa+El+Yaque,+Nueva+Esparta,+Venezuela" data-zone="el-yaque">📍 Playa El Yaque</button>
-            <button class="map-chip-btn" data-map-q="Costa+Azul,+Porlamar,+Nueva+Esparta,+Venezuela" data-zone="costa-azul">📍 Costa Azul</button>
-            <button class="map-chip-btn" data-map-q="Playa+El+Agua,+Nueva+Esparta,+Venezuela" data-zone="playa-el-agua">📍 Playa El Agua</button>
-            <button class="map-chip-btn" data-map-q="Peninsula+de+Macanao,+Nueva+Esparta,+Venezuela" data-zone="macanao">📍 Macanao</button>
+            <button class="map-chip-btn active" data-map-q="Isla+de+Margarita,+Nueva+Esparta,+Venezuela">🗺️ Toda Margarita</button>
+            <button class="map-chip-btn" data-map-q="Pampatar,+Nueva+Esparta,+Venezuela">📍 Pampatar</button>
+            <button class="map-chip-btn" data-map-q="Playa+El+Yaque,+Nueva+Esparta,+Venezuela">📍 Playa El Yaque</button>
+            <button class="map-chip-btn" data-map-q="Costa+Azul,+Porlamar,+Nueva+Esparta,+Venezuela">📍 Costa Azul</button>
+            <button class="map-chip-btn" data-map-q="Playa+El+Agua,+Nueva+Esparta,+Venezuela">📍 Playa El Agua</button>
+            <button class="map-chip-btn" data-map-q="Peninsula+de+Macanao,+Nueva+Esparta,+Venezuela">📍 Macanao</button>
           </div>
         </div>
 
@@ -315,27 +311,48 @@
         </div>
       </div>
 
-      <!-- Barra de Filtros & Botón de Google Forms -->
-      <div class="marketplace-bar" id="marketplace-sec">
-        <div class="type-filter-group">
-          <button class="type-filter-pill active" data-type="all">Todos los Activos</button>
-          <button class="type-filter-pill" data-type="terreno">Terrenos &amp; Parcelas</button>
-          <button class="type-filter-pill" data-type="villa">Villas &amp; Casas</button>
-          <button class="type-filter-pill" data-type="hotel">Hoteles &amp; Posadas</button>
-        </div>
+      <!-- Puntos de Acceso Rápido por Zona hacia el Marketplace -->
+      <div class="zone-links-grid">
+        <a href="marketplace/?zone=pampatar" class="zone-link-card">
+          <strong>Pampatar</strong>
+          <span>Ver Terrenos &amp; Villas ↗</span>
+        </a>
+        <a href="marketplace/?zone=el-yaque" class="zone-link-card">
+          <strong>Playa El Yaque</strong>
+          <span>Ver Posadas &amp; Lotes ↗</span>
+        </a>
+        <a href="marketplace/?zone=costa-azul" class="zone-link-card">
+          <strong>Costa Azul</strong>
+          <span>Ver Condominios ↗</span>
+        </a>
+        <a href="marketplace/?zone=playa-el-agua" class="zone-link-card">
+          <strong>Playa El Agua</strong>
+          <span>Ver Macro Parcelas ↗</span>
+        </a>
+        <a href="marketplace/?zone=macanao" class="zone-link-card">
+          <strong>Península de Macanao</strong>
+          <span>Ver Lotes Ecoturismo ↗</span>
+        </a>
+      </div>
 
-        <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
-          <span id="marketplace-count" style="font-size: 0.82rem; color: var(--c-text-muted);">Cargando...</span>
-          <button class="btn btn-sunset" id="btn-open-google-form" style="padding: 0.6rem 1rem;">
+      <!-- REEMPLAZO DE LA PARRILLA: TARJETA DE ACCESO AL MARKETPLACE -->
+      <div class="marketplace-cta-banner">
+        <div class="marketplace-cta-icon">🏬</div>
+        <h3>Marketplace Exclusivo de Propiedades &amp; Terrenos</h3>
+        <p>
+          Hemos trasladado todas las fichas de terrenos, parcelas frente a la playa, condominios y posadas boutique a una sección dedicada con filtros por zona, precios y retorno de inversión en tiempo real.
+        </p>
+
+        <div class="marketplace-cta-buttons">
+          <a href="marketplace/" class="btn btn-sunset" style="padding: 1rem 1.8rem; font-size: 0.95rem;">
+            <span>🏬 Explorar el Marketplace Completo ↗</span>
+          </a>
+          <button class="btn btn-outline-gold" id="btn-open-google-form" style="padding: 1rem 1.8rem;">
             <span>📋 Postular Mi Propiedad (Google Forms)</span>
           </button>
         </div>
       </div>
 
-      <!-- Marketplace Cards Grid -->
-      <div class="marketplace-grid" id="marketplace-grid">
-        <!-- Renderizado dinámicamente vía assets/js/main.js -->
-      </div>
     </div>
   </section>
 
@@ -471,9 +488,9 @@
         </div>
 
         <div style="text-align: center; margin-top: 1.5rem;">
-          <button class="btn btn-gold btn-open-call">
-            <span>Solicitar Corrida Financiera Detallada</span>
-          </button>
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-gold">
+            <span>Solicitar Corrida Financiera Detallada vía WhatsApp</span>
+          </a>
         </div>
       </div>
     </div>
@@ -512,14 +529,14 @@
               <span style="font-size: 1.3rem;">💬</span>
               <div>
                 <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim);">WhatsApp</span>
-                <strong style="display: block; font-size: 0.88rem; color: #ffffff;">+58 412 000-0000</strong>
+                <strong style="display: block; font-size: 0.88rem; color: #ffffff;">+34 676 59 70 68</strong>
               </div>
             </div>
           </div>
 
-          <button class="btn btn-sunset btn-open-call" style="width: 100%; margin-top: 1.8rem;">
-            <span>Agendar Llamada con Miguel Ángel</span>
-          </button>
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-sunset" style="width: 100%; margin-top: 1.8rem;">
+            <span>Chatear por WhatsApp con Miguel Ángel</span>
+          </a>
         </div>
 
         <div class="glass-panel" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border-color: var(--glass-border-gold);">
@@ -548,7 +565,7 @@
     </div>
   </section>
 
-  <!-- ================= MODAL: GOOGLE FORMS INTEGRATION ================= -->
+  <!-- ================= MODAL: GOOGLE FORMS ================= -->
   <div class="modal-overlay" id="modal-google-forms">
     <div class="modal-box modal-large">
       <button class="modal-close-btn" id="close-google-forms-modal" aria-label="Cerrar modal">&times;</button>
@@ -557,18 +574,18 @@
         <div class="glass-pill sunset" style="margin-bottom: 0.4rem;">Formulario Oficial de Google Forms</div>
         <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Postula tu Terreno o Propiedad</h3>
         <p style="color: var(--c-text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
-          Ingresa los datos de tu inmueble (dirección, estatus de construcción, papeles en regla, precio en USD y fotos). Se registrará automáticamente en la base de datos de Miguel Ángel.
+          Ingresa los datos de tu inmueble (dirección, estatus de construcción, papeles en regla, precio en USD y fotos).
         </p>
       </div>
 
       <!-- GOOGLE FORM EMBED CONTAINER -->
-      <div style="background: rgba(6, 9, 14, 0.95); border: 1px solid var(--glass-border); border-radius: var(--radius-md); overflow: hidden; min-height: 480px; position: relative;">
-        <!-- NOTA PARA EL CLIENTE: Reemplaza este iframe con el link 'embed' de tu propio Google Forms -->
+      <div style="background: rgba(6, 9, 14, 0.95); border: 1px solid var(--glass-border); border-radius: var(--radius-md); overflow: hidden; min-height: 440px; position: relative;">
+        <!-- Reemplaza con tu URL de Google Forms con ?embedded=true -->
         <iframe 
           id="google-form-embed-frame"
           src="https://docs.google.com/forms/d/e/1FAIpQLScP-placeholder/viewform?embedded=true" 
           width="100%" 
-          height="500" 
+          height="460" 
           frameborder="0" 
           marginheight="0" 
           marginwidth="0"
@@ -576,14 +593,14 @@
           Cargando formulario oficial de Google Forms...
         </iframe>
 
-        <!-- Fallback amigable si aún no han configurado el ID del Google Form -->
+        <!-- Fallback WhatsApp -->
         <div id="google-form-fallback" style="padding: 1.8rem; text-align: center;">
-          <div style="font-size: 2.2rem; margin-bottom: 0.6rem;">📋</div>
-          <h4 style="font-size: 1.15rem; color: #ffffff; margin-bottom: 0.4rem;">Conexión Lista para tu Google Form</h4>
-          <p style="color: var(--c-text-muted); font-size: 0.85rem; max-width: 500px; margin: 0 auto 1.2rem auto;">
-            Para vincular tu formulario de Google Forms, solo copia el enlace de 'Insertar HTML' de tu Google Form y pégalo en el archivo <code>index.html</code> (línea 388). Mientras tanto, puedes postular directamente por WhatsApp:
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📋</div>
+          <h4 style="font-size: 1.15rem; color: #ffffff; margin-bottom: 0.4rem;">Postulación de Inmuebles</h4>
+          <p style="color: var(--c-text-muted); font-size: 0.85rem; max-width: 480px; margin: 0 auto 1.2rem auto;">
+            Puedes enviarnos los datos de tu terreno o propiedad directamente por WhatsApp con fotos y precio pretendido:
           </p>
-          <a href="https://api.whatsapp.com/send?phone=584120000000&text=Hola%20Miguel%20%C3%81ngel%2C%20deseo%20postular%20un%20terreno%20o%20propiedad%20en%20Margarita" 
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
              target="_blank" 
              class="btn btn-sunset" 
              style="padding: 0.8rem 1.4rem;">
@@ -591,69 +608,6 @@
           </a>
         </div>
       </div>
-
-      <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        <span style="font-size: 0.75rem; color: var(--c-text-dim);">Google Forms &bull; Integración Segura</span>
-        <a href="https://docs.google.com/forms" target="_blank" style="color: var(--c-gold-light); font-size: 0.8rem; text-decoration: underline;">
-          Abrir en pestaña nueva ↗
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= MODAL: COMUNIDAD VIP ================= -->
-  <div class="modal-overlay" id="modal-vip">
-    <div class="modal-box">
-      <button class="modal-close-btn" id="close-vip-modal" aria-label="Cerrar modal">&times;</button>
-      
-      <div style="margin-bottom: 1.2rem;">
-        <div class="glass-pill gold" style="margin-bottom: 0.4rem;">Accredited Investors</div>
-        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Comunidad VIP de Inversiones</h3>
-        <p style="color: var(--c-text-muted); font-size: 0.85rem;">Acceso anticipado a oportunidades off-market antes de que se publiquen en el mercado abierto.</p>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
-        <div style="display: flex; gap: 0.6rem; align-items: flex-start;">
-          <span style="color: var(--c-gold); font-weight: 800;">✓</span>
-          <span style="font-size: 0.85rem; color: var(--c-text-muted);">Alertas instantáneas de terrenos con descuentos de hasta 40% por oportunidad.</span>
-        </div>
-        <div style="display: flex; gap: 0.6rem; align-items: flex-start;">
-          <span style="color: var(--c-gold); font-weight: 800;">✓</span>
-          <span style="font-size: 0.85rem; color: var(--c-text-muted);">Informes trimestrales de rendimientos hoteleros y plusvalía en Pampatar y El Yaque.</span>
-        </div>
-      </div>
-
-      <a href="https://api.whatsapp.com/send?phone=584120000000&text=Hola%20Miguel%20%C3%81ngel%2C%20deseo%20unirme%20a%20la%20Comunidad%20VIP%20de%20Inversores%20en%20Margarita" 
-         target="_blank" 
-         class="btn btn-gold" 
-         style="width: 100%; padding: 0.9rem;">
-        <span>Solicitar Ingreso vía WhatsApp</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- ================= MODAL: AGENDAR LLAMADA ================= -->
-  <div class="modal-overlay" id="modal-call">
-    <div class="modal-box">
-      <button class="modal-close-btn" id="close-call-modal" aria-label="Cerrar modal">&times;</button>
-      
-      <div style="margin-bottom: 1.2rem;">
-        <div class="glass-pill sunset" style="margin-bottom: 0.4rem;">Sesión 1 a 1</div>
-        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Agenda una Llamada</h3>
-        <p style="color: var(--c-text-muted); font-size: 0.85rem;">Conversa directamente con Miguel Ángel para evaluar tu perfil, presupuesto y terrenos disponibles.</p>
-      </div>
-
-      <div style="padding: 0.9rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
-        <strong style="color: #ffffff; display: block; margin-bottom: 0.2rem; font-size: 0.88rem;">Temas a tratar:</strong>
-        <span style="color: var(--c-text-muted); font-size: 0.8rem;">Precios reales por m², opciones de compra de parcelas, costos de obra llave en mano, rentabilidad estimada y marco jurídico para no residentes.</span>
-      </div>
-
-      <a href="https://api.whatsapp.com/send?phone=584120000000&text=Hola%20Miguel%20%C3%81ngel%2C%20quisiera%20agendar%20una%20llamada%20estrat%C3%A9gica%20para%20evaluar%20inversiones%20en%20Margarita" 
-         target="_blank" 
-         class="btn btn-sunset" 
-         style="width: 100%; padding: 0.9rem;">
-        <span>Agendar Horario por WhatsApp</span>
-      </a>
     </div>
   </div>
 
@@ -679,7 +633,7 @@
           <ul>
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#proceso">¿Cómo Trabajamos?</a></li>
-            <li><a href="#mapa-margarita">Mapa Google</a></li>
+            <li><a href="marketplace/">Marketplace Oficial</a></li>
             <li><a href="#comparativa">Comparativa ROI</a></li>
           </ul>
         </div>
@@ -687,10 +641,10 @@
         <div class="footer-col">
           <h4>Zonas Clave</h4>
           <ul>
-            <li><a href="#mapa-margarita">Pampatar &bull; Milla de Oro</a></li>
-            <li><a href="#mapa-margarita">Playa El Yaque &bull; Posadas</a></li>
-            <li><a href="#mapa-margarita">Costa Azul &bull; Porlamar</a></li>
-            <li><a href="#mapa-margarita">Playa El Agua &bull; Resorts</a></li>
+            <li><a href="marketplace/?zone=pampatar">Pampatar &bull; Milla de Oro</a></li>
+            <li><a href="marketplace/?zone=el-yaque">Playa El Yaque &bull; Posadas</a></li>
+            <li><a href="marketplace/?zone=costa-azul">Costa Azul &bull; Porlamar</a></li>
+            <li><a href="marketplace/?zone=playa-el-agua">Playa El Agua &bull; Resorts</a></li>
           </ul>
         </div>
 
@@ -698,7 +652,7 @@
           <h4>Contacto</h4>
           <ul>
             <li><a href="https://instagram.com/miguelangel.laperladelcaribe" target="_blank">Instagram: @miguelangel</a></li>
-            <li><a href="https://api.whatsapp.com/send?phone=584120000000" target="_blank">WhatsApp Directo</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank">WhatsApp: +34 676 59 70 68</a></li>
             <li><a href="#" id="footer-google-form-btn">Postular Propiedad (Google Forms)</a></li>
           </ul>
         </div>
@@ -715,14 +669,14 @@
     </div>
   </footer>
 
-  <!-- ================= STRICTLY CONSTRAINED WHATSAPP BUTTON ================= -->
-  <a href="https://api.whatsapp.com/send?phone=584120000000&text=Hola%20Miguel%20%C3%81ngel%2C%20deseo%20informaci%C3%B3n%20sobre%20inversiones%20y%20terrenos%20en%20Margarita" 
+  <!-- ================= PIXEL-PERFECT OFFICIAL WHATSAPP FLOATING BUTTON ================= -->
+  <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
      class="floating-whatsapp" 
      target="_blank" 
      rel="noopener noreferrer" 
      aria-label="Contactar a Miguel Ángel por WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24">
-      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41a8.17 8.17 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.53c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.25-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.17-.48-.29z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#ffffff">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
     </svg>
   </a>
 
