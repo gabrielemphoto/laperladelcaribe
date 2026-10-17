@@ -1,116 +1,100 @@
 /**
  * MIGUEL ANGEL - LA PERLA DEL CARIBE
  * Personal Shopper Inmobiliario & Constructor • Isla de Margarita
- * Lógica Interactiva: Google Maps, Google Forms Modal, Escenario Cinemático y Marketplace
+ * Lógica Principal: Mapa de Calor Leaflet, Escenario Cinemático y Navegación
  */
 
-// Catálogo base de propiedades en Isla de Margarita
-const DEFAULT_PROPERTIES = [
+const ZONES_DATA = [
   {
-    id: 'prop-1',
-    zone: 'pampatar',
-    zoneName: 'Pampatar',
-    type: 'terreno',
-    typeName: 'Terreno Frente al Mar',
-    title: 'Lote Estratégico Bahía de Pampatar',
-    desc: 'Terreno virgen con zonificación turística-residencial de alta densidad. Ideal para desarrollo de hotel boutique o complejo de villas privadas.',
-    specs: ['1,450 m² Terreno', 'Frente de Playa', 'Factibilidad de Pozo', 'Papeles 100% en Regla'],
-    price: '$85,000 USD',
-    roi: '22% Anual Est.',
-    status: 'disponible',
-    statusText: 'Disponible ZEE',
-    image: 'assets/images/margarita-beachfront-land.jpg'
+    id: 'pampatar',
+    name: 'Pampatar',
+    fullName: 'Pampatar (Milla de Oro)',
+    coords: [10.9986, -63.7981],
+    color: '#10b981',
+    badgeClass: 'green',
+    badge: 'Zona Premium / ZEE',
+    price: '$90 - $180 / m²',
+    roi: '18% - 22% Anual',
+    desc: 'Epicentro gastronómico y residencial de lujo. Terrenos y villas de autor con máxima demanda de alquiler internacional.',
+    pinColor: '#2563eb'
   },
   {
-    id: 'prop-2',
-    zone: 'pampatar',
-    zoneName: 'Pampatar (La Caranta)',
-    type: 'villa',
-    typeName: 'Villa de Lujo Llave en Mano',
-    title: 'Villa Sunset Horizon Pampatar',
-    desc: 'Arquitectura moderna de autor con piscina infinity, 4 suites, acabados en madera de teca y sistema solar autónomo 100%. Generando rentas en Airbnb Luxe.',
-    specs: ['420 m² Const.', '4 Suites', 'Piscina Infinity', 'Planta Eléctrica 100%'],
-    price: '$260,000 USD',
-    roi: '18% Anual Est.',
-    status: 'disponible',
-    statusText: 'Rentando $3,800/mes',
-    image: 'assets/images/margarita-sunset-villa.jpg'
+    id: 'el-yaque',
+    name: 'Playa El Yaque',
+    fullName: 'Playa El Yaque & Coche',
+    coords: [10.9023, -63.9635],
+    color: '#10b981',
+    badgeClass: 'green',
+    badge: 'Kitesurf & Posadas',
+    price: '$65 - $130 / m²',
+    roi: '20% - 25% Anual',
+    desc: 'Famoso meca internacional del windsurf y kitesurf con turismo europeo recurrente y alta tasa de ocupación hotelera.',
+    pinColor: '#2563eb'
   },
   {
-    id: 'prop-3',
-    zone: 'el-yaque',
-    zoneName: 'Playa El Yaque',
-    type: 'hotel',
-    typeName: 'Posada Boutique & Eco-Resort',
-    title: 'Eco-Resort Boutique El Yaque',
-    desc: 'Propiedad hotelera operativa de 12 cabañas de lujo con restaurante frente al mar, escuela de kitesurf y clientela internacional recurrente de Europa.',
-    specs: ['12 Suites', '1,800 m² Parcela', 'Licencia Turística ZEE', 'Ocupación 82%'],
-    price: '$390,000 USD',
-    roi: '21% Anual Est.',
-    status: 'negociacion',
-    statusText: 'En Negociación',
-    image: 'assets/images/margarita-boutique-hotel.jpg'
+    id: 'playa-el-agua',
+    name: 'Playa El Agua',
+    fullName: 'Playa El Agua & Manzanillo',
+    coords: [11.1448, -63.8617],
+    color: '#10b981',
+    badgeClass: 'green',
+    badge: 'Macro Parcelas ZEE',
+    price: '$35 - $80 / m²',
+    roi: '24% - 30% Plusvalía',
+    desc: 'Bulevar costero de más de 4 km. Macrolotes idóneos para resorts vacacionales y desarrollos con exenciones fiscales ZEE.',
+    pinColor: '#2563eb'
   },
   {
-    id: 'prop-4',
-    zone: 'costa-azul',
-    zoneName: 'Costa Azul',
-    type: 'villa',
-    typeName: 'Penthouse & Condominio',
-    title: 'Penthouse Miramar Costa Azul',
-    desc: 'Exclusivo ático con terraza panorámica de 360° a la bahía, acabados en mármol, pozo de agua propio y doble puesto techado en la zona comercial más segura.',
-    specs: ['280 m² Const.', '3 Habitaciones', 'Doble Balcón', 'Pozo Propio'],
-    price: '$135,000 USD',
-    roi: '15% Anual Est.',
-    status: 'disponible',
-    statusText: 'Disponible',
-    image: 'assets/images/margarita-lifestyle-enjoy.jpg'
+    id: 'costa-azul',
+    name: 'Costa Azul',
+    fullName: 'Porlamar / Costa Azul',
+    coords: [10.9577, -63.8504],
+    color: '#f59e0b',
+    badgeClass: 'yellow',
+    badge: 'Comercial & Condominios',
+    price: '$55 - $110 / m²',
+    roi: '14% - 17% Anual',
+    desc: 'Corredor comercial y financiero con clínicas privadas, centros comerciales y condominios residenciales de alta liquidez.',
+    pinColor: '#2563eb'
   },
   {
-    id: 'prop-5',
-    zone: 'playa-el-agua',
-    zoneName: 'Playa El Agua',
-    type: 'terreno',
-    typeName: 'Macrolote Turístico',
-    title: 'Parcela de Gran Extensión El Agua',
-    desc: 'Terreno plano de 5,000 m² a 150 metros del bulevar de Playa El Agua. Apto para resort hotelero o desarrollo habitacional bajo beneficios tributarios ZEE.',
-    specs: ['5,000 m² Terreno', 'Uso Turístico', 'Acceso Asfaltado', 'Solvencia Notarial'],
-    price: '$175,000 USD',
-    roi: '24% Plusvalía',
-    status: 'proyecto',
-    statusText: 'Proyecto ZEE',
-    image: 'assets/images/margarita-beachfront-land.jpg'
+    id: 'juan-griego',
+    name: 'Juan Griego',
+    fullName: 'Juan Griego & La Galera',
+    coords: [11.0827, -63.9654],
+    color: '#ef4444',
+    badgeClass: 'red',
+    badge: 'Crecimiento Emergente',
+    price: '$30 - $60 / m²',
+    roi: '15% - 18% Anual',
+    desc: 'Bahía histórica famosa por sus atardeceres dorados. Excelente relación costo-beneficio para proyectos náuticos y residenciales.',
+    pinColor: '#2563eb'
   },
   {
-    id: 'prop-6',
-    zone: 'macanao',
-    zoneName: 'Península de Macanao',
-    type: 'terreno',
-    typeName: 'Terreno Ecoturístico Virgen',
-    title: 'Lote Costero Punta Arenas',
-    desc: 'Paraíso de arenas doradas y aguas cristalinas, ideal para glamping de ultra-lujo, wellness retreat o villa autosustentable con energía fotovoltaica.',
-    specs: ['3,200 m² Terreno', 'Playa Virgen', 'Atardecer Panorámico', 'Título Privado'],
-    price: '$65,000 USD',
+    id: 'macanao',
+    name: 'Macanao',
+    fullName: 'Punta de Arenas / Macanao',
+    coords: [10.9700, -64.2000],
+    color: '#10b981',
+    badgeClass: 'green',
+    badge: 'Ecoturismo & Playas Vírgenes',
+    price: '$20 - $45 / m²',
     roi: '20% Anual Est.',
-    status: 'disponible',
-    statusText: 'Disponible',
-    image: 'assets/images/margarita-beachfront-land.jpg'
+    desc: 'Kilómetros de playas vírgenes y reservas naturales. Destino predilecto para eco-resorts solares, glamping de ultra-lujo y bienestar.',
+    pinColor: '#2563eb'
   }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initCinematicStage();
-  initGoogleMapsIntegration();
-  initMarketplace();
-  initGoogleFormsModal();
+  initHeatmap();
+  initMuniCards();
   initGeneralModals();
-  initHeroLeadForm();
 });
 
 /* ================= 1. Navbar Mobile ================= */
 function initNavbar() {
-  const header = document.querySelector('.header');
   const mobileBtn = document.querySelector('.mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
 
@@ -129,7 +113,7 @@ function initNavbar() {
   }
 }
 
-/* ================= 2. Cinematic Stage (Carousel Seguro) ================= */
+/* ================= 2. Cinematic Stage ================= */
 function initCinematicStage() {
   const tabs = document.querySelectorAll('.stage-tab-btn');
   const slides = document.querySelectorAll('.stage-slide');
@@ -140,7 +124,6 @@ function initCinematicStage() {
 
   function setSlide(index) {
     current = index % slides.length;
-
     tabs.forEach(t => t.classList.remove('active'));
     slides.forEach(s => s.classList.remove('active'));
 
@@ -170,149 +153,106 @@ function initCinematicStage() {
   startAutoplay();
 }
 
-/* ================= 3. Google Maps Integration & Zone Filtering ================= */
-function initGoogleMapsIntegration() {
-  const chips = document.querySelectorAll('.map-chip-btn');
-  const mapFrame = document.getElementById('google-maps-frame');
+/* ================= 3. Leaflet Investment Heatmap ================= */
+let leafletMap = null;
+const mapMarkers = {};
 
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
+function initHeatmap() {
+  const mapContainer = document.getElementById('leaflet-heatmap');
+  if (!mapContainer || typeof L === 'undefined') return;
 
-      const query = chip.dataset.mapQ;
-      const zone = chip.dataset.zone;
-
-      // Actualizar el mapa de Google Maps dinámicamente
-      if (mapFrame && query) {
-        mapFrame.src = `https://www.google.com/maps?q=${query}&t=m&z=12&output=embed`;
-      }
-
-      // Filtrar el marketplace
-      activeZoneFilter = zone || 'all';
-      renderMarketplace();
-    });
-  });
-}
-
-/* ================= 4. Marketplace de Propiedades ================= */
-let activeZoneFilter = 'all';
-let activeTypeFilter = 'all';
-
-function renderMarketplace() {
-  const grid = document.getElementById('marketplace-grid');
-  const countEl = document.getElementById('marketplace-count');
-  if (!grid) return;
-
-  const filtered = DEFAULT_PROPERTIES.filter(item => {
-    const matchZone = activeZoneFilter === 'all' || item.zone === activeZoneFilter;
-    const matchType = activeTypeFilter === 'all' || item.type === activeTypeFilter;
-    return matchZone && matchType;
+  // Centro de Isla de Margarita
+  leafletMap = L.map('leaflet-heatmap', {
+    center: [10.9972, -63.9113],
+    zoom: 11,
+    zoomControl: true,
+    scrollWheelZoom: false
   });
 
-  if (countEl) {
-    countEl.textContent = `${filtered.length} Activos Encontrados`;
-  }
+  // Capa CartoDB Voyager de alta definición
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 18
+  }).addTo(leafletMap);
 
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 2.5rem; background: var(--c-card-bg); border-radius: var(--radius-lg); border: 1px dashed var(--glass-border);">
-        <p style="color: var(--c-text-muted); font-size: 1rem;">No hay propiedades con este filtro de zona o tipo.</p>
-        <button class="btn btn-gold" style="margin-top: 0.8rem;" onclick="resetFilters()">Ver Todas las Propiedades</button>
+  // Agregar pines interactivos
+  ZONES_DATA.forEach(zone => {
+    const iconHtml = `
+      <div class="custom-map-marker">
+        <svg class="marker-pin-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 24 34">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 22 12 22s12-13 12-22c0-6.63-5.37-12-12-12z" fill="${zone.pinColor}"/>
+          <circle cx="12" cy="11" r="5" fill="#ffffff"/>
+        </svg>
+        <div class="marker-pulse-base" style="border: 3px solid ${zone.color}; background: ${zone.color}44;"></div>
+        <div class="marker-label-tag">${zone.name}</div>
       </div>
     `;
-    return;
-  }
 
-  grid.innerHTML = filtered.map(item => `
-    <article class="property-card" data-id="${item.id}">
-      <div class="property-img-wrap">
-        <img src="${item.image}" alt="${item.title}" class="property-img" loading="lazy">
-        <span class="property-badge-zone">${item.zoneName}</span>
-        <span class="property-badge-status status-${item.status}">${item.statusText}</span>
-      </div>
-      <div class="property-body">
-        <div class="property-type-tag">${item.typeName}</div>
-        <h4 class="property-title">${item.title}</h4>
-        <p class="property-desc">${item.desc}</p>
-        
-        <div class="property-specs">
-          ${item.specs.map(spec => `<span class="spec-item">${spec}</span>`).join('')}
+    const customIcon = L.divIcon({
+      html: iconHtml,
+      className: 'leaflet-custom-div-icon',
+      iconSize: [60, 52],
+      iconAnchor: [30, 36],
+      popupAnchor: [0, -32]
+    });
+
+    const popupHtml = `
+      <div class="map-popup-box">
+        <h4>${zone.fullName}</h4>
+        <span class="popup-tag">${zone.badge}</span>
+        <div class="map-popup-metrics">
+          <div><strong>${zone.price}</strong><br><small>Promedio m²</small></div>
+          <div style="text-align: right;"><strong>${zone.roi}</strong><br><small>ROI Proyectado</small></div>
         </div>
-
-        <div class="property-footer">
-          <div class="price-box">
-            <span>Inversión</span>
-            <strong>${item.price}</strong>
-          </div>
-          <button class="btn btn-sunset" style="padding: 0.5rem 0.9rem; font-size: 0.78rem;" onclick="openPropertyDetail('${item.id}')">
-            <span>Consultar Ficha</span>
-          </button>
-        </div>
+        <a href="marketplace/?zone=${zone.id}" class="map-popup-btn">
+          🏬 Ver Oportunidades en Marketplace ↗
+        </a>
       </div>
-    </article>
-  `).join('');
-}
+    `;
 
-window.resetFilters = function() {
-  activeZoneFilter = 'all';
-  activeTypeFilter = 'all';
+    const marker = L.marker(zone.coords, { icon: customIcon })
+      .addTo(leafletMap)
+      .bindPopup(popupHtml);
 
-  document.querySelectorAll('.map-chip-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.zone === 'all');
-  });
-  document.querySelectorAll('.type-filter-pill').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.type === 'all');
-  });
+    mapMarkers[zone.id] = marker;
 
-  const mapFrame = document.getElementById('google-maps-frame');
-  if (mapFrame) {
-    mapFrame.src = 'https://www.google.com/maps?q=Isla+de+Margarita,+Nueva+Esparta,+Venezuela&t=m&z=11&output=embed';
-  }
-
-  renderMarketplace();
-};
-
-function initMarketplace() {
-  const typePills = document.querySelectorAll('.type-filter-pill');
-  typePills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      typePills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      activeTypeFilter = pill.dataset.type;
-      renderMarketplace();
+    marker.on('click', () => {
+      highlightMuniCard(zone.id);
     });
   });
-
-  renderMarketplace();
 }
 
-/* ================= 5. Google Forms Modal ================= */
-function initGoogleFormsModal() {
-  const openBtns = [
-    document.getElementById('btn-open-google-form'),
-    document.getElementById('footer-google-form-btn')
-  ];
-  const modal = document.getElementById('modal-google-forms');
-  const closeBtn = document.getElementById('close-google-forms-modal');
+function highlightMuniCard(zoneId) {
+  document.querySelectorAll('.muni-card').forEach(card => {
+    card.classList.toggle('active', card.dataset.zone === zoneId);
+  });
+}
 
-  openBtns.forEach(btn => {
-    btn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal?.classList.add('open');
+/* ================= 4. Tarjetas de Municipios Interactivas ================= */
+function initMuniCards() {
+  const cards = document.querySelectorAll('.muni-card');
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Si hizo clic directamente en el enlace de marketplace, dejar navegar
+      if (e.target.closest('.muni-cta-link')) return;
+
+      const zoneId = card.dataset.zone;
+      const zone = ZONES_DATA.find(z => z.id === zoneId);
+      if (zone && leafletMap) {
+        leafletMap.flyTo(zone.coords, 13, { duration: 1.2 });
+        if (mapMarkers[zoneId]) {
+          setTimeout(() => {
+            mapMarkers[zoneId].openPopup();
+          }, 600);
+        }
+        highlightMuniCard(zoneId);
+      }
     });
   });
-
-  closeBtn?.addEventListener('click', () => {
-    modal?.classList.remove('open');
-  });
-
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('open');
-  });
 }
 
-/* ================= 6. Modales Generales (VIP & Agendar) ================= */
+/* ================= 5. Modales VIP & Agendar ================= */
 function initGeneralModals() {
   const vipBtn = document.getElementById('btn-open-vip');
   const vipModal = document.getElementById('modal-vip');
@@ -348,99 +288,3 @@ function initGeneralModals() {
     });
   });
 }
-
-/* ================= 7. Formulario de Captación de Leads ================= */
-function initHeroLeadForm() {
-  const form = document.getElementById('hero-lead-form');
-  if (!form) return;
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn ? submitBtn.innerHTML : 'Enviar';
-
-    const name = form.querySelector('[name="name"]').value;
-    const email = form.querySelector('[name="email"]').value;
-    const phone = form.querySelector('[name="phone"]').value;
-    const budget = form.querySelector('[name="budget"]').value;
-    const projectType = form.querySelector('[name="project_type"]').value;
-
-    if (submitBtn) {
-      submitBtn.innerHTML = 'Enviando y Notificando...';
-      submitBtn.disabled = true;
-    }
-
-    try {
-      await fetch('https://formsubmit.co/ajax/miguelangel.laperladelcaribe@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `Nuevo Lead Inversionista VIP: ${name} (${budget})`,
-          Nombre: name,
-          Email: email,
-          WhatsApp: phone,
-          Presupuesto: budget,
-          Interes: projectType,
-          Origen: 'Hero Landing Page - Miguel Ángel La Perla del Caribe'
-        })
-      });
-
-      if (submitBtn) {
-        submitBtn.innerHTML = '✓ ¡Recibido! Conectando vía WhatsApp...';
-        submitBtn.style.background = '#22c55e';
-      }
-
-      setTimeout(() => {
-        const waMsg = encodeURIComponent(
-          `*Hola Miguel Ángel, solicito información como inversionista en Margarita:*\n` +
-          `*Nombre:* ${name}\n` +
-          `*Email:* ${email}\n` +
-          `*WhatsApp:* ${phone}\n` +
-          `*Presupuesto:* ${budget}\n` +
-          `*Interés:* ${projectType}`
-        );
-        window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
-        form.reset();
-        if (submitBtn) {
-          submitBtn.innerHTML = originalText;
-          submitBtn.disabled = false;
-          submitBtn.style.background = '';
-        }
-      }, 1000);
-
-    } catch (err) {
-      const waMsg = encodeURIComponent(
-        `*Hola Miguel Ángel, deseo información de inversión en Margarita:*\n` +
-        `*Nombre:* ${name}\n` +
-        `*Email:* ${email}\n` +
-        `*WhatsApp:* ${phone}\n` +
-        `*Presupuesto:* ${budget}\n` +
-        `*Interés:* ${projectType}`
-      );
-      window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
-      form.reset();
-      if (submitBtn) {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }
-    }
-  });
-}
-
-// Detalle por WhatsApp de propiedad individual
-window.openPropertyDetail = function(id) {
-  const prop = DEFAULT_PROPERTIES.find(p => p.id === id);
-  if (!prop) return;
-
-  const waMsg = encodeURIComponent(
-    `*Hola Miguel Ángel, deseo consultar detalles sobre:*\n` +
-    `*Propiedad:* ${prop.title} (${prop.zoneName})\n` +
-    `*Precio:* ${prop.price}\n` +
-    `*Tipo:* ${prop.typeName}`
-  );
-  window.open(`https://api.whatsapp.com/send?phone=34676597068&text=${waMsg}`, '_blank');
-};

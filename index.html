@@ -19,7 +19,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+  <!-- Estilos Globales con Cache-Buster -->
+  <link rel="stylesheet" href="assets/css/style.css?v=3.0">
 </head>
 <body>
 
@@ -37,16 +41,19 @@
       <nav>
         <ul class="nav-links">
           <li><a href="#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
-          <li><a href="#mapa-margarita" class="nav-link">Mapa Google &amp; Zonas</a></li>
-          <li><a href="marketplace/" class="nav-link" style="color: var(--c-gold-light); font-weight: 700;">🏬 Marketplace</a></li>
+          <li><a href="#mapa-margarita" class="nav-link">Mapa de Calor</a></li>
+          <li><a href="marketplace/" class="nav-link" style="color: var(--c-gold-light); font-weight: 700;">🏬 Marketplace ↗</a></li>
           <li><a href="#comparativa" class="nav-link">Comparativa ROI</a></li>
-          <li><a href="#contacto" class="nav-link">Contacto</a></li>
+          <li><a href="#postulacion-forms" class="nav-link" style="color: var(--c-sunset);">📋 Postular Propiedad</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <a href="marketplace/" class="btn btn-sunset" style="padding: 0.6rem 1rem; font-size: 0.8rem;">
-          <span>Ver Marketplace</span>
+        <a href="marketplace/" class="btn btn-sunset" style="padding: 0.55rem 1rem; font-size: 0.82rem;">
+          <span>🏬 Marketplace</span>
+        </a>
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-outline-gold" style="padding: 0.55rem 0.9rem; font-size: 0.82rem;">
+          <span>💬 WhatsApp</span>
         </a>
         <button class="mobile-menu-btn" aria-label="Abrir Menú" aria-expanded="false">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -201,157 +208,329 @@
         </div>
       </div>
 
-      <!-- ================= LEAD CAPTURE FORM UNDER STAGE ================= -->
-      <div class="hero-bottom-grid">
-        <div class="lead-offer-text">
-          <div class="glass-pill gold" style="margin-bottom: 0.6rem;">Acceso Directo con Miguel Ángel</div>
-          <h3>¿Buscas Terreno para Construir o un Activo Rentando?</h3>
+      <!-- ================= VALORES CLAVE Y GARANTÍAS DEL PERSONAL SHOPPER ================= -->
+      <div class="hero-value-cards">
+        <div class="hero-value-card">
+          <div class="hero-value-icon">⚖️</div>
+          <h4>Auditoría Notarial 100%</h4>
           <p>
-            Te enviamos el dossier confidencial de terrenos frente al mar y proyectos hoteleros con alta tasa interna de retorno (TIR) en la Isla de Margarita.
+            Revisamos la tradición legal en el Registro Inmobiliario de Nueva Esparta. Títulos privados limpios, solvencias municipales al día y zonificación apta para construir.
           </p>
-          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <div>
-              <span style="display: block; font-size: 0.7rem; text-transform: uppercase; color: var(--c-text-dim);">Plusvalía Ciclo Actual</span>
-              <strong style="font-size: 1.15rem; color: var(--c-gold-light);">+34% en 24 meses</strong>
-            </div>
-            <div>
-              <span style="display: block; font-size: 0.7rem; text-transform: uppercase; color: var(--c-text-dim);">Régimen de Operación</span>
-              <strong style="font-size: 1.15rem; color: #ff9e00;">USD / Euros / USDT</strong>
-            </div>
+        </div>
+
+        <div class="hero-value-card">
+          <div class="hero-value-icon">⚡</div>
+          <h4>Autonomía en Agua &amp; Luz</h4>
+          <p>
+            Construimos con factibilidad técnica comprobada: perforación de pozo de agua dulce propio y banco de generación eléctrica para funcionamiento ininterrumpido.
+          </p>
+        </div>
+
+        <div class="hero-value-card">
+          <div class="hero-value-icon">💵</div>
+          <h4>Rentas en Dólares &amp; USDT</h4>
+          <p>
+            Nosotros nos encargamos de todo: operación y comercialización en plataformas turísticas internacionales con liquidación mensual de dividendos para inversores extranjeros.
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-bottom-actions">
+        <a href="marketplace/" class="btn btn-sunset" style="padding: 0.9rem 1.8rem; font-size: 0.95rem;">
+          <span>🏬 Explorar Marketplace de Inmuebles ↗</span>
+        </a>
+        <a href="#postulacion-forms" class="btn btn-outline-gold" style="padding: 0.9rem 1.8rem;">
+          <span>📋 Postular Propiedad (Google Forms) ↓</span>
+        </a>
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-outline-glass" style="padding: 0.9rem 1.6rem;">
+          <span>💬 WhatsApp Directo</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MAPA DE CALOR LEAFLET & MUNICIPIOS ================= -->
+  <section class="section section-alt" id="mapa-margarita">
+    <div class="container">
+      <div class="section-head">
+        <div class="glass-pill gold">Inteligencia Inmobiliaria &bull; Nueva Esparta</div>
+        <h2 class="section-title">
+          Mapa de Calor de Inversión en <span class="italic-serif text-sunset">Isla de Margarita</span>
+        </h2>
+        <p class="section-desc">
+          Explora los polos de desarrollo y plusvalía de la isla. Toca los círculos del mapa o las tarjetas inferiores para conocer precios de suelo, retorno estimado y acceder al marketplace de cada sector.
+        </p>
+      </div>
+
+      <!-- MAPA DE CALOR CARD -->
+      <div class="investment-map-card">
+        <div class="map-header-bar">
+          <div class="map-header-left">
+            <h3>🌍 MAPA DE CALOR DE INVERSIÓN</h3>
+            <p>Toca los círculos o pines para ver precios, servicios y oportunidades</p>
+          </div>
+          <div class="glass-pill gold" style="font-size: 0.75rem;">
+            Nueva Esparta &bull; ZEE (Zona Económica Especial)
           </div>
         </div>
 
-        <div class="hero-inline-form-card">
-          <form class="inline-form" id="hero-lead-form">
-            <div class="form-row-2">
-              <div class="form-field">
-                <label for="lead-name">Nombre Completo</label>
-                <input type="text" id="lead-name" name="name" class="glass-input" placeholder="Ej. Roberto Martínez" required>
-              </div>
-              <div class="form-field">
-                <label for="lead-email">Correo Electrónico</label>
-                <input type="email" id="lead-email" name="email" class="glass-input" placeholder="roberto@empresa.com" required>
-              </div>
-            </div>
+        <!-- Contenedor Leaflet -->
+        <div id="leaflet-heatmap"></div>
 
-            <div class="form-row-2">
-              <div class="form-field">
-                <label for="lead-phone">WhatsApp / Teléfono</label>
-                <input type="tel" id="lead-phone" name="phone" class="glass-input" placeholder="+34... / +58..." required>
-              </div>
-              <div class="form-field">
-                <label for="lead-budget">Presupuesto Estimado</label>
-                <select id="lead-budget" name="budget" class="glass-select">
-                  <option value="$25,000 - $50,000">$25,000 - $50,000 USD (Terreno)</option>
-                  <option value="$50,000 - $120,000" selected>$50,000 - $120,000 USD (Terreno + Obra)</option>
-                  <option value="$120,000 - $300,000">$120,000 - $300,000 USD (Villa / Posada)</option>
-                  <option value="Más de $300,000">Más de $300,000 USD (Hotel / Resort)</option>
-                </select>
-              </div>
-            </div>
+        <!-- Barra de Leyenda de Colores (Idéntica a la referencia del usuario) -->
+        <div class="map-legend-bar">
+          <div class="legend-item">
+            <span class="legend-dot green"></span>
+            <strong>Pampatar / Coche / Yaque:</strong> Verde (Alta Liquidez &amp; Rentas)
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot yellow"></span>
+            <strong>Porlamar / Costa Azul:</strong> Amarillo (Comercial &amp; Residencial)
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot red"></span>
+            <strong>Juan Griego:</strong> Rojo (Crecimiento Emergente)
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot green"></span>
+            <strong>Punta de Arenas / Macanao:</strong> Verde (Macro Lotes Ecoturismo)
+          </div>
+        </div>
+      </div>
 
-            <div class="form-field">
-              <label for="lead-project-type">Objetivo de Inversión</label>
-              <select id="lead-project-type" name="project_type" class="glass-select">
-                <option value="Comprar terreno y construir">Comprar terreno y construir con Miguel Ángel</option>
-                <option value="Villa terminada para alquilar">Villa terminada para alquilar en Airbnb Luxe</option>
-                <option value="Posada u Hotel Boutique">Posada u Hotel Boutique en operación</option>
-              </select>
-            </div>
+      <!-- MUNICIPIOS DE ALTO CRECIMIENTO -->
+      <div class="municipalities-header">
+        <h3>Municipios de Alto Crecimiento</h3>
+        <span>Toca cualquier zona para enfocar el mapa de calor</span>
+      </div>
 
-            <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.9rem;">
-              <span>Recibir Dossier de Terrenos &amp; Oportunidades</span>
-            </button>
-          </form>
+      <div class="muni-grid">
+        <!-- Pampatar -->
+        <div class="muni-card" data-zone="pampatar">
+          <div class="muni-top-row">
+            <span class="muni-title">Pampatar</span>
+            <span class="muni-badge green">Zona Premium &bull; ZEE</span>
+          </div>
+          <div class="muni-metrics">
+            <div class="muni-metric-col">
+              <span>Promedio Suelo</span>
+              <strong>$90 - $180 / m²</strong>
+            </div>
+            <div class="muni-metric-col">
+              <span>Retorno Estimado</span>
+              <strong style="color: #4ade80;">18% - 22% Anual</strong>
+            </div>
+          </div>
+          <p class="muni-desc">
+            Milla de Oro y polo gastronómico con alta demanda de villas de lujo y alquileres temporales prémium en USD.
+          </p>
+          <a href="marketplace/?zone=pampatar" class="muni-cta-link">
+            <span>Explorar Inmuebles en Pampatar ↗</span>
+          </a>
+        </div>
+
+        <!-- Playa El Yaque -->
+        <div class="muni-card" data-zone="el-yaque">
+          <div class="muni-top-row">
+            <span class="muni-title">Playa El Yaque</span>
+            <span class="muni-badge green">Kitesurf &amp; Posadas</span>
+          </div>
+          <div class="muni-metrics">
+            <div class="muni-metric-col">
+              <span>Promedio Suelo</span>
+              <strong>$65 - $130 / m²</strong>
+            </div>
+            <div class="muni-metric-col">
+              <span>Retorno Estimado</span>
+              <strong style="color: #4ade80;">20% - 25% Anual</strong>
+            </div>
+          </div>
+          <p class="muni-desc">
+            Destino internacional con ocupación europea constante todo el año. Oportunidades en hoteles boutique y parcelas de playa.
+          </p>
+          <a href="marketplace/?zone=el-yaque" class="muni-cta-link">
+            <span>Explorar Inmuebles en El Yaque ↗</span>
+          </a>
+        </div>
+
+        <!-- Playa El Agua -->
+        <div class="muni-card" data-zone="playa-el-agua">
+          <div class="muni-top-row">
+            <span class="muni-title">Playa El Agua</span>
+            <span class="muni-badge green">Macro Parcelas ZEE</span>
+          </div>
+          <div class="muni-metrics">
+            <div class="muni-metric-col">
+              <span>Promedio Suelo</span>
+              <strong>$35 - $80 / m²</strong>
+            </div>
+            <div class="muni-metric-col">
+              <span>Plusvalía ZEE</span>
+              <strong style="color: #4ade80;">24% - 30%</strong>
+            </div>
+          </div>
+          <p class="muni-desc">
+            Extensa costa oceánica apta para desarrollo de resorts de gran escala y complejos hoteleros bajo exenciones arancelarias.
+          </p>
+          <a href="marketplace/?zone=playa-el-agua" class="muni-cta-link">
+            <span>Explorar Inmuebles en El Agua ↗</span>
+          </a>
+        </div>
+
+        <!-- Porlamar / Costa Azul -->
+        <div class="muni-card" data-zone="costa-azul">
+          <div class="muni-top-row">
+            <span class="muni-title">Costa Azul (Porlamar)</span>
+            <span class="muni-badge yellow">Comercial &amp; Condos</span>
+          </div>
+          <div class="muni-metrics">
+            <div class="muni-metric-col">
+              <span>Promedio Suelo</span>
+              <strong>$55 - $110 / m²</strong>
+            </div>
+            <div class="muni-metric-col">
+              <span>Retorno Estimado</span>
+              <strong style="color: #fbbf24;">14% - 17% Anual</strong>
+            </div>
+          </div>
+          <p class="muni-desc">
+            Centro financiero con centros comerciales, clínicas privadas y condominios residenciales de alta liquidez y demanda local.
+          </p>
+          <a href="marketplace/?zone=costa-azul" class="muni-cta-link">
+            <span>Explorar Inmuebles en Costa Azul ↗</span>
+          </a>
+        </div>
+
+        <!-- Juan Griego -->
+        <div class="muni-card" data-zone="juan-griego">
+          <div class="muni-top-row">
+            <span class="muni-title">Juan Griego</span>
+            <span class="muni-badge red">Crecimiento Emergente</span>
+          </div>
+          <div class="muni-metrics">
+            <div class="muni-metric-col">
+              <span>Promedio Suelo</span>
+              <strong>$30 - $60 / m²</strong>
+            </div>
+            <div class="muni-metric-col">
+              <span>Retorno Estimado</span>
+              <strong style="color: #f87171;">15% - 18% Anual</strong>
+            </div>
+          </div>
+          <p class="muni-desc">
+            Bahía emblemática famosa por sus atardeceres. Atractivas opciones de inversión a precios de entrada competitivos.
+          </p>
+          <a href="marketplace/?zone=juan-griego" class="muni-cta-link">
+            <span>Explorar Inmuebles en Juan Griego ↗</span>
+          </a>
+        </div>
+
+        <!-- Macanao -->
+        <div class="muni-card" data-zone="macanao">
+          <div class="muni-top-row">
+            <span class="muni-title">Península de Macanao</span>
+            <span class="muni-badge green">Ecoturismo Virgen</span>
+          </div>
+          <div class="muni-metrics">
+            <div class="muni-metric-col">
+              <span>Promedio Suelo</span>
+              <strong>$20 - $45 / m²</strong>
+            </div>
+            <div class="muni-metric-col">
+              <span>Plusvalía Proyectada</span>
+              <strong style="color: #4ade80;">20% Anual Est.</strong>
+            </div>
+          </div>
+          <p class="muni-desc">
+            Playas vírgenes y reservas naturales idóneas para eco-glamping solar, retiros wellness y proyectos de ultra-exclusividad.
+          </p>
+          <a href="marketplace/?zone=macanao" class="muni-cta-link">
+            <span>Explorar Inmuebles en Macanao ↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTÓN REDIRECCIÓN AL MARKETPLACE (CERO PROPIEDADES EN LA PRINCIPAL) -->
+      <div class="marketplace-cta-banner">
+        <div class="marketplace-cta-icon">🏬</div>
+        <h3>Catálogo Completo en el Marketplace</h3>
+        <p>
+          En la página principal no mostramos fichas individuales: hemos reunido todas las parcelas, terrenos frente al mar, villas y posadas en nuestra plataforma dedicada con filtros interactivos por zona, precio y ROI.
+        </p>
+
+        <div class="marketplace-cta-buttons">
+          <a href="marketplace/" class="btn btn-sunset" style="padding: 1.1rem 2.2rem; font-size: 1rem;">
+            <span>🏬 Entrar al Marketplace Oficial de Propiedades ↗</span>
+          </a>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ================= GOOGLE MAPS & MARKETPLACE ENTRY SECTION ================= -->
-  <section class="section section-alt" id="mapa-margarita">
+  <!-- ================= PREVISUALIZACIÓN EN VIVO DE GOOGLE FORMS ================= -->
+  <section class="forms-preview-section" id="postulacion-forms">
     <div class="container">
       <div class="section-head">
-        <div class="glass-pill gold">Google Maps Interactivo &bull; Nueva Esparta</div>
+        <div class="glass-pill sunset">Registro Oficial &bull; Formulario de Postulación</div>
         <h2 class="section-title">
-          Ubicaciones Clave en <span class="italic-serif text-sunset">Isla de Margarita</span>
+          Postula tu Terreno o Inmueble en <span class="italic-serif text-gold">Isla de Margarita</span>
         </h2>
         <p class="section-desc">
-          Explora la isla en Google Maps. Selecciona una zona para enfocar el mapa y acceder al catálogo de terrenos e inmuebles de cada sector.
+          Este es el único formulario oficial de la página. Completa los datos a continuación para que Miguel Ángel audite los títulos, la topografía y presente tu propiedad ante inversores internacionales calificados.
         </p>
       </div>
 
-      <!-- GOOGLE MAPS EMBED CONTAINER -->
-      <div class="google-map-card">
-        <div class="map-top-bar">
-          <div>
-            <strong style="color: #ffffff; font-size: 0.95rem;">Explora por Zona de Inversión:</strong>
+      <!-- TARJETA CON PREVISUALIZACIÓN EN VIVO DE GOOGLE FORMS -->
+      <div class="forms-preview-card">
+        <div class="forms-top-bar">
+          <div class="forms-top-bar-left">
+            <span class="forms-top-bar-icon">📋</span>
+            <div class="forms-top-bar-title">
+              <h3>Formulario Oficial de Postulación (Google Forms)</h3>
+              <p>Dirección, estado de construcción, papeles en regla, precio y fotos</p>
+            </div>
           </div>
-          
-          <div class="map-chips-row">
-            <button class="map-chip-btn active" data-map-q="Isla+de+Margarita,+Nueva+Esparta,+Venezuela">🗺️ Toda Margarita</button>
-            <button class="map-chip-btn" data-map-q="Pampatar,+Nueva+Esparta,+Venezuela">📍 Pampatar</button>
-            <button class="map-chip-btn" data-map-q="Playa+El+Yaque,+Nueva+Esparta,+Venezuela">📍 Playa El Yaque</button>
-            <button class="map-chip-btn" data-map-q="Costa+Azul,+Porlamar,+Nueva+Esparta,+Venezuela">📍 Costa Azul</button>
-            <button class="map-chip-btn" data-map-q="Playa+El+Agua,+Nueva+Esparta,+Venezuela">📍 Playa El Agua</button>
-            <button class="map-chip-btn" data-map-q="Peninsula+de+Macanao,+Nueva+Esparta,+Venezuela">📍 Macanao</button>
+          <div class="glass-pill gold" style="font-size: 0.72rem;">
+            Previsualización en Vivo &bull; 100% Confidencial
           </div>
         </div>
 
-        <div class="map-iframe-holder">
+        <!-- EMBEDDED GOOGLE FORM IFRAME -->
+        <div class="forms-iframe-holder">
           <iframe 
-            id="google-maps-frame"
-            src="https://www.google.com/maps?q=Isla+de+Margarita,+Nueva+Esparta,+Venezuela&t=m&z=11&output=embed" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Google Maps de Isla de Margarita, Nueva Esparta">
+            src="https://docs.google.com/forms/d/e/1FAIpQLScP-placeholder/viewform?embedded=true" 
+            title="Formulario Oficial Google Forms de Captación de Inmuebles"
+            loading="lazy">
+            Cargando formulario oficial de Google Forms...
           </iframe>
         </div>
-      </div>
 
-      <!-- Puntos de Acceso Rápido por Zona hacia el Marketplace -->
-      <div class="zone-links-grid">
-        <a href="marketplace/?zone=pampatar" class="zone-link-card">
-          <strong>Pampatar</strong>
-          <span>Ver Terrenos &amp; Villas ↗</span>
-        </a>
-        <a href="marketplace/?zone=el-yaque" class="zone-link-card">
-          <strong>Playa El Yaque</strong>
-          <span>Ver Posadas &amp; Lotes ↗</span>
-        </a>
-        <a href="marketplace/?zone=costa-azul" class="zone-link-card">
-          <strong>Costa Azul</strong>
-          <span>Ver Condominios ↗</span>
-        </a>
-        <a href="marketplace/?zone=playa-el-agua" class="zone-link-card">
-          <strong>Playa El Agua</strong>
-          <span>Ver Macro Parcelas ↗</span>
-        </a>
-        <a href="marketplace/?zone=macanao" class="zone-link-card">
-          <strong>Península de Macanao</strong>
-          <span>Ver Lotes Ecoturismo ↗</span>
-        </a>
-      </div>
-
-      <!-- REEMPLAZO DE LA PARRILLA: TARJETA DE ACCESO AL MARKETPLACE -->
-      <div class="marketplace-cta-banner">
-        <div class="marketplace-cta-icon">🏬</div>
-        <h3>Marketplace Exclusivo de Propiedades &amp; Terrenos</h3>
-        <p>
-          Hemos trasladado todas las fichas de terrenos, parcelas frente a la playa, condominios y posadas boutique a una sección dedicada con filtros por zona, precios y retorno de inversión en tiempo real.
-        </p>
-
-        <div class="marketplace-cta-buttons">
-          <a href="marketplace/" class="btn btn-sunset" style="padding: 1rem 1.8rem; font-size: 0.95rem;">
-            <span>🏬 Explorar el Marketplace Completo ↗</span>
-          </a>
-          <button class="btn btn-outline-gold" id="btn-open-google-form" style="padding: 1rem 1.8rem;">
-            <span>📋 Postular Mi Propiedad (Google Forms)</span>
-          </button>
+        <div class="forms-bottom-actions">
+          <p style="color: var(--c-text-muted); font-size: 0.82rem; margin: 0;">
+            ¿Prefieres enviar las fotos, planos o coordenadas directamente por chat?
+          </p>
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScP-placeholder/viewform" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn btn-outline-gold" 
+               style="padding: 0.65rem 1.2rem; font-size: 0.82rem;">
+              <span>Abrir Formulario en Pestaña Completa ↗</span>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn btn-sunset" 
+               style="padding: 0.65rem 1.2rem; font-size: 0.82rem;">
+              <span>💬 Enviar Datos vía WhatsApp Directo</span>
+            </a>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
     </div>
   </section>
@@ -565,52 +744,6 @@
     </div>
   </section>
 
-  <!-- ================= MODAL: GOOGLE FORMS ================= -->
-  <div class="modal-overlay" id="modal-google-forms">
-    <div class="modal-box modal-large">
-      <button class="modal-close-btn" id="close-google-forms-modal" aria-label="Cerrar modal">&times;</button>
-      
-      <div style="margin-bottom: 1.2rem;">
-        <div class="glass-pill sunset" style="margin-bottom: 0.4rem;">Formulario Oficial de Google Forms</div>
-        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Postula tu Terreno o Propiedad</h3>
-        <p style="color: var(--c-text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
-          Ingresa los datos de tu inmueble (dirección, estatus de construcción, papeles en regla, precio en USD y fotos).
-        </p>
-      </div>
-
-      <!-- GOOGLE FORM EMBED CONTAINER -->
-      <div style="background: rgba(6, 9, 14, 0.95); border: 1px solid var(--glass-border); border-radius: var(--radius-md); overflow: hidden; min-height: 440px; position: relative;">
-        <!-- Reemplaza con tu URL de Google Forms con ?embedded=true -->
-        <iframe 
-          id="google-form-embed-frame"
-          src="https://docs.google.com/forms/d/e/1FAIpQLScP-placeholder/viewform?embedded=true" 
-          width="100%" 
-          height="460" 
-          frameborder="0" 
-          marginheight="0" 
-          marginwidth="0"
-          style="display: block; width: 100%; border: none;">
-          Cargando formulario oficial de Google Forms...
-        </iframe>
-
-        <!-- Fallback WhatsApp -->
-        <div id="google-form-fallback" style="padding: 1.8rem; text-align: center;">
-          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📋</div>
-          <h4 style="font-size: 1.15rem; color: #ffffff; margin-bottom: 0.4rem;">Postulación de Inmuebles</h4>
-          <p style="color: var(--c-text-muted); font-size: 0.85rem; max-width: 480px; margin: 0 auto 1.2rem auto;">
-            Puedes enviarnos los datos de tu terreno o propiedad directamente por WhatsApp con fotos y precio pretendido:
-          </p>
-          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
-             target="_blank" 
-             class="btn btn-sunset" 
-             style="padding: 0.8rem 1.4rem;">
-            <span>Postular Inmueble vía WhatsApp Directo</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="container">
@@ -633,6 +766,7 @@
           <ul>
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#proceso">¿Cómo Trabajamos?</a></li>
+            <li><a href="#mapa-margarita">Mapa de Calor ZEE</a></li>
             <li><a href="marketplace/">Marketplace Oficial</a></li>
             <li><a href="#comparativa">Comparativa ROI</a></li>
           </ul>
@@ -645,6 +779,7 @@
             <li><a href="marketplace/?zone=el-yaque">Playa El Yaque &bull; Posadas</a></li>
             <li><a href="marketplace/?zone=costa-azul">Costa Azul &bull; Porlamar</a></li>
             <li><a href="marketplace/?zone=playa-el-agua">Playa El Agua &bull; Resorts</a></li>
+            <li><a href="marketplace/?zone=macanao">Macanao &bull; Ecoturismo</a></li>
           </ul>
         </div>
 
@@ -653,7 +788,7 @@
           <ul>
             <li><a href="https://instagram.com/miguelangel.laperladelcaribe" target="_blank">Instagram: @miguelangel</a></li>
             <li><a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank">WhatsApp: +34 676 59 70 68</a></li>
-            <li><a href="#" id="footer-google-form-btn">Postular Propiedad (Google Forms)</a></li>
+            <li><a href="#postulacion-forms">Postular Propiedad (Google Forms)</a></li>
           </ul>
         </div>
       </div>
@@ -669,7 +804,7 @@
     </div>
   </footer>
 
-  <!-- ================= PIXEL-PERFECT OFFICIAL WHATSAPP FLOATING BUTTON ================= -->
+  <!-- ================= BOTÓN FLOTANTE OFICIAL DE WHATSAPP ================= -->
   <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." 
      class="floating-whatsapp" 
      target="_blank" 
@@ -680,7 +815,10 @@
     </svg>
   </a>
 
-  <!-- Script Principal -->
-  <script type="module" src="assets/js/main.js"></script>
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Script Principal con Cache-Buster -->
+  <script type="module" src="assets/js/main.js?v=3.0"></script>
 </body>
 </html>
