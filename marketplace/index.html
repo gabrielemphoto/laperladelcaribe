@@ -26,25 +26,67 @@
 </head>
 <body class="marketplace-page">
 
-  <!-- ================= TOP NAVBAR MARKETPLACE ================= -->
-  <header class="mp-topbar">
-    <div class="mp-topbar-inner">
-      <!-- Marca y Retorno al Inicio -->
-      <div class="mp-brand-group">
-        <a href="../" class="mp-btn-back" title="Volver a la página principal">
-          <span>←</span>
-          <span>Inicio</span>
+  <!-- ================= Header / Floating Glassmorphic Navbar (Static on Scroll) ================= -->
+  <header class="header-floating-wrap" id="main-header">
+    <div class="header-glass-bar">
+      <!-- Marca & Identidad -->
+      <a href="../" class="brand-wrapper" aria-label="Inicio Miguel Angel - Inversiones La Perla del Caribe">
+        <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="brand-logo-img">
+        <div class="brand-text-col">
+          <span class="brand-title">MIGUEL ÁNGEL</span>
+          <span class="brand-tagline">LA PERLA DEL CARIBE</span>
+        </div>
+      </a>
+
+      <!-- Navegación Central Editorial -->
+      <nav class="nav-center-menu">
+        <ul class="nav-links">
+          <li><a href="../" class="nav-link">Inicio</a></li>
+          <li><a href="../#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
+          <li><a href="./" class="nav-link active" style="color: #ffffff; font-weight: 700;">Marketplace</a></li>
+          <li><a href="../#simulador-3d" class="nav-link" style="color: #c5a880; font-weight: 600;">✨ Modelo 3D</a></li>
+          <li><a href="../#mapa-margarita" class="nav-link">Zonas de Inversión</a></li>
+          <li><a href="../#comparativa" class="nav-link">Comparativa ROI</a></li>
+          <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="nav-link text-gold-nav">Comunidad VIP</a></li>
+        </ul>
+      </nav>
+
+      <!-- Acción Derecha: Botón Invierte Ahora + Toggle Móvil -->
+      <div class="nav-actions">
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20quiero%20invertir%20ahora%20en%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn-invierte-pill">
+          <span>Invierte Ahora</span>
+          <span class="btn-arrow">↗</span>
         </a>
 
-        <a href="../" class="mp-brand-wrap">
-          <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="mp-brand-logo">
-          <div class="mp-brand-text">
-            <span class="mp-brand-title">MIGUEL ÁNGEL</span>
-            <span class="mp-brand-sub">LA PERLA DEL CARIBE</span>
-          </div>
+        <button class="mobile-menu-btn" aria-label="Abrir Menú" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil Luxury -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="../" class="mobile-nav-link">Inicio</a></li>
+        <li><a href="../#proceso" class="mobile-nav-link">¿Cómo Trabajamos?</a></li>
+        <li><a href="./" class="mobile-nav-link" style="color: var(--c-gold); font-weight: 700;">Marketplace de Propiedades</a></li>
+        <li><a href="../#simulador-3d" class="mobile-nav-link" style="color: var(--c-gold);">✨ Modelo 3D Interactivo</a></li>
+        <li><a href="../#mapa-margarita" class="mobile-nav-link">Zonas de Inversión</a></li>
+        <li><a href="../#comparativa" class="mobile-nav-link">Comparativa ROI</a></li>
+        <li><a href="../#postulacion-forms" class="mobile-nav-link">Postular Propiedad (Google Forms)</a></li>
+        <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="mobile-nav-link" style="color: var(--c-gold);">Comunidad VIP WhatsApp ↗</a></li>
+      </ul>
+      <div class="mobile-drawer-cta">
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20quiero%20invertir%20ahora%20en%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn btn-sunset" style="width: 100%; justify-content: center;">
+          <span>🌟 Hablar con Miguel Ángel por WhatsApp</span>
         </a>
       </div>
+    </div>
+  </header>
 
+  <!-- ================= SUB-BAR MARKETPLACE (CATEGORÍAS Y BÚSQUEDA) ================= -->
+  <section class="mp-subbar-section">
+    <div class="mp-subbar-container">
       <!-- Píldoras de Categoría Centrales -->
       <nav class="mp-category-pills" aria-label="Categorías de Propiedades">
         <button class="mp-cat-pill active" data-cat-type="all">Todos los Activos</button>
@@ -55,7 +97,7 @@
       </nav>
 
       <!-- Barra de Búsqueda y Botón Postular -->
-      <div class="mp-topbar-actions">
+      <div class="mp-subbar-actions">
         <div class="mp-search-box">
           <svg class="mp-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
@@ -70,7 +112,7 @@
         </button>
       </div>
     </div>
-  </header>
+  </section>
 
   <!-- ================= LAYOUT PRINCIPAL DE 3 COLUMNAS ================= -->
   <main class="mp-layout-container">
@@ -337,7 +379,7 @@
             <li><a href="https://instagram.com/miguelangel.laperladelcaribe" target="_blank" rel="noopener noreferrer">Instagram: @miguelangel</a></li>
             <li><a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer">WhatsApp: +34 676 59 70 68</a></li>
             <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer">Comunidad VIP WhatsApp</a></li>
-            <li><a href="#" class="btn-open-google-form">Postular Propiedad (Google Forms)</a></li>
+            <li><a href="https://forms.gle/feom29XWzAGYdLfg7" target="_blank" rel="noopener noreferrer" class="btn-open-google-form">Postular Propiedad (Google Forms) ↗</a></li>
           </ul>
         </div>
       </div>

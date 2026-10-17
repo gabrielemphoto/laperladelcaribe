@@ -181,8 +181,9 @@ import { Viewer3DApp } from '../../modelo-3d/main.js';
 
 /* ================= 2. Interactive 3D Model Integrated Viewport ================= */
 function initInteractiveModel3D() {
-  const container = document.getElementById('interactive-3d-canvas-wrap');
-  if (!container) return;
+  const container = document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+  if (!container || container.dataset.initialized) return;
+  container.dataset.initialized = 'true';
 
   try {
     new Viewer3DApp(container);
@@ -343,41 +344,9 @@ function initGeneralModals() {
   });
 }
 
-/* ================= 6. Postulación de Propiedades (Directo & Google Forms) ================= */
+/* ================= 6. Postulación de Propiedades (Directo & WhatsApp) ================= */
 function initGoogleFormSection() {
   const form = document.getElementById('property-direct-postulation-form');
-  const tabGoogle = document.getElementById('tab-btn-google-form');
-  const tabDirect = document.getElementById('tab-btn-direct-form');
-  const iframeHolder = document.getElementById('google-form-iframe-wrap');
-  const directFormHolder = document.getElementById('property-direct-form-wrap');
-  const iframeEl = document.getElementById('google-forms-live-frame');
-
-  const GOOGLE_FORMS_EMBED_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfwykXEqjDewDMoEnmDlJEFr7RbxYodhzhnuDohCcunplARQw/viewform?embedded=true';
-
-  if (iframeEl && (!iframeEl.src || iframeEl.src === window.location.href)) {
-    iframeEl.src = GOOGLE_FORMS_EMBED_URL;
-  }
-
-  // Pestañas para alternar entre el formulario incrustado de Google Forms y el de WhatsApp
-  if (tabGoogle && tabDirect && iframeHolder && directFormHolder) {
-    tabGoogle.addEventListener('click', () => {
-      tabGoogle.classList.add('btn-gold', 'active');
-      tabGoogle.classList.remove('btn-outline-glass');
-      tabDirect.classList.remove('btn-gold', 'active');
-      tabDirect.classList.add('btn-outline-glass');
-      iframeHolder.style.display = 'block';
-      directFormHolder.style.display = 'none';
-    });
-
-    tabDirect.addEventListener('click', () => {
-      tabDirect.classList.add('btn-gold', 'active');
-      tabDirect.classList.remove('btn-outline-glass');
-      tabGoogle.classList.remove('btn-gold', 'active');
-      tabGoogle.classList.add('btn-outline-glass');
-      iframeHolder.style.display = 'none';
-      directFormHolder.style.display = 'block';
-    });
-  }
 
   // Manejador del formulario directo para postular con envío por WhatsApp
   if (form) {

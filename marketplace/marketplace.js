@@ -254,6 +254,7 @@ let miniMapInstance = null;
 let miniMapMarker = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+  try { initNavbar(); } catch (e) { console.error('Error en initNavbar:', e); }
   try { readUrlParams(); } catch (e) { console.error('Error en readUrlParams:', e); }
   try { bindFilterEvents(); } catch (e) { console.error('Error en bindFilterEvents:', e); }
   try { bindMobileDrawers(); } catch (e) { console.error('Error en bindMobileDrawers:', e); }
@@ -261,6 +262,47 @@ document.addEventListener('DOMContentLoaded', () => {
   try { renderGrid(); } catch (e) { console.error('Error en renderGrid:', e); }
   try { renderDetailPanel(state.activePropertyId); } catch (e) { console.error('Error en renderDetailPanel:', e); }
 });
+
+// Inicializar Floating Glass Navbar y Drawer Móvil
+function initNavbar() {
+  const headerWrap = document.querySelector('.header-floating-wrap');
+  const mobileBtn = document.querySelector('.mobile-menu-btn');
+  const mobileDrawer = document.getElementById('mobile-nav-drawer');
+
+  if (headerWrap) {
+    const onScroll = () => {
+      if (window.scrollY > 30) {
+        headerWrap.classList.add('scrolled');
+      } else {
+        headerWrap.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  if (mobileBtn && mobileDrawer) {
+    mobileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mobileDrawer.classList.toggle('open');
+      mobileBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    mobileDrawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        mobileBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (headerWrap && !headerWrap.contains(e.target)) {
+        mobileDrawer.classList.remove('open');
+        mobileBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+}
 
 // Leer parámetros de URL si viene desde la landing page
 function readUrlParams() {

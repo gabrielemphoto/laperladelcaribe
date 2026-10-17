@@ -13,8 +13,18 @@ import { ProjectRoomRemodel } from './modules/project-room.js';
  * - Giro continuo interactivo permanente
  */
 export class Viewer3DApp {
-  constructor() {
-    this.container = document.getElementById('canvas-container');
+  constructor(containerOrId = 'canvas-container') {
+    if (typeof containerOrId === 'string') {
+      this.container = document.getElementById(containerOrId) || document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+    } else {
+      this.container = containerOrId || document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+    }
+
+    if (!this.container) {
+      console.warn('Viewer3DApp: Contenedor 3D no encontrado');
+      return;
+    }
+
     this.currentProjectIndex = 0; // 0: Terreno, 1: Hotel, 2: Torre/Apartamento
     this.projectCycleTime = 0;
 
@@ -34,7 +44,14 @@ export class Viewer3DApp {
     this.scene = new THREE.Scene();
     this.scene.background = null;
 
-    const aspect = this.container.clientWidth / this.container.clientHeight;
+    let w = this.container.clientWidth;
+    let h = this.container.clientHeight;
+    if (!w || !h || w <= 0 || h <= 0) {
+      w = this.container.offsetWidth || window.innerWidth || 800;
+      h = this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 620);
+    }
+
+    const aspect = w / h;
     // FOV 38 para perspectiva arquitectónica sin distorsión
     this.camera = new THREE.PerspectiveCamera(38, aspect, 0.1, 100);
     this.camera.position.set(14, 11, 14);
@@ -42,13 +59,18 @@ export class Viewer3DApp {
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
-      powerPreference: 'high-performance'
+      powerPreference: 'default',
+      failIfMajorPerformanceCaveat: false
     });
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    this.renderer.setSize(w, h);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
     this.renderer.setClearColor(0x000000, 0); // Fondo transparente
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
     this.container.appendChild(this.renderer.domElement);
 
     // Controles orbitales interactivos
@@ -235,15 +257,21 @@ export class Viewer3DApp {
   }
 
   setupEvents() {
-    window.addEventListener('resize', () => {
-      const w = this.container.clientWidth;
-      const h = this.container.clientHeight;
+    const handleResize = () => {
+      if (!this.container || !this.renderer || !this.camera) return;
+      let w = this.container.clientWidth || this.container.offsetWidth || window.innerWidth;
+      let h = this.container.clientHeight || this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 620);
       this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);
-    });
+    };
 
-    window.addEventListener('contextmenu', (e) => e.preventDefault());
+    window.addEventListener('resize', handleResize, { passive: true });
+    if (typeof ResizeObserver !== 'undefined' && this.container) {
+      new ResizeObserver(handleResize).observe(this.container);
+    }
+
+    this.container.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 
   // ==========================================
@@ -251,6 +279,21 @@ export class Viewer3DApp {
   // ==========================================
   animate() {
     requestAnimationFrame(() => this.animate());
+
+    // Auto-recuperación si el canvas arrancó en 0 dimensiones
+    if (this.renderer && this.renderer.domElement) {
+      const dw = this.renderer.domElement.width;
+      const dh = this.renderer.domElement.height;
+      if (dw <= 2 || dh <= 2) {
+        let w = this.container.clientWidth || this.container.offsetWidth || window.innerWidth;
+        let h = this.container.clientHeight || this.container.offsetHeight || (window.innerWidth < 640 ? 440 : 620);
+        if (w > 10 && h > 10) {
+          this.camera.aspect = w / h;
+          this.camera.updateProjectionMatrix();
+          this.renderer.setSize(w, h);
+        }
+      }
+    }
 
     const delta = 0.016; // ~60fps
     this.projectCycleTime += delta;
@@ -308,6 +351,18 @@ export class Viewer3DApp {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  new Viewer3DApp();
-});
+if (typeof document !== 'undefined') {
+  const initApp = () => {
+    const el = document.getElementById('canvas-container') || document.getElementById('interactive-3d-canvas-wrap');
+    if (el && !el.dataset.initialized) {
+      el.dataset.initialized = 'true';
+      new Viewer3DApp(el);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+}
