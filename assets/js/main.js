@@ -87,7 +87,7 @@ const ZONES_DATA = [
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
-  initCinematicStage();
+  initIsoTransformStage();
   initHeatmap();
   initMuniCards();
   initGeneralModals();
@@ -114,44 +114,247 @@ function initNavbar() {
   }
 }
 
-/* ================= 2. Cinematic Stage ================= */
-function initCinematicStage() {
-  const tabs = document.querySelectorAll('.stage-tab-btn');
-  const slides = document.querySelectorAll('.stage-slide');
-  if (tabs.length === 0 || slides.length === 0) return;
+/* ================= 2. 3D Isometric Transformation Stage ================= */
+const ISO_PHASES = [
+  {
+    phaseNum: 'FASE 01',
+    phaseTitle: 'ADQUISICIÓN ESTRATÉGICA',
+    metricLabel: 'Precio Suelo',
+    metricVal: '$1 - $100 USD / m²',
+    stepIndex: 0,
+    pins: [
+      { top: '35%', left: '24%', label: '📍 Parcela Costera ZEE', dot: 'green' },
+      { top: '64%', left: '52%', label: '⚖️ Título Limpio en Registro', dot: 'gold' },
+      { top: '44%', left: '72%', label: '💧 Factibilidad Pozo de Agua', dot: 'green' }
+    ],
+    cards: [
+      {
+        label: 'Ticket Entrada Suelo',
+        val: '$25,000 - $85,000 USD',
+        sub: 'Suelo virgen de $1 a $100 / m²'
+      },
+      {
+        label: 'Blindaje Legal Notarial',
+        val: 'Auditoría 100% Limpia',
+        sub: 'Registro Inmobiliario Nueva Esparta'
+      },
+      {
+        label: 'Plusvalía Proyectada',
+        val: '+20% - 28% Anual',
+        sub: 'Ley de Zona Económica Especial (ZEE)'
+      }
+    ]
+  },
+  {
+    phaseNum: 'FASE 02',
+    phaseTitle: 'CONSTRUCCIÓN AUTÓNOMA LLAVE EN MANO',
+    metricLabel: 'Costo Obra',
+    metricVal: '$380 - $550 USD / m²',
+    stepIndex: 1,
+    pins: [
+      { top: '26%', left: '48%', label: '⚡ 100% Paneles Solares & Baterías', dot: 'gold' },
+      { top: '58%', left: '28%', label: '💧 Pozo Propio de Agua Dulce', dot: 'green' },
+      { top: '64%', left: '68%', label: '🏗️ Ejecución Llave en Mano (8 Meses)', dot: 'sunset' }
+    ],
+    cards: [
+      {
+        label: 'Costo de Construcción',
+        val: '$380 - $550 USD / m²',
+        sub: '0% Aranceles bajo régimen Puerto Libre'
+      },
+      {
+        label: 'Autonomía de Servicios',
+        val: 'Pozo Dulce + Energía Solar',
+        sub: 'Cero cortes eléctricos ni falta de agua'
+      },
+      {
+        label: 'Supervisión Foránea',
+        val: 'Cámaras 24/7 en Vivo',
+        sub: 'Reportes semanales para inversores foráneos'
+      }
+    ]
+  },
+  {
+    phaseNum: 'FASE 03',
+    phaseTitle: 'HOTEL BOUTIQUE & RENTAS EN DÓLARES',
+    metricLabel: 'Rendimiento Anual',
+    metricVal: 'Supera el 10% (14% - 24%)',
+    stepIndex: 2,
+    pins: [
+      { top: '22%', left: '46%', label: '🏨 12 Suites + Rooftop Panorámico', dot: 'gold' },
+      { top: '54%', left: '62%', label: '🏊 Piscina Infinity & Solarium Operativo', dot: 'green' },
+      { top: '68%', left: '32%', label: '📈 Dividendos Mensuales en USD / USDT', dot: 'sunset' }
+    ],
+    cards: [
+      {
+        label: 'Flujo Neto de Rentas',
+        val: '+$4,500 - $12,000 / mes',
+        sub: 'Airbnb Luxe + Tour Operadores de Europa'
+      },
+      {
+        label: 'Rendimiento Neto (Yield)',
+        val: 'Supera el 10% (14% - 24%)',
+        sub: 'Rendimiento auditado libre de impuestos ZEE'
+      },
+      {
+        label: 'Gestión 100% Manos Libres',
+        val: 'Operación Integral 360°',
+        sub: 'Disfruta en vacaciones, cobra el resto del año'
+      }
+    ]
+  }
+];
 
-  let current = 0;
-  let autoplayTimer = null;
+function initIsoTransformStage() {
+  const tabs = document.querySelectorAll('.iso-tab-btn');
+  const layers = document.querySelectorAll('.iso-layer');
+  const scrubberSteps = document.querySelectorAll('.scrubber-step');
+  const sloganItems = document.querySelectorAll('.slogan-flow-item');
+  const hudPhasePill = document.getElementById('hud-phase-pill');
+  const hudMetricPill = document.getElementById('hud-metric-pill');
+  const pinsContainer = document.getElementById('iso-pins-container');
+  const hudCardsGrid = document.getElementById('iso-hud-cards-grid');
+  const laser = document.getElementById('iso-laser');
+  const progressBar = document.getElementById('iso-progress-bar');
+  const autoplayToggle = document.getElementById('iso-autoplay-toggle');
 
-  function setSlide(index) {
-    current = index % slides.length;
-    tabs.forEach(t => t.classList.remove('active'));
-    slides.forEach(s => s.classList.remove('active'));
+  if (layers.length === 0) return;
 
-    tabs[current].classList.add('active');
-    slides[current].classList.add('active');
+  let currentPhase = 0;
+  let isAutoplay = true;
+  const PHASE_DURATION_MS = 5000;
+  let progressStart = Date.now();
+  let progressInterval = null;
+
+  function renderPhase(index) {
+    currentPhase = index % ISO_PHASES.length;
+    const phaseData = ISO_PHASES[currentPhase];
+
+    // 1. Capas Isométricas con animación
+    layers.forEach((layer, i) => {
+      layer.classList.toggle('active', i === currentPhase);
+    });
+
+    // 2. Efecto de escaneo láser holográfico
+    if (laser) {
+      laser.classList.remove('scanning');
+      void laser.offsetWidth; // Force reflow
+      laser.classList.add('scanning');
+    }
+
+    // 3. Pestañas Superiores
+    tabs.forEach(tab => {
+      const p = parseInt(tab.dataset.phase, 10);
+      tab.classList.toggle('active', p === currentPhase);
+    });
+
+    // 4. Scrubber / Línea de tiempo
+    scrubberSteps.forEach(step => {
+      const p = parseInt(step.dataset.phase, 10);
+      step.classList.toggle('active', p === currentPhase);
+    });
+
+    // 5. Palabras de Flujo: INVIERTE • CONSTRUYE • ALQUILA • RECOGE TUS GANANCIAS
+    sloganItems.forEach(item => {
+      const stepIdx = parseInt(item.dataset.step, 10);
+      item.classList.toggle('active', stepIdx === currentPhase);
+    });
+
+    // 6. Overlay HUD sobre el viewport
+    if (hudPhasePill) {
+      hudPhasePill.innerHTML = `
+        <span class="hud-phase-dot"></span>
+        <span class="hud-phase-text">${phaseData.phaseNum} &bull; ${phaseData.phaseTitle}</span>
+      `;
+    }
+    if (hudMetricPill) {
+      hudMetricPill.innerHTML = `
+        <span class="hud-metric-label">${phaseData.metricLabel}</span>
+        <strong class="hud-metric-val">${phaseData.metricVal}</strong>
+      `;
+    }
+
+    // 7. Pines Holográficos Dinámicos
+    if (pinsContainer) {
+      pinsContainer.innerHTML = '';
+      phaseData.pins.forEach(pin => {
+        const pinEl = document.createElement('div');
+        pinEl.className = 'iso-pin';
+        pinEl.style.top = pin.top;
+        pinEl.style.left = pin.left;
+        pinEl.innerHTML = `<span class="pin-dot ${pin.dot}"></span><span>${pin.label}</span>`;
+        pinsContainer.appendChild(pinEl);
+      });
+    }
+
+    // 8. Tarjetas Financieras Inferiores (HUD)
+    if (hudCardsGrid) {
+      hudCardsGrid.innerHTML = phaseData.cards.map(c => `
+        <div class="hud-card">
+          <span class="hud-card-label">${c.label}</span>
+          <strong class="hud-card-value">${c.val}</strong>
+          <span class="hud-card-sub">${c.sub}</span>
+        </div>
+      `).join('');
+    }
+
+    // Reiniciar tiempo de barra de progreso
+    progressStart = Date.now();
   }
 
+  // Interacción con Pestañas
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const target = parseInt(tab.dataset.target, 10);
-      setSlide(target);
-      restartAutoplay();
+      const target = parseInt(tab.dataset.phase, 10);
+      renderPhase(target);
     });
   });
 
-  function startAutoplay() {
-    autoplayTimer = setInterval(() => {
-      setSlide(current + 1);
-    }, 7000);
+  // Interacción con Scrubber
+  scrubberSteps.forEach(step => {
+    step.addEventListener('click', () => {
+      const target = parseInt(step.dataset.phase, 10);
+      renderPhase(target);
+    });
+  });
+
+  // Botón Play / Pausa
+  if (autoplayToggle) {
+    autoplayToggle.addEventListener('click', () => {
+      isAutoplay = !isAutoplay;
+      autoplayToggle.classList.toggle('paused', !isAutoplay);
+      autoplayToggle.innerHTML = isAutoplay
+        ? '<span class="autoplay-icon">⏸</span><span class="autoplay-text">Auto</span>'
+        : '<span class="autoplay-icon">▶</span><span class="autoplay-text">Pausado</span>';
+
+      if (isAutoplay) {
+        progressStart = Date.now();
+      } else if (progressBar) {
+        progressBar.style.width = '0%';
+      }
+    });
   }
 
-  function restartAutoplay() {
-    if (autoplayTimer) clearInterval(autoplayTimer);
-    startAutoplay();
+  // Ciclo de animación continua
+  function runLoop() {
+    if (isAutoplay) {
+      const elapsed = Date.now() - progressStart;
+      const progress = Math.min((elapsed / PHASE_DURATION_MS) * 100, 100);
+
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+      }
+
+      if (elapsed >= PHASE_DURATION_MS) {
+        renderPhase(currentPhase + 1);
+      }
+    }
+    requestAnimationFrame(runLoop);
   }
 
-  startAutoplay();
+  // Inicializar primera fase
+  renderPhase(0);
+  requestAnimationFrame(runLoop);
 }
 
 /* ================= 3. Leaflet Investment Heatmap ================= */
