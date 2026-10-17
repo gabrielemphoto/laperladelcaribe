@@ -140,8 +140,24 @@ function initNavbar() {
 
 /* ================= 1.1 Hero Vertical Looping Words (2s loop) ================= */
 function initHeroWordRotator() {
+  const wrapper = document.querySelector('.hero-rotator-wrapper');
   const words = document.querySelectorAll('.hero-rotator-word');
   if (!words.length) return;
+
+  const calibrateHeight = () => {
+    if (!wrapper) return;
+    let maxH = 0;
+    words.forEach(w => {
+      const h = w.offsetHeight || w.scrollHeight;
+      if (h > maxH) maxH = h;
+    });
+    if (maxH > 0) {
+      wrapper.style.minHeight = (maxH + 18) + 'px';
+    }
+  };
+
+  calibrateHeight();
+  window.addEventListener('resize', calibrateHeight, { passive: true });
 
   let currentIndex = 0;
   const total = words.length;
