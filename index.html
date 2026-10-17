@@ -23,87 +23,139 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3.5">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
 </head>
 <body>
 
-  <!-- ================= Header / Navbar ================= -->
-  <header class="header">
-    <div class="container nav-container">
-      <a href="#" class="brand-wrapper" aria-label="Inicio Miguel Angel">
+  <!-- ================= Header / Floating Glassmorphic Navbar (Static on Scroll) ================= -->
+  <header class="header-floating-wrap" id="main-header">
+    <div class="header-glass-bar">
+      <!-- Marca & Identidad -->
+      <a href="#" class="brand-wrapper" aria-label="Inicio Miguel Angel - Inversiones La Perla del Caribe">
         <img src="assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="brand-logo-img">
         <div class="brand-text-col">
-          <span class="brand-title">MIGUEL ANGEL</span>
+          <span class="brand-title">MIGUEL ÁNGEL</span>
           <span class="brand-tagline">LA PERLA DEL CARIBE</span>
         </div>
       </a>
 
-      <nav>
+      <!-- Navegación Central Editorial -->
+      <nav class="nav-center-menu">
         <ul class="nav-links">
           <li><a href="#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
-          <li><a href="#mapa-margarita" class="nav-link">Mapa de Calor</a></li>
+          <li><a href="marketplace/" class="nav-link">Marketplace</a></li>
+          <li><a href="#mapa-margarita" class="nav-link">Zonas de Inversión</a></li>
           <li><a href="#comparativa" class="nav-link">Comparativa ROI</a></li>
-          <li><a href="#postulacion-forms" class="nav-link text-sunset-nav">📋 Postular Propiedad</a></li>
-          <li class="nav-mobile-only"><a href="marketplace/" class="nav-link" style="color: var(--c-gold-light);">🏬 Ver Marketplace</a></li>
+          <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="nav-link text-gold-nav">Comunidad VIP</a></li>
         </ul>
       </nav>
 
+      <!-- Acción Derecha: Botón Invierte Ahora + Toggle Móvil -->
       <div class="nav-actions">
-        <a href="marketplace/" class="btn btn-sunset" style="padding: 0.55rem 1rem; font-size: 0.82rem;">
-          <span>🏬 Marketplace</span>
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20quiero%20invertir%20ahora%20en%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn-invierte-pill">
+          <span>Invierte Ahora</span>
+          <span class="btn-arrow">↗</span>
         </a>
-        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-outline-gold" style="padding: 0.55rem 0.9rem; font-size: 0.82rem;">
-          <span>💬 WhatsApp</span>
-        </a>
+
         <button class="mobile-menu-btn" aria-label="Abrir Menú" aria-expanded="false">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil Luxury -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="#inicio" class="mobile-nav-link">Inicio</a></li>
+        <li><a href="#proceso" class="mobile-nav-link">¿Cómo Trabajamos?</a></li>
+        <li><a href="marketplace/" class="mobile-nav-link">Marketplace de Propiedades</a></li>
+        <li><a href="#mapa-margarita" class="mobile-nav-link">Zonas de Inversión</a></li>
+        <li><a href="#comparativa" class="mobile-nav-link">Comparativa ROI</a></li>
+        <li><a href="#postulacion-forms" class="mobile-nav-link">Postular Propiedad (Google Forms)</a></li>
+        <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="mobile-nav-link" style="color: var(--c-gold);">Comunidad VIP WhatsApp ↗</a></li>
+      </ul>
+      <div class="mobile-drawer-cta">
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20quiero%20invertir%20ahora%20en%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn btn-sunset" style="width: 100%; justify-content: center;">
+          <span>🌟 Hablar con Miguel Ángel por WhatsApp</span>
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- ================= HERO SECTION ================= -->
-  <section class="hero" id="inicio">
-    <div class="container">
-      
-      <!-- Encabezado del Hero -->
-      <div class="hero-header-center">
-        <div class="hero-badge-row">
-          <div class="glass-pill sunset">
-            <span style="width: 7px; height: 7px; border-radius: 50%; background: #22c55e;"></span>
-            <span>Personal Shopper &bull; Inversores Extranjeros</span>
-          </div>
-          <div class="glass-pill gold">
-            <span>Zona Económica Especial (ZEE) Margarita</span>
-          </div>
-        </div>
+  <!-- ================= HERO SECTION (EDITORIAL LUXURY) ================= -->
+  <section class="hero-luxury" id="inicio">
+    <!-- Fondo con Imagen Luxury y Degradado Cinematográfico Negro -->
+    <div class="hero-luxury-backdrop" style="background-image: url('assets/images/hero-luxury-villa.jpg');"></div>
+    <div class="hero-luxury-overlay"></div>
 
-        <h1 class="hero-title">
-          De un <span class="italic-serif text-sunset">Terreno Virgen</span> a tu Hotel, Posada o Villa en el Caribe.
-        </h1>
-
-        <!-- Slogan Central -->
-        <div class="hero-slogan-box">
-          <div class="words-pill-banner">
-            <span>INVIERTE &bull; ALQUILA &bull; RECOGE TUS GANANCIAS</span>
-          </div>
-          <p class="hero-subtitle">
-            Buscamos y filtramos parcelas estratégicas, construimos con autonomía 100% (pozo de agua dulce y planta eléctrica) y operamos tus rentas en dólares. <strong style="color: #ffffff;">Nosotros nos encargamos de todo.</strong>
-          </p>
-        </div>
-
-        <!-- Botones de Acción -->
-        <div class="hero-cta-row">
-          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-sunset">
-            <span>🌟 Contactar a Miguel Ángel por WhatsApp</span>
-          </a>
-          <a href="marketplace/" class="btn btn-outline-gold">
-            <span>🏬 Explorar Marketplace de Terrenos &amp; Propiedades</span>
-          </a>
-        </div>
+    <div class="hero-luxury-container">
+      <!-- Kicker Superior Minimalista -->
+      <div class="hero-luxury-kicker-wrap">
+        <span class="kicker-line"></span>
+        <span class="hero-luxury-kicker">INVERSIONES LA PERLA DEL CARIBE</span>
+        <span class="kicker-line"></span>
       </div>
 
-      <!-- ================= 3D ISOMETRIC TRANSFORMATION STAGE ================= -->
+      <!-- Título Editorial con Bucle Vertical de Palabras (2s cada una) -->
+      <div class="hero-rotator-wrapper">
+        <h1 class="hero-rotator-headline" id="hero-rotator-headline" aria-live="polite">
+          <span class="hero-rotator-word active" data-index="0">ASESÓRATE</span>
+          <span class="hero-rotator-word" data-index="1">INVIERTE</span>
+          <span class="hero-rotator-word" data-index="2">CONSTRUYE O REFORMA</span>
+          <span class="hero-rotator-word" data-index="3">RECOGE TUS GANANCIAS</span>
+        </h1>
+      </div>
+
+      <!-- Subtítulo / Párrafo de Autoridad y Oportunidad -->
+      <p class="hero-luxury-desc">
+        Por el mismo dinero que te costaría un apartamento de 1 habitación en España podrías comprar una posada entera para reformar, alquilar y ganar dinero desde el extranjero acá en la Isla de Margarita.
+      </p>
+
+      <!-- Botones CTA de Acción Rápida -->
+      <div class="hero-luxury-cta-row">
+        <a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="btn-luxury-pill-primary">
+          <span>UNIRSE A LA COMUNIDAD VIP</span>
+          <span class="cta-arrow">↗</span>
+        </a>
+
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20deseo%20agendar%20una%20llamada%20con%20un%20asesor%20para%20invertir%20en%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn-luxury-pill-secondary">
+          <span>AGENDAR LLAMADA CON UN ASESOR</span>
+          <span class="cta-arrow">↗</span>
+        </a>
+      </div>
+
+      <!-- Contadores / Estadísticas Inferiores (Stats Bar) -->
+      <div class="hero-luxury-stats">
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">+15</span>
+          <span class="hero-stat-label">Años de experiencia</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">+1000</span>
+          <span class="hero-stat-label">Propiedades captadas</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">+500</span>
+          <span class="hero-stat-label">Inversiones asesoradas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SIMULADOR DE TRANSFORMACIÓN 3D & PROCESO INTEGRAL ================= -->
+  <section class="section section-simulator" id="simulador-3d">
+    <div class="container">
+      <div class="section-head text-center" style="margin-bottom: 2.2rem;">
+        <div class="glass-pill gold" style="margin-bottom: 0.6rem;">Tecnología Inmobiliaria Integral</div>
+        <h2 class="section-title">De Terreno Virgen a Activo Generando Rentas</h2>
+        <p class="section-subtitle" style="max-width: 720px; margin: 0 auto;">
+          Buscamos y filtramos parcelas estratégicas, construimos con autonomía 100% (pozo de agua dulce y planta eléctrica) y operamos tus rentas en dólares. Nosotros nos encargamos de todo.
+        </p>
+      </div>
+
+      <!-- Escenario 3D Isométrico -->
       <div class="iso-transform-stage">
         <!-- Barra de Control y Pestañas Superiores -->
         <div class="iso-stage-header">

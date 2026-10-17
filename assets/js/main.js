@@ -87,6 +87,7 @@ const ZONES_DATA = [
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
+  initHeroWordRotator();
   initIsoTransformStage();
   initHeatmap();
   initMuniCards();
@@ -94,24 +95,70 @@ document.addEventListener('DOMContentLoaded', () => {
   initGoogleFormSection();
 });
 
-/* ================= 1. Navbar Mobile ================= */
+/* ================= 1. Floating Glass Navbar & Mobile Drawer ================= */
 function initNavbar() {
+  const headerWrap = document.querySelector('.header-floating-wrap');
   const mobileBtn = document.querySelector('.mobile-menu-btn');
-  const navLinks = document.querySelector('.nav-links');
+  const mobileDrawer = document.getElementById('mobile-nav-drawer');
 
-  if (mobileBtn && navLinks) {
-    mobileBtn.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
+  // Fondo reforzado al hacer scroll para máxima legibilidad
+  if (headerWrap) {
+    const onScroll = () => {
+      if (window.scrollY > 30) {
+        headerWrap.classList.add('scrolled');
+      } else {
+        headerWrap.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Control del drawer móvil
+  if (mobileBtn && mobileDrawer) {
+    mobileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mobileDrawer.classList.toggle('open');
       mobileBtn.setAttribute('aria-expanded', isOpen);
     });
 
-    navLinks.querySelectorAll('a').forEach(link => {
+    mobileDrawer.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
+        mobileDrawer.classList.remove('open');
         mobileBtn.setAttribute('aria-expanded', 'false');
       });
     });
+
+    document.addEventListener('click', (e) => {
+      if (headerWrap && !headerWrap.contains(e.target)) {
+        mobileDrawer.classList.remove('open');
+        mobileBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
   }
+}
+
+/* ================= 1.1 Hero Vertical Looping Words (2s loop) ================= */
+function initHeroWordRotator() {
+  const words = document.querySelectorAll('.hero-rotator-word');
+  if (!words.length) return;
+
+  let currentIndex = 0;
+  const total = words.length;
+
+  setInterval(() => {
+    const currentWord = words[currentIndex];
+    currentWord.classList.remove('active');
+    currentWord.classList.add('exit-up');
+
+    setTimeout(() => {
+      currentWord.classList.remove('exit-up');
+    }, 650);
+
+    currentIndex = (currentIndex + 1) % total;
+    const nextWord = words[currentIndex];
+    nextWord.classList.add('active');
+  }, 2000); // bucle fluido de 2 segundos exactos
 }
 
 /* ================= 2. 3D Isometric Transformation Stage ================= */
