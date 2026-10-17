@@ -260,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try { bindFilterEvents(); } catch (e) { console.error('Error en bindFilterEvents:', e); }
   try { bindMobileDrawers(); } catch (e) { console.error('Error en bindMobileDrawers:', e); }
   try { bindGoogleFormModal(); } catch (e) { console.error('Error en bindGoogleFormModal:', e); }
+  try { initPostulationForms(); } catch (e) { console.error('Error en initPostulationForms:', e); }
   try { renderGrid(); } catch (e) { console.error('Error en renderGrid:', e); }
   try { renderDetailPanel(state.activePropertyId); } catch (e) { console.error('Error en renderDetailPanel:', e); }
 });
@@ -1069,3 +1070,37 @@ function bindGoogleFormModal() {
     }
   });
 }
+
+// Manejo del Formulario Directo de Postulación y Envío Estructurado a WhatsApp
+function initPostulationForms() {
+  const forms = document.querySelectorAll('#property-direct-postulation-form, #marketplace-postulation-form, #marketplace-modal-postulation-form');
+
+  forms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const zone = form.querySelector('[name="prop_zone"]')?.value || 'No especificada';
+      const type = form.querySelector('[name="prop_type"]')?.value || 'No especificado';
+      const status = form.querySelector('[name="prop_status"]')?.value || 'No especificado';
+      const legal = form.querySelector('[name="prop_legal"]')?.value || 'No especificado';
+      const price = form.querySelector('[name="prop_price"]')?.value || 'No especificado';
+      const details = form.querySelector('[name="prop_details"]')?.value || 'Se enviarán por WhatsApp';
+      const owner = form.querySelector('[name="prop_owner"]')?.value || 'Propietario';
+      const contact = form.querySelector('[name="prop_contact"]')?.value || 'Contacto';
+
+      const waMsg = encodeURIComponent(
+        `*¡Hola Miguel Ángel! Deseo postular una propiedad para venta en Margarita:*\n\n` +
+        `📍 *Ubicación/Zona:* ${zone}\n` +
+        `🏷️ *Tipo de Inmueble:* ${type}\n` +
+        `🏗️ *Estado de Construcción:* ${status}\n` +
+        `⚖️ *Títulos y Papeles:* ${legal}\n` +
+        `💰 *Precio Pretendido:* ${price}\n` +
+        `📝 *Detalles/Fotos:* ${details}\n\n` +
+        `👤 *Propietario:* ${owner}\n` +
+        `📞 *Contacto:* ${contact}`
+      );
+
+      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${waMsg}`, '_blank');
+    });
+  });
+}
+

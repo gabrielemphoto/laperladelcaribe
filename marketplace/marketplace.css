@@ -1202,17 +1202,17 @@ body.marketplace-page {
 }
 
 .custom-modal-content {
-  background: #ffffff;
-  color: #0f172a;
+  background: #0b111e;
+  color: #ffffff;
   border-radius: 20px;
   width: 100%;
-  max-width: 680px;
+  max-width: 720px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-  padding: 2rem 1.6rem 1.6rem 1.6rem;
-  border: 1px solid rgba(197, 168, 128, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  padding: 2.2rem 1.6rem 1.6rem 1.6rem;
+  border: 1px solid rgba(212, 160, 23, 0.35);
   animation: modalPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -1231,14 +1231,14 @@ body.marketplace-page {
   position: absolute;
   top: 14px;
   right: 16px;
-  background: #f1f5f9;
+  background: rgba(255, 255, 255, 0.12);
   border: none;
   width: 36px;
   height: 36px;
   border-radius: 50%;
   font-size: 1.4rem;
   line-height: 1;
-  color: #475569;
+  color: #e2e8f0;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1248,8 +1248,41 @@ body.marketplace-page {
 }
 
 .modal-close-btn:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.custom-modal-content .postulation-field label {
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.custom-modal-content .post-input,
+.custom-modal-content .post-select {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  color: #ffffff;
+  font-size: 0.88rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.custom-modal-content .post-input:focus,
+.custom-modal-content .post-select:focus {
+  border-color: #fbbf24;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.custom-modal-content .post-select option {
+  background: #0f172a;
+  color: #ffffff;
 }
 
 /* ================= BANNER POSTULACIÓN MARKETPLACE ================= */
