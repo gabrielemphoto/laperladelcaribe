@@ -1,7 +1,7 @@
 /**
  * MIGUEL ANGEL - LA PERLA DEL CARIBE
  * Personal Shopper Inmobiliario & Constructor • Isla de Margarita
- * Lógica Interactiva: Mapa de Margarita, Marketplace Dinámico, Hero Transformation, Formularios y Modales
+ * Lógica Interactiva: Escenario Cinemático de Transformación, Mapa de Margarita, Marketplace Dinámico, Formularios y Modales
  */
 
 // Catálogo base de propiedades en Isla de Margarita
@@ -43,7 +43,7 @@ const DEFAULT_PROPERTIES = [
     type: 'hotel',
     typeName: 'Posada Boutique & Eco-Resort',
     title: 'Eco-Resort Boutique El Yaque',
-    desc: 'Propiedad hotelera operativa de 12 cabanas de lujo con restaurante frente al mar, escuela de kitesurf y clientela internacional recurrente de Europa.',
+    desc: 'Propiedad hotelera operativa de 12 cabañas de lujo con restaurante frente al mar, escuela de kitesurf y clientela internacional recurrente de Europa.',
     specs: ['12 Suites', '1,800 m² Parcela', 'Licencia Turística ZEE', 'Ocupación 82%'],
     price: '$390,000 USD',
     roi: '21% Anual Est.',
@@ -64,7 +64,7 @@ const DEFAULT_PROPERTIES = [
     roi: '15% Anual Est.',
     status: 'disponible',
     statusText: 'Disponible',
-    image: 'assets/images/margarita-sunset-villa.jpg'
+    image: 'assets/images/margarita-lifestyle-enjoy.jpg'
   },
   {
     id: 'prop-5',
@@ -100,7 +100,7 @@ const DEFAULT_PROPERTIES = [
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
-  initHeroTransformation();
+  initCinematicStage();
   initMarketplace();
   initMapInteractivity();
   initPropertyPostulationModal();
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
 });
 
-/* ================= 1. Navbar & Scroll Blur ================= */
+/* ================= 1. Navbar & Mobile Drawer ================= */
 function initNavbar() {
   const header = document.querySelector('.header');
   const mobileBtn = document.querySelector('.mobile-menu-btn');
@@ -138,55 +138,64 @@ function initNavbar() {
   }
 }
 
-/* ================= 2. Hero Transformation (Terreno -> Construcción -> Rentas) ================= */
-function initHeroTransformation() {
-  const tabs = document.querySelectorAll('.trans-tab');
-  const titleEl = document.getElementById('trans-title');
-  const descEl = document.getElementById('trans-desc');
-  const badgeEl = document.getElementById('trans-badge');
-  const widgetOccupancy = document.getElementById('widget-occupancy-val');
-  const widgetRevenue = document.getElementById('widget-revenue-val');
+/* ================= 2. Cinematic Interactive Stage (Terreno -> Construcción -> Rentas) ================= */
+function initCinematicStage() {
+  const slides = document.querySelectorAll('.stage-slide');
+  const buttons = document.querySelectorAll('.timeline-btn');
+  if (slides.length === 0 || buttons.length === 0) return;
 
-  const stages = {
-    terreno: {
-      title: 'Paso 1: Adquisición de Terreno Virgen',
-      desc: 'Localizamos parcelas estratégicas en Pampatar o El Yaque con papeles 100% en regla y precios de entrada hasta 65% menores que en España.',
-      badge: 'Fase: Búsqueda & Filtrado',
-      occupancy: 'Fase Inicial',
-      revenue: '$0 (Plusvalía Potencial)'
-    },
-    construccion: {
-      title: 'Paso 2: Construcción & Arquitectura Llave en Mano',
-      desc: 'Diseñamos y edificamos tu villa, posada u hotel boutique con energía solar, pozo autónomo y supervisión integral sin que tengas que viajar.',
-      badge: 'Fase: Obra & Permisología',
-      occupancy: 'En Ejecución',
-      revenue: '+34% Plusvalía en Obra'
-    },
-    rentas: {
-      title: 'Paso 3: Operación Hotelera & Recogida de Rentas',
-      desc: 'Administramos tu propiedad en Airbnb Luxe / Booking y depositamos tus dividendos netos mensuales en tu cuenta bancaria internacional o wallet.',
-      badge: 'Fase: Recoge tus Ganancias',
-      occupancy: '88% Ocupación Anual',
-      revenue: '+$8,450 USD / mes'
+  let currentSlide = 0;
+  let autoplayTimer = null;
+  const slideDuration = 6000; // 6 segundos por fase
+
+  function goToSlide(index) {
+    slides.forEach(s => s.classList.remove('active'));
+    buttons.forEach(b => b.classList.remove('active'));
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add('active');
+    buttons[currentSlide].classList.add('active');
+
+    // Reiniciar barra de progreso CSS
+    const activeProgressBar = buttons[currentSlide].querySelector('.timeline-progress-bar');
+    if (activeProgressBar) {
+      activeProgressBar.style.animation = 'none';
+      void activeProgressBar.offsetWidth; // trigger reflow
+      activeProgressBar.style.animation = null;
     }
-  };
+  }
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+  function nextSlide() {
+    goToSlide(currentSlide + 1);
+  }
 
-      const stageKey = tab.dataset.stage;
-      const data = stages[stageKey];
-      if (data) {
-        if (titleEl) titleEl.textContent = data.title;
-        if (descEl) descEl.textContent = data.desc;
-        if (badgeEl) badgeEl.textContent = data.badge;
-        if (widgetOccupancy) widgetOccupancy.textContent = data.occupancy;
-        if (widgetRevenue) widgetRevenue.textContent = data.revenue;
-      }
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(nextSlide, slideDuration);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = parseInt(btn.dataset.target, 10);
+      goToSlide(target);
+      startAutoplay();
     });
   });
+
+  const stageCard = document.querySelector('.cinematic-stage-card');
+  stageCard?.addEventListener('mouseenter', stopAutoplay);
+  stageCard?.addEventListener('mouseleave', startAutoplay);
+  stageCard?.addEventListener('touchstart', stopAutoplay, { passive: true });
+
+  startAutoplay();
 }
 
 /* ================= 3. Marketplace de Propiedades ================= */
@@ -220,13 +229,13 @@ function renderMarketplace() {
   });
 
   if (countEl) {
-    countEl.textContent = `${filtered.length} Propiedades Encontradas`;
+    countEl.textContent = `${filtered.length} Activos Encontrados`;
   }
 
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: var(--c-card-bg); border-radius: var(--radius-lg); border: 1px dashed var(--glass-border);">
-        <p style="color: var(--c-text-muted); font-size: 1.1rem;">No hay propiedades con los filtros seleccionados.</p>
+        <p style="color: var(--c-text-muted); font-size: 1.05rem;">No hay propiedades con los filtros seleccionados.</p>
         <button class="btn btn-gold" style="margin-top: 1rem;" onclick="resetMarketplaceFilters()">Ver Todas las Propiedades</button>
       </div>
     `;
@@ -254,7 +263,7 @@ function renderMarketplace() {
             <span>Inversión</span>
             <strong>${item.price}</strong>
           </div>
-          <button class="btn btn-sunset" style="padding: 0.6rem 1.1rem; font-size: 0.8rem;" onclick="openPropertyDetail('${item.id}')">
+          <button class="btn btn-sunset" style="padding: 0.55rem 1rem; font-size: 0.78rem;" onclick="openPropertyDetail('${item.id}')">
             <span>Consultar Ficha</span>
           </button>
         </div>
@@ -278,7 +287,6 @@ window.resetMarketplaceFilters = function() {
 };
 
 function initMarketplace() {
-  // Botones de filtro de tipo
   const typePills = document.querySelectorAll('.type-filter-pill');
   typePills.forEach(pill => {
     pill.addEventListener('click', () => {
@@ -289,7 +297,6 @@ function initMarketplace() {
     });
   });
 
-  // Botones de filtro de zona
   const zoneBtns = document.querySelectorAll('.zone-filter-btn');
   zoneBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -313,14 +320,12 @@ function initMapInteractivity() {
 
       activeZoneFilter = zone;
 
-      // Actualizar botón de filtro activo
       document.querySelectorAll('.zone-filter-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.zone === zone);
       });
 
       renderMarketplace();
 
-      // Desplazamiento suave al marketplace
       const marketplaceSec = document.getElementById('marketplace-sec');
       if (marketplaceSec) {
         marketplaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -329,30 +334,30 @@ function initMapInteractivity() {
   });
 }
 
-/* ================= 5. Modal Postular Propiedad (Google Forms & Dinámico) ================= */
+/* ================= 5. Modal Postular Propiedad ================= */
 function initPropertyPostulationModal() {
   const openBtn = document.getElementById('btn-open-postulate');
+  const footerPostulate = document.getElementById('footer-link-postulate');
   const modal = document.getElementById('modal-postulate');
   const closeBtn = document.getElementById('close-postulate-modal');
   const form = document.getElementById('form-postulate-property');
 
-  if (openBtn && modal) {
-    openBtn.addEventListener('click', () => {
-      modal.classList.add('open');
-    });
+  function openModal(e) {
+    e?.preventDefault();
+    modal?.classList.add('open');
   }
 
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('open');
-    });
-  }
+  openBtn?.addEventListener('click', openModal);
+  footerPostulate?.addEventListener('click', openModal);
+
+  closeBtn?.addEventListener('click', () => {
+    modal?.classList.remove('open');
+  });
 
   modal?.addEventListener('click', (e) => {
     if (e.target === modal) modal.classList.remove('open');
   });
 
-  // Procesar envío de nueva propiedad
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -383,16 +388,13 @@ function initPropertyPostulationModal() {
         image: photoLink
       };
 
-      // Guardar en localStorage
       const existing = JSON.parse(localStorage.getItem('margarita_custom_properties') || '[]');
       existing.unshift(newProperty);
       localStorage.setItem('margarita_custom_properties', JSON.stringify(existing));
 
-      // Actualizar vista
       renderMarketplace();
-      modal.classList.remove('open');
+      modal?.classList.remove('open');
 
-      // Notificación al usuario y redirección opcional a WhatsApp de Miguel Ángel
       alert('¡Propiedad postulada con éxito! Se ha añadido de forma inmediata a la vista del marketplace y ha sido enviada al equipo de Miguel Ángel para verificación legal.');
 
       const waMsg = encodeURIComponent(
@@ -410,23 +412,23 @@ function initPropertyPostulationModal() {
   }
 }
 
-/* ================= 6. Modales Generales (VIP & Agendar Llamada) ================= */
+/* ================= 6. Modales Generales ================= */
 function initGeneralModals() {
-  // Modal VIP
-  const vipBtn = document.getElementById('btn-open-vip');
+  const vipBtns = [document.getElementById('btn-open-vip'), document.getElementById('footer-link-vip')];
   const vipModal = document.getElementById('modal-vip');
   const closeVip = document.getElementById('close-vip-modal');
 
-  vipBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
-    vipModal?.classList.add('open');
+  vipBtns.forEach(btn => {
+    btn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      vipModal?.classList.add('open');
+    });
   });
 
   closeVip?.addEventListener('click', () => {
     vipModal?.classList.remove('open');
   });
 
-  // Modal Agendar
   const callBtns = document.querySelectorAll('.btn-open-call');
   const callModal = document.getElementById('modal-call');
   const closeCall = document.getElementById('close-call-modal');
@@ -442,7 +444,6 @@ function initGeneralModals() {
     callModal?.classList.remove('open');
   });
 
-  // Cerrar al click afuera
   [vipModal, callModal].forEach(m => {
     m?.addEventListener('click', (e) => {
       if (e.target === m) m.classList.remove('open');
@@ -450,7 +451,7 @@ function initGeneralModals() {
   });
 }
 
-/* ================= 7. Formulario de Captación de Leads en el Hero ================= */
+/* ================= 7. Formulario de Captación de Leads ================= */
 function initHeroLeadForm() {
   const form = document.getElementById('hero-lead-form');
   if (!form) return;
@@ -473,8 +474,7 @@ function initHeroLeadForm() {
     }
 
     try {
-      // Envío real a servicio de correo FormSubmit o Formspree
-      const response = await fetch('https://formsubmit.co/ajax/miguelangel.laperladelcaribe@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/miguelangel.laperladelcaribe@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -487,22 +487,21 @@ function initHeroLeadForm() {
           WhatsApp: phone,
           Presupuesto: budget,
           Interes: projectType,
-          Origen: 'Hero Landing Page - La Perla del Caribe'
+          Origen: 'Hero Landing Page - Miguel Ángel La Perla del Caribe'
         })
       });
 
       if (submitBtn) {
-        submitBtn.innerHTML = '✓ ¡Recibido! Conectando con Miguel Ángel...';
+        submitBtn.innerHTML = '✓ ¡Recibido! Conectando vía WhatsApp...';
         submitBtn.style.background = '#22c55e';
       }
 
-      // Conexión adicional a WhatsApp comercial
       setTimeout(() => {
         const waMsg = encodeURIComponent(
           `*Hola Miguel Ángel, solicito información como inversionista en Margarita:*\n` +
           `*Nombre:* ${name}\n` +
           `*Email:* ${email}\n` +
-          `*Teléfono:* ${phone}\n` +
+          `*WhatsApp:* ${phone}\n` +
           `*Presupuesto:* ${budget}\n` +
           `*Interés:* ${projectType}`
         );
@@ -517,14 +516,11 @@ function initHeroLeadForm() {
 
     } catch (err) {
       console.warn('Fallback WhatsApp directo:', err);
-      if (submitBtn) {
-        submitBtn.innerHTML = 'Conectando vía WhatsApp...';
-      }
       const waMsg = encodeURIComponent(
         `*Hola Miguel Ángel, deseo información de inversión en Margarita:*\n` +
         `*Nombre:* ${name}\n` +
         `*Email:* ${email}\n` +
-        `*Teléfono:* ${phone}\n` +
+        `*WhatsApp:* ${phone}\n` +
         `*Presupuesto:* ${budget}\n` +
         `*Interés:* ${projectType}`
       );
@@ -551,7 +547,7 @@ function initScrollAnimations() {
     });
   }, {
     threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -40px 0px'
   });
 
   revealElements.forEach(el => observer.observe(el));
