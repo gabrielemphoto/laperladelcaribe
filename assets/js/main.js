@@ -295,15 +295,17 @@ function initHeroWordRotator() {
     if (!wrapper) return;
     let maxH = 0;
     words.forEach(w => {
-      const h = w.offsetHeight || w.scrollHeight;
+      const h = Math.max(w.offsetHeight || 0, w.scrollHeight || 0, w.getBoundingClientRect ? w.getBoundingClientRect().height : 0);
       if (h > maxH) maxH = h;
     });
-    if (maxH > 0) {
-      wrapper.style.minHeight = (maxH + 14) + 'px';
-    }
+    const minFloor = window.innerWidth <= 768 ? 112 : 75;
+    wrapper.style.minHeight = Math.max(maxH + 16, minFloor) + 'px';
   };
 
   calibrateHeight();
+  if (document.fonts) {
+    document.fonts.ready.then(calibrateHeight);
+  }
   window.addEventListener('resize', calibrateHeight, { passive: true });
 
   let currentIndex = 0;

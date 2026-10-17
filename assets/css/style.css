@@ -567,6 +567,10 @@ button, input, select, textarea {
   filter: blur(6px);
 }
 
+.hero-mobile-br {
+  display: none;
+}
+
 /* Subtítulo / Párrafo de Oportunidad */
 .hero-luxury-desc {
   font-size: clamp(0.95rem, 1.8vw, 1.18rem);
@@ -3040,17 +3044,24 @@ button, input, select, textarea {
   }
 
   .hero-rotator-wrapper {
-    min-height: 5.2rem;
+    min-height: 7rem;
     height: auto;
-    margin-bottom: 0.5rem;
-    padding: 0.3rem;
+    margin-bottom: 0.9rem;
+    padding: 0.4rem 0.5rem;
   }
 
   .hero-rotator-word {
-    font-size: clamp(1.3rem, 5vw, 1.95rem);
-    white-space: normal;
-    padding: 0 0.5rem;
-    line-height: 1.22;
+    font-size: clamp(2.35rem, 8.5vw, 3.1rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    white-space: normal !important;
+    padding: 0 0.4rem !important;
+    letter-spacing: 0.01em !important;
+    text-align: center !important;
+  }
+
+  .hero-mobile-br {
+    display: block !important;
   }
 
   .hero-luxury-desc {
