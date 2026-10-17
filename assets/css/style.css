@@ -755,7 +755,7 @@ button, input, select, textarea {
 /* Píldora Descriptiva de Proyecto (Espaciosa y Anti-Apretada) */
 .project-pill-badge {
   position: absolute;
-  top: 16px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
@@ -1027,7 +1027,8 @@ button, input, select, textarea {
   }
 
   .project-pill-badge {
-    top: 10px;
+    bottom: 12px;
+    top: auto;
     padding: 10px 16px;
     border-radius: 14px;
     gap: 10px;
