@@ -22,7 +22,7 @@
 
   <!-- Estilos Globales & Marketplace -->
   <link rel="stylesheet" href="../assets/css/style.css?v=4.3">
-  <link rel="stylesheet" href="marketplace.css?v=2.1">
+  <link rel="stylesheet" href="marketplace.css?v=2.2">
 </head>
 <body class="marketplace-page">
 
@@ -38,15 +38,14 @@
         </div>
       </a>
 
-      <!-- Navegación Central Editorial -->
+      <!-- Navegación Central Editorial (Marketplace) -->
       <nav class="nav-center-menu">
         <ul class="nav-links">
           <li><a href="../" class="nav-link">Inicio</a></li>
-          <li><a href="../#proceso" class="nav-link">¿Cómo Trabajamos?</a></li>
-          <li><a href="./" class="nav-link active" style="color: #ffffff; font-weight: 700;">Marketplace</a></li>
-          <li><a href="../#simulador-3d" class="nav-link" style="color: #c5a880; font-weight: 600;">✨ Modelo 3D</a></li>
-          <li><a href="../#mapa-margarita" class="nav-link">Zonas de Inversión</a></li>
-          <li><a href="../#comparativa" class="nav-link">Comparativa ROI</a></li>
+          <li><a href="#properties-grid" class="nav-link active" data-nav-action="all" style="color: #ffffff; font-weight: 700;">Catálogo</a></li>
+          <li><a href="#" class="nav-link" data-nav-zone="pampatar">Pampatar</a></li>
+          <li><a href="#" class="nav-link" data-nav-zone="el-yaque">El Yaque</a></li>
+          <li><a href="#" class="nav-link btn-open-google-form">Postular Inmueble</a></li>
           <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="nav-link text-gold-nav">Comunidad VIP</a></li>
         </ul>
       </nav>
@@ -64,17 +63,21 @@
       </div>
     </div>
 
-    <!-- Menú Desplegable Móvil Luxury -->
+    <!-- Menú Desplegable Móvil Exclusivo de Marketplace -->
     <div class="mobile-nav-drawer" id="mobile-nav-drawer">
       <ul class="mobile-nav-links">
-        <li><a href="../" class="mobile-nav-link">Inicio</a></li>
-        <li><a href="../#proceso" class="mobile-nav-link">¿Cómo Trabajamos?</a></li>
-        <li><a href="./" class="mobile-nav-link" style="color: var(--c-gold); font-weight: 700;">Marketplace de Propiedades</a></li>
-        <li><a href="../#simulador-3d" class="mobile-nav-link" style="color: var(--c-gold);">✨ Modelo 3D Interactivo</a></li>
-        <li><a href="../#mapa-margarita" class="mobile-nav-link">Zonas de Inversión</a></li>
-        <li><a href="../#comparativa" class="mobile-nav-link">Comparativa ROI</a></li>
-        <li><a href="../#postulacion-forms" class="mobile-nav-link">Postular Propiedad (Google Forms)</a></li>
-        <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="mobile-nav-link" style="color: var(--c-gold);">Comunidad VIP WhatsApp ↗</a></li>
+        <li><a href="../" class="mobile-nav-link">🏠 Inicio (Página Principal)</a></li>
+        <li><a href="#properties-grid" class="mobile-nav-link" data-nav-action="all" style="color: var(--c-gold); font-weight: 700;">🏢 Ver Catálogo Completo</a></li>
+        
+        <li class="mobile-nav-section-title">Zonas en Margarita</li>
+        <li><a href="#" class="mobile-nav-link" data-nav-zone="pampatar">📍 Pampatar (Milla de Oro)</a></li>
+        <li><a href="#" class="mobile-nav-link" data-nav-zone="el-yaque">📍 Playa El Yaque &amp; Coche</a></li>
+        <li><a href="#" class="mobile-nav-link" data-nav-zone="costa-azul">📍 Costa Azul (Porlamar)</a></li>
+        <li><a href="#" class="mobile-nav-link" data-nav-zone="playa-el-agua">📍 Playa El Agua &amp; Manzanillo</a></li>
+
+        <li class="mobile-nav-section-title">Servicios &amp; Inversores</li>
+        <li><a href="#" class="mobile-nav-link btn-open-google-form">📋 Postular Inmueble para Inversores</a></li>
+        <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="mobile-nav-link" style="color: var(--c-gold);">⭐ Comunidad VIP Inversores WhatsApp ↗</a></li>
       </ul>
       <div class="mobile-drawer-cta">
         <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20quiero%20invertir%20ahora%20en%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn btn-sunset" style="width: 100%; justify-content: center;">
@@ -334,63 +337,32 @@
     </div>
   </section>
 
-  <!-- ================= FOOTER MARKETPLACE ================= -->
-  <footer class="footer">
-    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 1.5rem;">
-      <div class="footer-top">
-        <div>
-          <div class="brand-wrapper" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
-            <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="brand-logo-img" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--c-gold);">
-            <div class="brand-text-col">
-              <span class="brand-title" style="font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 0.5px;">MIGUEL ÁNGEL</span>
-              <span class="brand-tagline" style="font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--c-gold); display: block;">LA PERLA DEL CARIBE</span>
-            </div>
+  <!-- ================= PIE DE PÁGINA COMPACTO (MARKETPLACE LUXURY FOOTER) ================= -->
+  <footer class="mp-footer-compact">
+    <div class="mp-footer-container">
+      <div class="mp-footer-main-row">
+        <!-- Logo & Marca -->
+        <a href="../" class="brand-wrapper" aria-label="Inicio Miguel Ángel - Inversiones La Perla del Caribe">
+          <img src="../assets/images/logo-miguel-angel.jpg" alt="Logo Miguel Ángel" class="brand-logo-img">
+          <div class="brand-text-col">
+            <span class="brand-title">MIGUEL ÁNGEL</span>
+            <span class="brand-tagline">LA PERLA DEL CARIBE</span>
           </div>
-          <p class="footer-brand-bio">
-            Personal shopper inmobiliario y constructora integral para inversionistas en la Isla de Margarita, Venezuela. Compra segura con auditoría notarial, construcción autosustentable y rentas en dólares.
-          </p>
-        </div>
+        </a>
 
-        <div class="footer-col">
-          <h4>Navegación</h4>
-          <ul>
-            <li><a href="../#inicio">Inicio</a></li>
-            <li><a href="../#simulador-3d">Simulador 3D</a></li>
-            <li><a href="../#mapa-margarita">Mapa de Calor ZEE</a></li>
-            <li><a href="./">Marketplace Oficial</a></li>
-            <li><a href="../#comparativa">Comparativa ROI</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Zonas Estratégicas</h4>
-          <ul>
-            <li><a href="./?zone=pampatar">Pampatar &bull; Milla de Oro</a></li>
-            <li><a href="./?zone=el-yaque">Playa El Yaque &bull; Posadas</a></li>
-            <li><a href="./?zone=costa-azul">Costa Azul &bull; Porlamar</a></li>
-            <li><a href="./?zone=playa-el-agua">Playa El Agua &bull; Resorts</a></li>
-            <li><a href="./?zone=macanao">Macanao &bull; Ecoturismo</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Contacto Directo</h4>
-          <ul>
-            <li><a href="https://instagram.com/miguelangel.laperladelcaribe" target="_blank" rel="noopener noreferrer">Instagram: @miguelangel</a></li>
-            <li><a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer">WhatsApp: +34 676 59 70 68</a></li>
-            <li><a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer">Comunidad VIP WhatsApp</a></li>
-            <li><a href="https://forms.gle/feom29XWzAGYdLfg7" target="_blank" rel="noopener noreferrer" class="btn-open-google-form">Postular Propiedad (Google Forms) ↗</a></li>
-          </ul>
-        </div>
+        <!-- Enlaces Rápidos y Directos -->
+        <nav class="mp-footer-nav" aria-label="Enlaces Marketplace">
+          <a href="../" class="mp-footer-link">Inicio</a>
+          <a href="#properties-grid" class="mp-footer-link" data-nav-action="all">Catálogo</a>
+          <button type="button" class="mp-footer-link btn-open-google-form">Postular Inmueble</button>
+          <a href="https://chat.whatsapp.com/HkFPAvbiweiHfEGmnFQt3s" target="_blank" rel="noopener noreferrer" class="mp-footer-link text-gold">Comunidad VIP ↗</a>
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Hola%20Miguel%20Ángel,%20quiero%20asesoría%20sobre%20el%20Marketplace." target="_blank" rel="noopener noreferrer" class="mp-footer-link">WhatsApp (+34 676 59 70 68)</a>
+        </nav>
       </div>
 
-      <div class="footer-bottom">
-        <div>
-          &copy; 2026 Miguel Ángel - La Perla del Caribe. Todos los derechos reservados.
-        </div>
-        <div>
-          "Más que inversiones. Un estilo de vida real." &bull; Isla de Margarita, Venezuela.
-        </div>
+      <div class="mp-footer-bottom-row">
+        <span>&copy; 2026 Miguel Ángel &bull; La Perla del Caribe &bull; Isla de Margarita, Venezuela</span>
+        <span class="mp-footer-quote">"Más que inversiones. Un estilo de vida real."</span>
       </div>
     </div>
   </footer>
@@ -450,6 +422,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Lógica Reactiva del Marketplace -->
-  <script type="module" src="marketplace.js"></script>
+  <script type="module" src="marketplace.js?v=2.2"></script>
 </body>
 </html>

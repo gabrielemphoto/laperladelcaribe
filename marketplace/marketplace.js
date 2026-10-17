@@ -255,6 +255,7 @@ let miniMapMarker = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   try { initNavbar(); } catch (e) { console.error('Error en initNavbar:', e); }
+  try { bindHeaderNavFilters(); } catch (e) { console.error('Error en bindHeaderNavFilters:', e); }
   try { readUrlParams(); } catch (e) { console.error('Error en readUrlParams:', e); }
   try { bindFilterEvents(); } catch (e) { console.error('Error en bindFilterEvents:', e); }
   try { bindMobileDrawers(); } catch (e) { console.error('Error en bindMobileDrawers:', e); }
@@ -288,7 +289,7 @@ function initNavbar() {
       mobileBtn.setAttribute('aria-expanded', isOpen);
     });
 
-    mobileDrawer.querySelectorAll('a').forEach(link => {
+    mobileDrawer.querySelectorAll('a, button').forEach(link => {
       link.addEventListener('click', () => {
         mobileDrawer.classList.remove('open');
         mobileBtn.setAttribute('aria-expanded', 'false');
@@ -302,6 +303,53 @@ function initNavbar() {
       }
     });
   }
+}
+
+// Navegación rápida por Zonas y Ver Todo desde Header & Footer
+function bindHeaderNavFilters() {
+  document.querySelectorAll('[data-nav-zone]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const zone = link.dataset.navZone;
+      if (!zone) return;
+
+      const mobileDrawer = document.getElementById('mobile-nav-drawer');
+      const mobileBtn = document.querySelector('.mobile-menu-btn');
+      mobileDrawer?.classList.remove('open');
+      mobileBtn?.setAttribute('aria-expanded', 'false');
+
+      // Activar exclusivamente esta zona
+      state.zones = [zone];
+      document.querySelectorAll('input[name="filter-zone"]').forEach(cb => {
+        cb.checked = (cb.value === zone);
+      });
+
+      renderGrid();
+
+      const target = document.getElementById('properties-grid') || document.querySelector('.mp-layout-container');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-nav-action="all"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const mobileDrawer = document.getElementById('mobile-nav-drawer');
+      const mobileBtn = document.querySelector('.mobile-menu-btn');
+      mobileDrawer?.classList.remove('open');
+      mobileBtn?.setAttribute('aria-expanded', 'false');
+
+      resetAllFilters();
+
+      const target = document.getElementById('properties-grid') || document.querySelector('.mp-layout-container');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 }
 
 // Leer parámetros de URL si viene desde la landing page
@@ -655,6 +703,11 @@ function selectProperty(propId) {
     const dimmer = document.getElementById('mp-backdrop-dimmer');
     detailPanel?.classList.add('sheet-open');
     dimmer?.classList.add('active');
+
+    // Recalcular dimensiones del mapa tras abrir la ficha en móvil
+    setTimeout(() => {
+      if (miniMapInstance) miniMapInstance.invalidateSize();
+    }, 360);
   }
 }
 
@@ -818,8 +871,11 @@ function renderDetailPanel(propId) {
     <div class="mp-detail-map-box">
       <div id="detail-mini-map"></div>
       <div class="mp-map-pin-overlay">
-        <span>📍</span>
-        <span>${prop.zoneName}</span>
+        <span>📍 ${prop.zoneName}</span>
+        <a href="https://www.google.com/maps/search/?api=1&query=${prop.coords[0]},${prop.coords[1]}" target="_blank" rel="noopener noreferrer" class="mp-map-external-link" title="Abrir en Google Maps">
+          <span>Google Maps</span>
+          <span>↗</span>
+        </a>
       </div>
     </div>
   `;
@@ -847,8 +903,19 @@ function renderDetailPanel(propId) {
       panel.querySelectorAll('.mp-detail-tab-content').forEach(c => {
         c.style.display = c.id === targetId ? 'block' : 'none';
       });
+      if (miniMapInstance) {
+        setTimeout(() => miniMapInstance.invalidateSize(), 60);
+      }
     });
   });
+
+  // Revalidar tamaño del mapa cuando la transición CSS del panel termine
+  if (!panel.dataset.transitionBound) {
+    panel.dataset.transitionBound = 'true';
+    panel.addEventListener('transitionend', () => {
+      if (miniMapInstance) miniMapInstance.invalidateSize();
+    }, { passive: true });
+  }
 
   // Botón cerrar sheet en móvil
   document.getElementById('btn-close-sheet')?.addEventListener('click', closeBottomSheet);
@@ -857,39 +924,78 @@ function renderDetailPanel(propId) {
   renderMiniMap(prop.coords, prop.title);
 }
 
-// Mini Mapa con Leaflet en la Ficha
+// Mini Mapa con Leaflet en la Ficha (OSM Sin Watermarks + Auto-Recuperación Geométrica)
+let miniMapResizeObserver = null;
+
 function renderMiniMap(coords, title) {
   if (typeof L === 'undefined') return;
 
   const mapContainer = document.getElementById('detail-mini-map');
   if (!mapContainer) return;
 
+  if (miniMapResizeObserver) {
+    miniMapResizeObserver.disconnect();
+    miniMapResizeObserver = null;
+  }
+
   if (miniMapInstance) {
-    miniMapInstance.remove();
+    try {
+      miniMapInstance.remove();
+    } catch (e) {
+      console.warn('Error al limpiar mapa previo:', e);
+    }
     miniMapInstance = null;
   }
 
   try {
     miniMapInstance = L.map('detail-mini-map', {
       center: coords,
-      zoom: 12,
+      zoom: 13,
       zoomControl: false,
-      attributionControl: false
+      attributionControl: false,
+      scrollWheelZoom: false,
+      dragging: !L.Browser.mobile,
+      tap: false
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      maxZoom: 18,
-      subdomains: 'abcd'
+    // Usar OpenStreetMap oficial (100% limpio, sin marca de agua "RED" de Carto)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
     }).addTo(miniMapInstance);
 
     const goldPin = L.divIcon({
       className: 'mp-custom-leaflet-pin',
-      html: `<div style="background: #2563eb; width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid #ffffff; box-shadow: 0 0 10px rgba(37,99,235,0.7);"></div>`,
-      iconSize: [14, 14],
-      iconAnchor: [7, 7]
+      html: `
+        <div class="mp-map-pulse-marker">
+          <div class="mp-pulse-halo"></div>
+          <div class="mp-pulse-core"></div>
+        </div>
+      `,
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
     });
 
     miniMapMarker = L.marker(coords, { icon: goldPin }).addTo(miniMapInstance);
+
+    // Múltiples invalidaciones para garantizar renderizado geométrico correcto en móvil y desktop
+    const invalidate = () => {
+      if (miniMapInstance) {
+        miniMapInstance.invalidateSize();
+      }
+    };
+
+    requestAnimationFrame(invalidate);
+    setTimeout(invalidate, 100);
+    setTimeout(invalidate, 250);
+    setTimeout(invalidate, 450);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      miniMapResizeObserver = new ResizeObserver(() => {
+        invalidate();
+      });
+      miniMapResizeObserver.observe(mapContainer);
+    }
   } catch (err) {
     console.warn('Mini mapa Leaflet no disponible temporalmente:', err);
   }
