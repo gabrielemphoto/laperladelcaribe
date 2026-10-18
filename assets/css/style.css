@@ -3071,6 +3071,13 @@ button, input, select, textarea {
     padding: 0 1.2rem;
   }
 
+  /* Video de Fondo en Móvil - Reducido y encuadrado para mostrar más playa y villas */
+  .hero-video-bg {
+    transform: translate(-50%, -50%) scale(0.78);
+    object-position: center center;
+    filter: brightness(0.92);
+  }
+
   .hero-luxury-kicker {
     font-size: 0.66rem;
     letter-spacing: 2px;
@@ -3471,6 +3478,18 @@ button, input, select, textarea {
 .reveal-stagger.is-revealed > *:nth-child(4) { transition-delay: 0.36s; opacity: 1; transform: translateY(0); }
 .reveal-stagger.is-revealed > *:nth-child(5) { transition-delay: 0.46s; opacity: 1; transform: translateY(0); }
 .reveal-stagger.is-revealed > *:nth-child(6) { transition-delay: 0.56s; opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  /* En móviles, visibilidad 100% garantizada para prevenir pantallas en blanco o secciones que no desplieguen */
+  .reveal-on-scroll,
+  .reveal-scale,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    transition: none !important;
+  }
+}
 
 /* 2. Horizontal Moving Municipios Slider (Light Beige & Gold) */
 .muni-horizontal-section {
@@ -4448,10 +4467,22 @@ button, input, select, textarea {
 @media (max-width: 768px) {
   .manifesto-section {
     padding: 4rem 0 3.2rem 0;
+    min-height: auto;
   }
 
   .manifesto-seam-blend {
     height: 80px;
+  }
+
+  /* Overlay vertical oscuro en móvil para que el texto centrado y las tarjetas tengan máximo contraste */
+  .manifesto-gradient-overlay {
+    background: 
+      linear-gradient(180deg, 
+        rgba(4, 7, 12, 0.88) 0%, 
+        rgba(4, 7, 12, 0.72) 35%, 
+        rgba(4, 7, 12, 0.82) 70%, 
+        rgba(4, 7, 12, 0.98) 100%
+      ) !important;
   }
 
   .manifesto-inner-wrap {

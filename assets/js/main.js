@@ -217,20 +217,29 @@ const DESTINATIONS_DATA = [
   }
 ];
 
-/* ================= INICIALIZACIÓN GLOBAL ================= */
+/* ================= INICIALIZACIÓN GLOBAL ROBUSTA ================= */
 document.addEventListener('DOMContentLoaded', () => {
-  initNavbar();
-  initHeroVideo();
-  initHeroWordRotator();
-  initInteractiveModel3D();
-  initHeatmap();
-  initHorizontalMuniSlider();
-  initPersonalShopperCarousel();
-  initWorldComparisonShowcase();
-  initScrollReveal();
-  initGeneralModals();
-  initGoogleFormSection();
-  initManifestoAccordion();
+  const safeInit = (name, fn) => {
+    try {
+      fn();
+    } catch (err) {
+      console.warn(`[Init] Error en ${name}:`, err);
+    }
+  };
+
+  // Scroll reveal primero para asegurar visibilidad inmediata de contenido
+  safeInit('ScrollReveal', initScrollReveal);
+  safeInit('Navbar', initNavbar);
+  safeInit('HeroVideo', initHeroVideo);
+  safeInit('HeroWordRotator', initHeroWordRotator);
+  safeInit('InteractiveModel3D', initInteractiveModel3D);
+  safeInit('Heatmap', initHeatmap);
+  safeInit('HorizontalMuniSlider', initHorizontalMuniSlider);
+  safeInit('PersonalShopperCarousel', initPersonalShopperCarousel);
+  safeInit('WorldComparisonShowcase', initWorldComparisonShowcase);
+  safeInit('GeneralModals', initGeneralModals);
+  safeInit('GoogleFormSection', initGoogleFormSection);
+  safeInit('ManifestoAccordion', initManifestoAccordion);
 });
 
 /* ================= 1. Global Entrance & Scroll Reveal ================= */
@@ -238,7 +247,9 @@ function initScrollReveal() {
   const revealElements = document.querySelectorAll('.reveal-on-scroll, .reveal-scale, .reveal-stagger');
   if (!revealElements.length) return;
 
-  if (!('IntersectionObserver' in window)) {
+  // En móvil o dispositivos sin soporte, revelar todo inmediatamente sin retardo
+  const isMobile = window.innerWidth <= 768;
+  if (!('IntersectionObserver' in window) || isMobile) {
     revealElements.forEach(el => el.classList.add('is-revealed'));
     return;
   }
@@ -251,11 +262,18 @@ function initScrollReveal() {
       }
     });
   }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -30px 0px'
+    threshold: 0.02,
+    rootMargin: '100px 0px 50px 0px'
   });
 
-  revealElements.forEach(el => observer.observe(el));
+  revealElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 60) {
+      el.classList.add('is-revealed');
+    } else {
+      observer.observe(el);
+    }
+  });
 }
 
 /* ================= 2. Floating Glass Navbar & Mobile Drawer ================= */
@@ -335,13 +353,17 @@ function initHeroVideo() {
 
   video.muted = true;
   video.defaultMuted = true;
-  video.playsInline = true;
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
 
   const attemptPlay = () => {
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
+    try {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    } catch (e) {}
   };
 
   attemptPlay();
