@@ -902,6 +902,12 @@ function initManifestoAccordion() {
   cards.forEach(card => {
     const togglePillar = () => {
       const isOpen = card.classList.contains('is-open');
+      cards.forEach(c => {
+        if (c !== card) {
+          c.classList.remove('is-open');
+          c.setAttribute('aria-expanded', 'false');
+        }
+      });
       card.classList.toggle('is-open', !isOpen);
       card.setAttribute('aria-expanded', String(!isOpen));
     };
