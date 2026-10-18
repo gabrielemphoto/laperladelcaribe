@@ -9,6 +9,13 @@ import { Viewer3DApp } from '../../modelo-3d/main.js';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+if (typeof window !== 'undefined') {
+  window.L = L;
+}
+
+let leafletMap = null;
+const mapMarkers = {};
+
 /* ================= DATOS DE MUNICIPIOS DE MARGARITA ================= */
 const ZONES_DATA = [
   {
@@ -22,7 +29,7 @@ const ZONES_DATA = [
     price: '$60 - $100 / m²',
     roi: '18% - 22% Anual',
     desc: 'Epicentro gastronómico y residencial de lujo. Terrenos y villas de autor con máxima demanda de alquiler internacional.',
-    pinColor: '#10b981',
+    pinColor: '#2563eb',
     radius: 2800
   },
   {
@@ -36,7 +43,7 @@ const ZONES_DATA = [
     price: '$45 - $85 / m²',
     roi: '20% - 25% Anual',
     desc: 'Famoso meca internacional del windsurf y kitesurf con turismo europeo recurrente y alta tasa de ocupación hotelera.',
-    pinColor: '#10b981',
+    pinColor: '#2563eb',
     radius: 2600
   },
   {
@@ -50,7 +57,7 @@ const ZONES_DATA = [
     price: '$25 - $50 / m²',
     roi: '22% - 28% Anual',
     desc: 'Bulevar costero de más de 4 km. Macrolotes idóneos para resorts vacacionales y desarrollos con exenciones fiscales ZEE.',
-    pinColor: '#10b981',
+    pinColor: '#2563eb',
     radius: 3200
   },
   {
@@ -64,7 +71,7 @@ const ZONES_DATA = [
     price: '$40 - $75 / m²',
     roi: '14% - 17% Anual',
     desc: 'Corredor comercial y financiero con clínicas privadas, centros comerciales y condominios residenciales de alta liquidez.',
-    pinColor: '#f59e0b',
+    pinColor: '#2563eb',
     radius: 2500
   },
   {
@@ -78,7 +85,7 @@ const ZONES_DATA = [
     price: '$15 - $35 / m²',
     roi: '15% - 19% Anual',
     desc: 'Bahía histórica famosa por sus atardeceres dorados. Excelente relación costo-beneficio para proyectos náuticos y residenciales.',
-    pinColor: '#ef4444',
+    pinColor: '#2563eb',
     radius: 2400
   },
   {
@@ -92,7 +99,7 @@ const ZONES_DATA = [
     price: '$1 - $15 / m²',
     roi: '16% - 24% Anual',
     desc: 'Kilómetros de playas vírgenes y reservas naturales. Destino predilecto para eco-resorts solares, glamping de ultra-lujo y bienestar.',
-    pinColor: '#10b981',
+    pinColor: '#2563eb',
     radius: 4500
   }
 ];
@@ -225,36 +232,7 @@ const DESTINATIONS_DATA = [
   }
 ];
 
-/* ================= INICIALIZACIÓN GLOBAL ROBUSTA ================= */
-function bootstrapApp() {
-  const safeInit = (name, fn) => {
-    try {
-      fn();
-    } catch (err) {
-      console.warn(`[Init] Error en ${name}:`, err);
-    }
-  };
 
-  // Scroll reveal primero para asegurar visibilidad inmediata de contenido
-  safeInit('ScrollReveal', initScrollReveal);
-  safeInit('Navbar', initNavbar);
-  safeInit('HeroVideo', initHeroVideo);
-  safeInit('HeroWordRotator', initHeroWordRotator);
-  safeInit('InteractiveModel3D', initInteractiveModel3D);
-  safeInit('Heatmap', initHeatmap);
-  safeInit('HorizontalMuniSlider', initHorizontalMuniSlider);
-  safeInit('PersonalShopperCarousel', initPersonalShopperCarousel);
-  safeInit('WorldComparisonShowcase', initWorldComparisonShowcase);
-  safeInit('GeneralModals', initGeneralModals);
-  safeInit('GoogleFormSection', initGoogleFormSection);
-  safeInit('ManifestoAccordion', initManifestoAccordion);
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', bootstrapApp);
-} else {
-  bootstrapApp();
-}
 
 /* ================= 1. Global Entrance & Scroll Reveal ================= */
 function initScrollReveal() {
@@ -413,9 +391,6 @@ function initInteractiveModel3D() {
 }
 
 /* ================= 5. Leaflet Investment Heatmap ================= */
-let leafletMap = null;
-const mapMarkers = {};
-
 function initHeatmap() {
   const mapContainer = document.getElementById('leaflet-heatmap');
   if (!mapContainer) return;
@@ -432,6 +407,9 @@ function initHeatmap() {
       leafletMap.remove();
     } catch (e) {}
     leafletMap = null;
+  }
+  if (mapContainer._leaflet_id) {
+    mapContainer._leaflet_id = null;
   }
 
   // Centro de Isla de Margarita
@@ -466,25 +444,24 @@ function initHeatmap() {
       className: 'leaflet-heat-circle-glow'
     });
 
-    // 2. Pin interactivo personalizado con pulso y etiqueta
+    // 2. Pin interactivo personalizado con pulso y etiqueta (dd6e10b)
     const iconHtml = `
       <div class="custom-map-marker">
-        <svg class="marker-pin-svg" xmlns="http://www.w3.org/2000/svg" width="30" height="40" viewBox="0 0 24 34">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 22 12 22s12-13 12-22c0-6.63-5.37-12-12-12z" fill="${zone.color}"/>
-          <circle cx="12" cy="11" r="5" fill="#0b0e14"/>
-          <circle cx="12" cy="11" r="3.2" fill="#ffffff"/>
+        <svg class="marker-pin-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 24 34">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 22 12 22s12-13 12-22c0-6.63-5.37-12-12-12z" fill="${zone.pinColor || '#2563eb'}"/>
+          <circle cx="12" cy="11" r="5" fill="#ffffff"/>
         </svg>
-        <div class="marker-pulse-base" style="border: 2.5px solid ${zone.color}; background: ${zone.color}55;"></div>
-        <div class="marker-label-tag" style="border-left: 3px solid ${zone.color};">${zone.name}</div>
+        <div class="marker-pulse-base" style="border: 3px solid ${zone.color}; background: ${zone.color}44;"></div>
+        <div class="marker-label-tag">${zone.name}</div>
       </div>
     `;
 
     const customIcon = L.divIcon({
       html: iconHtml,
       className: 'leaflet-custom-div-icon',
-      iconSize: [60, 54],
-      iconAnchor: [30, 38],
-      popupAnchor: [0, -36]
+      iconSize: [60, 52],
+      iconAnchor: [30, 36],
+      popupAnchor: [0, -32]
     });
 
     const popupHtml = `
@@ -1053,4 +1030,36 @@ function initManifestoAccordion() {
     });
   });
 }
+
+/* ================= INICIALIZACIÓN GLOBAL ROBUSTA ================= */
+function bootstrapApp() {
+  const safeInit = (name, fn) => {
+    try {
+      fn();
+    } catch (err) {
+      console.warn(`[Init] Error en ${name}:`, err);
+    }
+  };
+
+  safeInit('ScrollReveal', initScrollReveal);
+  safeInit('Navbar', initNavbar);
+  safeInit('HeroVideo', initHeroVideo);
+  safeInit('HeroWordRotator', initHeroWordRotator);
+  safeInit('InteractiveModel3D', initInteractiveModel3D);
+  safeInit('Heatmap', initHeatmap);
+  safeInit('HorizontalMuniSlider', initHorizontalMuniSlider);
+  safeInit('PersonalShopperCarousel', initPersonalShopperCarousel);
+  safeInit('WorldComparisonShowcase', initWorldComparisonShowcase);
+  safeInit('GeneralModals', initGeneralModals);
+  safeInit('GoogleFormSection', initGoogleFormSection);
+  safeInit('ManifestoAccordion', initManifestoAccordion);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootstrapApp);
+} else {
+  // Garantizar que la evaluación del módulo termine antes de ejecutar
+  setTimeout(bootstrapApp, 0);
+}
+
 
