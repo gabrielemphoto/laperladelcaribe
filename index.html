@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=5.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=5.2">
 </head>
 <body>
 
@@ -242,54 +242,6 @@
         </div>
 
       </div>
-    </div>
-  </section>
-
-  <!-- ================= MODELO 3D INTERACTIVO & TRANSFORMACIÓN DE ACTIVOS ================= -->
-  <section class="section section-model-3d" id="simulador-3d">
-    <div class="container">
-      
-      <!-- Encabezado de Sección -->
-      <div class="section-head text-center reveal-on-scroll" style="margin-bottom: 2rem;">
-        <div class="glass-pill gold" style="margin-bottom: 0.75rem; color: #9c7b4a; background: rgba(197, 168, 128, 0.14); border: 1px solid rgba(197, 168, 128, 0.35); font-weight: 700;">Modelo 3D Interactivo • Isla de Margarita</div>
-        <h2 class="section-title" style="color: #0f172a; margin-bottom: 0.8rem;">
-          De Terreno Virgen a <span class="italic-serif text-sunset">Activo de Alta Rentabilidad</span>
-        </h2>
-        <p class="section-subtitle" style="max-width: 780px; margin: 0 auto; color: #334155; font-weight: 500; font-size: 1.05rem; line-height: 1.6;">
-          Visualiza en 3D el potencial de transformación: compra de suelo estratégico a bajo costo, construcción bioclimática autónoma con pozo y luz propia, o desarrollo hotelero con rentas en dólares.
-        </p>
-      </div>
-
-      <!-- Escenario 3D 100% Integrado en la Página (Sin Ventana ni Encapsulamiento) -->
-      <div class="model-3d-stage-container reveal-scale" id="interactive-3d-stage-container">
-        
-        <!-- Píldora Descriptiva Espaciosa y Amplia (No apretada en móvil) -->
-        <div class="project-pill-badge" id="project-pill">
-          <span class="pill-dot"></span>
-          <div class="pill-text-col">
-            <span class="pill-title" id="project-badge-text">PROYECTO 1 • TERRENO A CABAÑA ECO</span>
-            <span class="pill-sub" id="project-badge-sub">Lote Virgen ➔ Construcción Sostenible 100% Solar</span>
-          </div>
-        </div>
-
-        <!-- Lienzo WebGL Directo en la Página (Fondo 100% Transparente) -->
-        <div id="canvas-container" class="interactive-3d-canvas-wrap"></div>
-
-        <!-- Flechas Laterales de Navegación de Proyectos -->
-        <button class="nav-arrow nav-arrow-left" id="btn-arrow-prev" aria-label="Proyecto Anterior" title="Proyecto Anterior">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-
-        <button class="nav-arrow nav-arrow-right" id="btn-arrow-next" aria-label="Proyecto Siguiente" title="Proyecto Siguiente">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-
-      </div>
-
     </div>
   </section>
 
@@ -657,6 +609,54 @@
           </form>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= MODELO 3D INTERACTIVO & TRANSFORMACIÓN DE ACTIVOS ================= -->
+  <section class="section section-model-3d" id="simulador-3d">
+    <div class="container">
+      
+      <!-- Encabezado de Sección -->
+      <div class="section-head text-center reveal-on-scroll" style="margin-bottom: 2rem;">
+        <div class="glass-pill gold" style="margin-bottom: 0.75rem;">Modelo 3D Interactivo • Isla de Margarita</div>
+        <h2 class="section-title" style="margin-bottom: 0.8rem;">
+          De Terreno Virgen a <span class="italic-serif text-sunset">Activo de Alta Rentabilidad</span>
+        </h2>
+        <p class="section-subtitle" style="max-width: 780px; margin: 0 auto; color: var(--c-text-muted); font-size: 1.05rem; line-height: 1.6;">
+          Visualiza en 3D el potencial de transformación: compra de suelo estratégico a bajo costo, construcción bioclimática autónoma con pozo y luz propia, o desarrollo hotelero con rentas en dólares.
+        </p>
+      </div>
+
+      <!-- Escenario 3D 100% Integrado en la Página (Sin Ventana ni Encapsulamiento) -->
+      <div class="model-3d-stage-container reveal-scale" id="interactive-3d-stage-container">
+        
+        <!-- Píldora Descriptiva Espaciosa y Amplia (No apretada en móvil) -->
+        <div class="project-pill-badge" id="project-pill">
+          <span class="pill-dot"></span>
+          <div class="pill-text-col">
+            <span class="pill-title" id="project-badge-text">PROYECTO 1 • TERRENO A CABAÑA ECO</span>
+            <span class="pill-sub" id="project-badge-sub">Lote Virgen ➔ Construcción Sostenible 100% Solar</span>
+          </div>
+        </div>
+
+        <!-- Lienzo WebGL Directo en la Página (Fondo 100% Transparente) -->
+        <div id="canvas-container" class="interactive-3d-canvas-wrap"></div>
+
+        <!-- Flechas Laterales de Navegación de Proyectos -->
+        <button class="nav-arrow nav-arrow-left" id="btn-arrow-prev" aria-label="Proyecto Anterior" title="Proyecto Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <button class="nav-arrow nav-arrow-right" id="btn-arrow-next" aria-label="Proyecto Siguiente" title="Proyecto Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+      </div>
+
     </div>
   </section>
 

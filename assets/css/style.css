@@ -726,13 +726,17 @@ button, input, select, textarea {
   padding-top: 5.5rem;
   padding-bottom: 4.5rem;
   position: relative;
-  background: radial-gradient(circle at 50% 25%, rgba(197, 168, 128, 0.09) 0%, transparent 65%), #fbfbfa;
-  border-top: 1px solid rgba(197, 168, 128, 0.18);
-  border-bottom: 1px solid rgba(197, 168, 128, 0.18);
+  background: radial-gradient(ellipse at 50% 30%, rgba(212, 160, 23, 0.08) 0%, rgba(8, 14, 22, 0.98) 60%, #04070c 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .section-model-3d .section-title {
-  color: #111827;
+  color: #ffffff;
+}
+
+.section-model-3d .section-subtitle {
+  color: var(--c-text-muted);
 }
 
 /* Escenario 3D Integrado (Sin ventana rígida, 100% orgánico) */
