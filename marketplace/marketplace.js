@@ -4,6 +4,9 @@
  * Lógica: Filtros Reactivos en Tiempo Real, Ficha Lateral / Bottom Sheet, WhatsApp Dinámico y Mini Mapa
  */
 
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
 const WHATSAPP_PHONE = '34676597068';
 
 // Catálogo de Propiedades en Isla de Margarita
