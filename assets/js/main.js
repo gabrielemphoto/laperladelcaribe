@@ -218,7 +218,7 @@ const DESTINATIONS_DATA = [
 ];
 
 /* ================= INICIALIZACIÓN GLOBAL ROBUSTA ================= */
-document.addEventListener('DOMContentLoaded', () => {
+function bootstrapApp() {
   const safeInit = (name, fn) => {
     try {
       fn();
@@ -240,7 +240,13 @@ document.addEventListener('DOMContentLoaded', () => {
   safeInit('GeneralModals', initGeneralModals);
   safeInit('GoogleFormSection', initGoogleFormSection);
   safeInit('ManifestoAccordion', initManifestoAccordion);
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootstrapApp);
+} else {
+  bootstrapApp();
+}
 
 /* ================= 1. Global Entrance & Scroll Reveal ================= */
 function initScrollReveal() {
@@ -278,28 +284,42 @@ function initScrollReveal() {
 
 /* ================= 2. Floating Glass Navbar & Mobile Drawer ================= */
 function initNavbar() {
-  const headerWrap = document.querySelector('.header-floating-wrap');
-  const mobileBtn = document.getElementById('mobile-menu-btn');
-  const mobileDrawer = document.getElementById('mobile-drawer');
+  const headerWrap = document.querySelector('.header-floating-wrap') || document.getElementById('main-header');
+  const mobileBtn = document.getElementById('mobile-menu-btn') || document.querySelector('.mobile-menu-btn');
+  const mobileDrawer = document.getElementById('mobile-nav-drawer') || document.getElementById('mobile-drawer') || document.querySelector('.mobile-nav-drawer');
 
   if (mobileBtn && mobileDrawer) {
-    mobileBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
+    const closeDrawer = () => {
+      mobileDrawer.classList.remove('open');
+      mobileBtn.setAttribute('aria-expanded', 'false');
+    };
+
+    const toggleDrawer = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       const isOpen = mobileDrawer.classList.toggle('open');
-      mobileBtn.setAttribute('aria-expanded', isOpen);
-    });
+      mobileBtn.setAttribute('aria-expanded', String(isOpen));
+    };
+
+    mobileBtn.addEventListener('click', toggleDrawer);
 
     mobileDrawer.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
-        mobileBtn.setAttribute('aria-expanded', 'false');
+        closeDrawer();
       });
     });
 
     document.addEventListener('click', (e) => {
       if (headerWrap && !headerWrap.contains(e.target)) {
-        mobileDrawer.classList.remove('open');
-        mobileBtn.setAttribute('aria-expanded', 'false');
+        closeDrawer();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+        closeDrawer();
       }
     });
   }

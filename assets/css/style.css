@@ -2990,11 +2990,25 @@ button, input, select, textarea {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     color: #ffffff;
     cursor: pointer;
     padding: 0;
+    touch-action: manipulation;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .mobile-menu-btn:active,
+  .mobile-menu-btn[aria-expanded="true"] {
+    background: rgba(197, 160, 89, 0.22);
+    border-color: var(--c-gold);
+    color: var(--c-gold);
+    transform: scale(0.96);
+  }
+
+  .mobile-menu-btn svg {
+    pointer-events: none;
   }
 
   .mobile-nav-drawer {
@@ -3004,13 +3018,17 @@ button, input, select, textarea {
     top: calc(100% + 8px);
     left: 0.6rem;
     right: 0.6rem;
-    background: rgba(10, 12, 16, 0.96);
+    background: rgba(10, 12, 16, 0.98);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--glass-border-gold);
     border-radius: var(--radius-md);
     padding: 1.4rem;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mobile-nav-drawer.open {
@@ -3027,16 +3045,23 @@ button, input, select, textarea {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
     margin: 0;
     padding: 0;
   }
 
   .mobile-nav-link {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     color: #ffffff;
     font-weight: 600;
     text-decoration: none;
+    display: block;
+    padding: 0.35rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .mobile-nav-link:active {
+    color: var(--c-gold);
   }
 
   .mobile-drawer-cta {
