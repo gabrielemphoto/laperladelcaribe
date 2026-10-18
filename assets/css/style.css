@@ -4137,7 +4137,7 @@ button, input, select, textarea {
   pointer-events: none;
 }
 
-/* Imagen de Fondo Panorámica (Skyline a la izquierda, mar a la derecha) */
+/* Imagen de Fondo Panorámica (Centrada para mostrar la playa y el mar caribeño) */
 .manifesto-bg-image {
   position: absolute;
   inset: 0;
@@ -4145,13 +4145,13 @@ button, input, select, textarea {
   height: 100%;
   background-image: url('../images/tesis-margarita-skyline.jpg');
   background-size: cover;
-  background-position: left center;
+  background-position: center center;
   background-repeat: no-repeat;
   z-index: 1;
   transform: scale(1.02);
 }
 
-/* Degradado Negro de Derecha a Izquierda (Más pronunciado a la derecha) */
+/* Degradado Negro de Derecha a Izquierda (Translúcido para revelar la playa y el agua turquesa) */
 .manifesto-gradient-overlay {
   position: absolute;
   inset: 0;
@@ -4160,18 +4160,18 @@ button, input, select, textarea {
   z-index: 2;
   background: 
     linear-gradient(270deg, 
-      rgba(4, 7, 12, 0.98) 0%, 
-      rgba(4, 7, 12, 0.95) 28%, 
-      rgba(4, 7, 12, 0.86) 48%, 
-      rgba(4, 7, 12, 0.52) 70%, 
-      rgba(4, 7, 12, 0.14) 88%,
-      rgba(4, 7, 12, 0.04) 100%
+      rgba(4, 7, 12, 0.93) 0%, 
+      rgba(4, 7, 12, 0.82) 22%, 
+      rgba(4, 7, 12, 0.50) 45%, 
+      rgba(4, 7, 12, 0.18) 68%, 
+      rgba(4, 7, 12, 0.04) 85%,
+      transparent 100%
     ),
     linear-gradient(180deg, 
-      rgba(4, 7, 12, 0.95) 0%, 
+      rgba(4, 7, 12, 0.90) 0%, 
       transparent 18%, 
       transparent 82%, 
-      rgba(4, 7, 12, 0.98) 100%
+      rgba(4, 7, 12, 0.95) 100%
     );
   pointer-events: none;
 }
@@ -4228,15 +4228,15 @@ button, input, select, textarea {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.15rem;
   text-align: left;
-  align-items: stretch;
+  align-items: flex-start; /* Solo la tarjeta tocada se expande; las demás permanecen compactas */
 }
 
 /* Tarjeta Glassmorphism Uniforme */
 .manifesto-pillar-box.glass-pillar {
-  background: rgba(14, 24, 38, 0.65);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1.5px solid rgba(212, 160, 23, 0.35);
+  background: rgba(8, 14, 24, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(212, 160, 23, 0.38);
   border-radius: var(--radius-md);
   padding: 1.15rem 1.15rem;
   display: flex;
@@ -4245,7 +4245,7 @@ button, input, select, textarea {
   min-height: 98px;
   box-sizing: border-box;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   cursor: pointer;
   user-select: none;
   position: relative;
