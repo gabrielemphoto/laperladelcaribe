@@ -4194,6 +4194,23 @@ button, input, select, textarea {
   margin: 0;
 }
 
+.manifesto-cta-wrapper {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.manifesto-cta-btn {
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.manifesto-cta-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(212, 160, 23, 0.55), 0 0 20px rgba(212, 160, 23, 0.35);
+}
+
 @media (max-width: 768px) {
   .manifesto-section {
     padding: 2rem 0 1.5rem 0;
@@ -4228,5 +4245,13 @@ button, input, select, textarea {
 
   .manifesto-pillar-box p {
     font-size: 0.82rem;
+  }
+
+  .manifesto-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.95rem 1.2rem !important;
+    font-size: 0.92rem !important;
+    box-sizing: border-box;
   }
 }
