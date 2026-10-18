@@ -220,6 +220,7 @@ const DESTINATIONS_DATA = [
 /* ================= INICIALIZACIÓN GLOBAL ================= */
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
+  initHeroVideo();
   initHeroWordRotator();
   initInteractiveModel3D();
   initHeatmap();
@@ -325,6 +326,27 @@ function initHeroWordRotator() {
     const nextWord = words[currentIndex];
     nextWord.classList.add('active');
   }, 2000);
+}
+
+/* ================= 3b. Video Background Hero ================= */
+function initHeroVideo() {
+  const video = document.querySelector('.hero-video-bg');
+  if (!video) return;
+
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+
+  const attemptPlay = () => {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  };
+
+  attemptPlay();
+  document.addEventListener('touchstart', attemptPlay, { once: true, passive: true });
+  document.addEventListener('click', attemptPlay, { once: true, passive: true });
 }
 
 /* ================= 4. Visor 3D Interactivo Integrado ================= */

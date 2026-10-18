@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=5.4">
+  <link rel="stylesheet" href="assets/css/style.css?v=5.5">
 </head>
 <body>
 
@@ -88,8 +88,13 @@
 
   <!-- ================= HERO SECTION (EDITORIAL LUXURY) ================= -->
   <section class="hero-luxury" id="inicio">
-    <!-- Fondo con Imagen Luxury y Degradado Cinematográfico Negro -->
-    <div class="hero-luxury-backdrop" style="background-image: url('assets/images/hero-luxury-villa.jpg');"></div>
+    <!-- Video de Fondo en Bucle, Muteado y Optimizado en WebM con Fallback MP4 -->
+    <div class="hero-video-wrapper">
+      <video class="hero-video-bg" autoplay muted loop playsinline poster="assets/images/hero-video-poster.jpg" preload="auto">
+        <source src="assets/videos/hero-obras-playa.webm" type="video/webm">
+        <source src="assets/videos/hero-obras-playa.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="hero-luxury-overlay"></div>
 
     <div class="hero-luxury-container">
