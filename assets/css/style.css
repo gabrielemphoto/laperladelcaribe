@@ -3201,11 +3201,16 @@ button, input, select, textarea {
     padding: 0 1.2rem;
   }
 
-  /* Video de Fondo en Móvil - Reducido y encuadrado para mostrar más playa y villas */
+  /* Video de Fondo en Móvil - Cobertura completa edge-to-edge sin franjas laterales */
   .hero-video-bg {
-    transform: translate(-50%, -50%) scale(0.78);
+    min-width: 100%;
+    min-height: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     object-position: center center;
-    filter: brightness(0.92);
+    transform: translate(-50%, -50%) scale(1.02);
+    filter: brightness(0.95);
   }
 
   .hero-luxury-kicker {
