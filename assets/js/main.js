@@ -424,12 +424,23 @@ function initHeatmap() {
     tap: true
   });
 
-  // Capa CartoDB Voyager de alta definición (Rápida, limpia, con relieve costero y carreteras)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
-    subdomains: 'abcd',
+  // Capa OpenStreetMap oficial (Limpia, rápida y 100% libre sin marca de agua de Carto)
+  const mapTileLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
     maxZoom: 19
-  }).addTo(leafletMap);
+  });
+
+  // Fallback transparente a Esri World Street Map en caso de retraso o fallo de un mosaico
+  mapTileLayer.on('tileerror', (error) => {
+    const tile = error.tile;
+    const { x, y, z } = error.coords;
+    if (tile && !tile._hasFallback) {
+      tile._hasFallback = true;
+      tile.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}`;
+    }
+  });
+
+  mapTileLayer.addTo(leafletMap);
 
   const zonesGroup = L.featureGroup();
 
