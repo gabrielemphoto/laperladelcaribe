@@ -639,6 +639,10 @@ function renderGrid() {
         <div class="mp-card-img-wrap">
           <img src="${item.images[0]}" alt="${item.title}" class="mp-card-img" loading="lazy">
           <span class="mp-card-badge-type">${item.tagBadge}</span>
+          <span class="mp-card-badge-roi" title="Rendimiento estimado / Plusvalía proyectada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>${item.roi}</span>
+          </span>
           <span class="mp-card-badge-status">${item.status}</span>
         </div>
         <div class="mp-card-body">
@@ -660,10 +664,10 @@ function renderGrid() {
               <span class="mp-card-price">${item.priceDisplay}</span>
               <span class="mp-card-price-sub">USD</span>
             </div>
-            <div class="mp-card-rating" style="white-space: nowrap;">
-              <span>★</span>
-              <span style="white-space: nowrap;">${item.roi}</span>
-            </div>
+            <span class="mp-card-view-btn">
+              <span>Ver Ficha</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </span>
           </div>
         </div>
       </article>
