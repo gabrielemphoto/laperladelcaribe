@@ -4101,21 +4101,82 @@ button, input, select, textarea {
 
 /* ================= MANIFIESTO DE INVERSIÓN: TESIS DE PLUSVALÍA ================= */
 .manifesto-section {
-  padding: 3.5rem 0 2.8rem 0;
   position: relative;
-  background: radial-gradient(ellipse at 50% 0%, rgba(212, 160, 23, 0.08) 0%, #04070c 70%);
+  overflow: hidden;
+  padding: 5.5rem 0 4.5rem 0;
+  background-color: #04070c;
   border-bottom: 1px solid rgba(212, 160, 23, 0.15);
 }
 
-.manifesto-card {
-  background: linear-gradient(145deg, rgba(14, 24, 38, 0.92) 0%, rgba(6, 10, 16, 0.96) 100%);
-  border: 1.5px solid var(--glass-border-gold);
-  border-radius: var(--radius-lg);
-  padding: 2.8rem 2.4rem;
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5), 0 0 35px rgba(212, 160, 23, 0.08);
+/* Desenfoque de Empate con la Sección HERO */
+.manifesto-seam-blend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, 
+    #08090c 0%, 
+    rgba(8, 9, 12, 0.88) 35%, 
+    rgba(8, 9, 12, 0.45) 70%, 
+    transparent 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  mask-image: linear-gradient(180deg, black 0%, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 0%, black 40%, transparent 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Imagen de Fondo Panorámica */
+.manifesto-bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/tesis-margarita-skyline.jpg');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform: scale(1.02);
+}
+
+/* Degradado Negro de Izquierda a Derecha (Más pronunciado a la izquierda) */
+.manifesto-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: 
+    linear-gradient(90deg, 
+      rgba(4, 7, 12, 0.97) 0%, 
+      rgba(4, 7, 12, 0.91) 35%, 
+      rgba(4, 7, 12, 0.72) 65%, 
+      rgba(4, 7, 12, 0.28) 100%
+    ),
+    linear-gradient(180deg, 
+      rgba(8, 9, 12, 0.92) 0%, 
+      transparent 15%, 
+      transparent 85%, 
+      rgba(4, 7, 12, 0.98) 100%
+    );
+  pointer-events: none;
+}
+
+.manifesto-container {
+  position: relative;
+  z-index: 4;
+}
+
+.manifesto-inner-wrap {
   display: flex;
   flex-direction: column;
-  gap: 2.2rem;
+  gap: 2.4rem;
+  max-width: 1040px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -4130,72 +4191,155 @@ button, input, select, textarea {
 
 .manifesto-quote {
   font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 3.4vw, 2.1rem);
+  font-size: clamp(1.4rem, 3.4vw, 2.25rem);
   color: #ffffff;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.34;
   margin: 0;
   letter-spacing: 0.2px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.75);
 }
 
 .manifesto-subquote {
   font-size: 0.92rem;
   color: #cbd5e1;
-  line-height: 1.6;
+  line-height: 1.62;
   margin: 0;
-  max-width: 740px;
+  max-width: 720px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .manifesto-pillars-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+  gap: 1.3rem;
   text-align: left;
+  align-items: start;
 }
 
-.manifesto-pillar-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(212, 160, 23, 0.22);
+/* Tarjeta Glassmorphism */
+.manifesto-pillar-box.glass-pillar {
+  background: rgba(14, 24, 38, 0.52);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(212, 160, 23, 0.32);
   border-radius: var(--radius-md);
-  padding: 1.5rem 1.3rem;
+  padding: 1.3rem 1.4rem;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  transition: all 0.25s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
 }
 
-.manifesto-pillar-box:hover {
-  background: rgba(212, 160, 23, 0.06);
-  border-color: var(--c-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+.manifesto-pillar-box.glass-pillar:hover {
+  background: rgba(14, 24, 38, 0.72);
+  border-color: rgba(212, 160, 23, 0.7);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55), 0 0 24px rgba(212, 160, 23, 0.2);
+}
+
+.manifesto-pillar-box.glass-pillar.is-open {
+  background: rgba(14, 24, 38, 0.82);
+  border-color: #d4a017;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 160, 23, 0.28);
+}
+
+.pillar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .pillar-icon-wrap {
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   line-height: 1;
-  margin-bottom: 0.2rem;
-  filter: drop-shadow(0 2px 8px rgba(212, 160, 23, 0.3));
+  filter: drop-shadow(0 2px 8px rgba(212, 160, 23, 0.4));
+  flex-shrink: 0;
 }
 
-.manifesto-pillar-box h4 {
+.pillar-title-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.2rem;
+}
+
+.pillar-title-col h4 {
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 800;
   color: #fbbf24;
   margin: 0;
   letter-spacing: 0.2px;
 }
 
+.pillar-tap-hint {
+  font-size: 0.68rem;
+  color: rgba(212, 160, 23, 0.78);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: opacity 0.2s ease;
+}
+
+.manifesto-pillar-box.glass-pillar.is-open .pillar-tap-hint {
+  opacity: 0.5;
+}
+
+.pillar-toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbbf24;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pillar-toggle-btn svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.35s ease;
+}
+
+.manifesto-pillar-box.glass-pillar.is-open .pillar-toggle-btn {
+  background: rgba(212, 160, 23, 0.2);
+  border-color: #d4a017;
+  transform: rotate(180deg);
+}
+
+.pillar-collapse-body {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease, margin-top 0.3s ease;
+  margin-top: 0;
+}
+
+.manifesto-pillar-box.glass-pillar.is-open .pillar-collapse-body {
+  max-height: 240px;
+  opacity: 1;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .manifesto-pillar-box p {
   font-size: 0.85rem;
-  color: var(--c-text-muted);
-  line-height: 1.55;
+  color: #cbd5e1;
+  line-height: 1.6;
   margin: 0;
 }
 
 .manifesto-cta-wrapper {
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4203,31 +4347,51 @@ button, input, select, textarea {
 }
 
 .manifesto-cta-btn {
+  padding: 1.05rem 2.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(212, 160, 23, 0.42);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .manifesto-cta-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 35px rgba(212, 160, 23, 0.55), 0 0 20px rgba(212, 160, 23, 0.35);
+  box-shadow: 0 14px 38px rgba(212, 160, 23, 0.6), 0 0 24px rgba(212, 160, 23, 0.35);
+}
+
+.manifesto-cta-caption {
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
 
 @media (max-width: 768px) {
   .manifesto-section {
-    padding: 2rem 0 1.5rem 0;
+    padding: 3.5rem 0 3rem 0;
   }
 
-  .manifesto-card {
-    padding: 1.6rem 1.1rem;
-    gap: 1.6rem;
+  .manifesto-seam-blend {
+    height: 80px;
+  }
+
+  .manifesto-inner-wrap {
+    gap: 1.8rem;
   }
 
   .manifesto-quote {
     font-size: 1.25rem;
-    line-height: 1.38;
+    line-height: 1.36;
   }
 
   .manifesto-subquote {
     font-size: 0.84rem;
+    line-height: 1.5;
   }
 
   .manifesto-pillars-grid {
@@ -4235,8 +4399,8 @@ button, input, select, textarea {
     gap: 0.9rem;
   }
 
-  .manifesto-pillar-box {
-    padding: 1.2rem 1.1rem;
+  .manifesto-pillar-box.glass-pillar {
+    padding: 1.15rem 1.1rem;
   }
 
   .manifesto-pillar-box h4 {

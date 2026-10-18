@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=5.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=5.1">
 </head>
 <body>
 
@@ -150,51 +150,97 @@
  
   <!-- ================= MANIFIESTO DE INVERSIÓN: TESIS DE PLUSVALÍA ================= -->
   <section class="manifesto-section" id="manifiesto">
-    <div class="container">
-      <div class="manifesto-card reveal-on-scroll">
+    <!-- Desenfoque de Empate con la Sección HERO -->
+    <div class="manifesto-seam-blend"></div>
+
+    <!-- Imagen de Fondo Panorámica con Skyline y Playa -->
+    <div class="manifesto-bg-image"></div>
+
+    <!-- Degradado Negro de Izquierda a Derecha (Más pronunciado a la izquierda) -->
+    <div class="manifesto-gradient-overlay"></div>
+
+    <div class="container manifesto-container">
+      <div class="manifesto-inner-wrap">
+        
+        <!-- Encabezado Resumido y Elegante (Sin "Tesis Estratégica") -->
         <div class="manifesto-header">
-          <div class="glass-pill gold" style="font-size: 0.76rem; font-weight: 700; padding: 0.3rem 0.95rem; border-radius: 999px;">Tesis Estratégica &bull; Isla de Margarita</div>
-          <blockquote class="manifesto-quote">
-            "Invertir cuando todo empieza es la diferencia entre la inversión de tu vida y otra inversión cualquiera. <span class="italic-serif text-gold">Eso se llama plusvalía.</span>"
+          <blockquote class="manifesto-quote reveal-on-scroll">
+            "Invertir cuando todo empieza marca la diferencia: <span class="italic-serif text-gold">eso se llama plusvalía.</span>"
           </blockquote>
-          <p class="manifesto-subquote">
-            La clave de los grandes patrimonios es entrar antes de que el mercado madure. Margarita ofrece hoy suelo virgen a precios de entrada mínimos, exenciones fiscales completas bajo la Ley ZEE y rentas dolarizadas.
+          <p class="manifesto-subquote reveal-on-scroll">
+            La clave de los grandes patrimonios es entrar antes de que el mercado madure: suelo estratégico a costos mínimos, exenciones fiscales ZEE y rentas directas en dólares.
           </p>
         </div>
 
-        <div class="manifesto-pillars-grid">
-          <div class="manifesto-pillar-box">
-            <div class="pillar-icon-wrap">💎</div>
-            <h4>Libertad Financiera</h4>
-            <p>Genera flujos de caja recurrentes y netos en dólares a través de rentas vacacionales, asegurando tu tranquilidad económica sin depender de una sola economía.</p>
+        <!-- Tarjetas Glassmorphism Desplegables al Tocarlas -->
+        <div class="manifesto-pillars-grid reveal-stagger">
+          
+          <!-- Pilar 1 -->
+          <div class="manifesto-pillar-box glass-pillar is-open" data-pillar="1" tabindex="0" role="button" aria-expanded="true">
+            <div class="pillar-header">
+              <div class="pillar-icon-wrap">💎</div>
+              <div class="pillar-title-col">
+                <h4>Libertad Financiera</h4>
+                <span class="pillar-tap-hint">Toca para ver explicación ▾</span>
+              </div>
+              <div class="pillar-toggle-btn" aria-label="Desplegar explicación">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div class="pillar-collapse-body">
+              <p>Genera flujos de caja recurrentes y netos en dólares a través de rentas vacacionales, asegurando tu tranquilidad económica sin depender de una sola economía.</p>
+            </div>
           </div>
 
-          <div class="manifesto-pillar-box">
-            <div class="pillar-icon-wrap">🌴</div>
-            <h4>Diversificar en el Caribe</h4>
-            <p>Respalda tu capital en tierra y propiedades tangibles frente al mar caribeño, protegiéndote de la inflación con costos hasta 40 veces menores que en Europa o EE.UU.</p>
+          <!-- Pilar 2 -->
+          <div class="manifesto-pillar-box glass-pillar" data-pillar="2" tabindex="0" role="button" aria-expanded="false">
+            <div class="pillar-header">
+              <div class="pillar-icon-wrap">🌴</div>
+              <div class="pillar-title-col">
+                <h4>Diversificar en el Caribe</h4>
+                <span class="pillar-tap-hint">Toca para ver explicación ▾</span>
+              </div>
+              <div class="pillar-toggle-btn" aria-label="Desplegar explicación">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div class="pillar-collapse-body">
+              <p>Respalda tu capital en tierra y propiedades tangibles frente al mar caribeño, protegiéndote de la inflación con costos hasta 40 veces menores que en Europa o EE.UU.</p>
+            </div>
           </div>
 
-          <div class="manifesto-pillar-box">
-            <div class="pillar-icon-wrap">📈</div>
-            <h4>Gran Potencial de Crecimiento</h4>
-            <p>Entra en el momento cero del nuevo ciclo turístico y de la Zona Económica Especial (ZEE). Quien compra en el inicio captura la verdadera multiplicación de capital.</p>
+          <!-- Pilar 3 -->
+          <div class="manifesto-pillar-box glass-pillar" data-pillar="3" tabindex="0" role="button" aria-expanded="false">
+            <div class="pillar-header">
+              <div class="pillar-icon-wrap">📈</div>
+              <div class="pillar-title-col">
+                <h4>Gran Potencial de Crecimiento</h4>
+                <span class="pillar-tap-hint">Toca para ver explicación ▾</span>
+              </div>
+              <div class="pillar-toggle-btn" aria-label="Desplegar explicación">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div class="pillar-collapse-body">
+              <p>Entra en el momento cero del nuevo ciclo turístico y de la Zona Económica Especial (ZEE). Quien compra en el inicio captura la verdadera multiplicación de capital.</p>
+            </div>
           </div>
+
         </div>
 
         <!-- Botón de Postulación de Inversor -->
-        <div class="manifesto-cta-wrapper" style="margin-top: 0.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.65rem;">
+        <div class="manifesto-cta-wrapper reveal-on-scroll">
           <a href="https://forms.gle/WQwZeZ1zq5b5ob5L9" 
              target="_blank" 
              rel="noopener noreferrer" 
-             class="btn btn-gold manifesto-cta-btn" 
-             style="padding: 1rem 2.4rem; font-size: 1rem; font-weight: 700; border-radius: 999px; text-decoration: none; box-shadow: 0 8px 28px rgba(212, 160, 23, 0.4); display: inline-flex; align-items: center; gap: 0.6rem;">
+             class="btn btn-gold manifesto-cta-btn">
             <span>💼 Postúlate como Inversor en La Perla del Caribe ↗</span>
           </a>
-          <span style="font-size: 0.78rem; color: var(--c-text-muted); letter-spacing: 0.2px;">
+          <span class="manifesto-cta-caption">
             Auditoría de perfil y acceso preferente a oportunidades exclusivas en Isla de Margarita
           </span>
         </div>
+
       </div>
     </div>
   </section>
@@ -956,6 +1002,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Script Principal con Cache-Buster -->
-  <script type="module" src="assets/js/main.js?v=4.0"></script>
+  <script type="module" src="assets/js/main.js?v=4.1"></script>
 </body>
 </html>

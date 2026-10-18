@@ -229,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initGeneralModals();
   initGoogleFormSection();
+  initManifestoAccordion();
 });
 
 /* ================= 1. Global Entrance & Scroll Reveal ================= */
@@ -892,3 +893,29 @@ function initGoogleFormSection() {
     });
   }
 }
+
+/* ================= 11. Acordeón Interactivo de Pilares Glassmorphism ================= */
+function initManifestoAccordion() {
+  const cards = document.querySelectorAll('.manifesto-pillar-box.glass-pillar');
+  if (!cards.length) return;
+
+  cards.forEach(card => {
+    const togglePillar = () => {
+      const isOpen = card.classList.contains('is-open');
+      card.classList.toggle('is-open', !isOpen);
+      card.setAttribute('aria-expanded', String(!isOpen));
+    };
+
+    card.addEventListener('click', () => {
+      togglePillar();
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        togglePillar();
+      }
+    });
+  });
+}
+
