@@ -20,7 +20,8 @@ const ZONES_DATA = [
     price: '$60 - $100 / m²',
     roi: '18% - 22% Anual',
     desc: 'Epicentro gastronómico y residencial de lujo. Terrenos y villas de autor con máxima demanda de alquiler internacional.',
-    pinColor: '#2563eb'
+    pinColor: '#10b981',
+    radius: 2800
   },
   {
     id: 'el-yaque',
@@ -33,7 +34,8 @@ const ZONES_DATA = [
     price: '$45 - $85 / m²',
     roi: '20% - 25% Anual',
     desc: 'Famoso meca internacional del windsurf y kitesurf con turismo europeo recurrente y alta tasa de ocupación hotelera.',
-    pinColor: '#2563eb'
+    pinColor: '#10b981',
+    radius: 2600
   },
   {
     id: 'playa-el-agua',
@@ -46,7 +48,8 @@ const ZONES_DATA = [
     price: '$25 - $50 / m²',
     roi: '22% - 28% Anual',
     desc: 'Bulevar costero de más de 4 km. Macrolotes idóneos para resorts vacacionales y desarrollos con exenciones fiscales ZEE.',
-    pinColor: '#2563eb'
+    pinColor: '#10b981',
+    radius: 3200
   },
   {
     id: 'costa-azul',
@@ -59,7 +62,8 @@ const ZONES_DATA = [
     price: '$40 - $75 / m²',
     roi: '14% - 17% Anual',
     desc: 'Corredor comercial y financiero con clínicas privadas, centros comerciales y condominios residenciales de alta liquidez.',
-    pinColor: '#2563eb'
+    pinColor: '#f59e0b',
+    radius: 2500
   },
   {
     id: 'juan-griego',
@@ -72,7 +76,8 @@ const ZONES_DATA = [
     price: '$15 - $35 / m²',
     roi: '15% - 19% Anual',
     desc: 'Bahía histórica famosa por sus atardeceres dorados. Excelente relación costo-beneficio para proyectos náuticos y residenciales.',
-    pinColor: '#2563eb'
+    pinColor: '#ef4444',
+    radius: 2400
   },
   {
     id: 'macanao',
@@ -85,7 +90,8 @@ const ZONES_DATA = [
     price: '$1 - $15 / m²',
     roi: '16% - 24% Anual',
     desc: 'Kilómetros de playas vírgenes y reservas naturales. Destino predilecto para eco-resorts solares, glamping de ultra-lujo y bienestar.',
-    pinColor: '#2563eb'
+    pinColor: '#10b981',
+    radius: 4500
   }
 ];
 
@@ -407,54 +413,137 @@ function initInteractiveModel3D() {
 /* ================= 5. Leaflet Investment Heatmap ================= */
 let leafletMap = null;
 const mapMarkers = {};
+let activeMapTileLayer = null;
 
 function initHeatmap() {
   const mapContainer = document.getElementById('leaflet-heatmap');
-  if (!mapContainer || typeof L === 'undefined') return;
+  if (!mapContainer) return;
+
+  // Si Leaflet aún no está cargado por red móvil o latencia externa, reintentar progresivamente
+  if (typeof L === 'undefined') {
+    setTimeout(initHeatmap, 150);
+    return;
+  }
+
+  // Si ya está instanciado, asegurar cálculo de dimensiones
+  if (leafletMap) {
+    try {
+      leafletMap.invalidateSize();
+    } catch (e) {}
+    return;
+  }
+
+  // Centro de Isla de Margarita
+  const MARGARITA_CENTER = [11.010, -63.960];
+  const initialZoom = window.innerWidth <= 768 ? 10 : 11;
 
   leafletMap = L.map('leaflet-heatmap', {
-    center: [10.985, -64.000],
-    zoom: 11,
+    center: MARGARITA_CENTER,
+    zoom: initialZoom,
+    minZoom: 9,
+    maxZoom: 18,
     zoomControl: true,
-    scrollWheelZoom: false
+    scrollWheelZoom: false,
+    tap: true
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    subdomains: ['a', 'b', 'c'],
+  // Capa 1: CartoDB Dark Matter (Estética Luxury Dark, CDN global rápido y fiable)
+  const darkMatterTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+    subdomains: ['a', 'b', 'c', 'd'],
     maxZoom: 19
-  }).addTo(leafletMap);
+  });
 
-  const markersGroup = L.featureGroup();
+  // Capa 2: Esri World Imagery (Vista Satelital de alta resolución)
+  const satelliteTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Earthstar Geographics',
+    maxZoom: 18
+  });
+
+  // Asignar Dark Matter como predeterminada
+  darkMatterTile.addTo(leafletMap);
+  activeMapTileLayer = darkMatterTile;
+
+  // Selector de capas interactivo (Nocturno vs Satelital)
+  const darkBtn = document.getElementById('btn-layer-dark');
+  const satBtn = document.getElementById('btn-layer-sat');
+
+  if (darkBtn && satBtn) {
+    darkBtn.addEventListener('click', () => {
+      if (activeMapTileLayer !== darkMatterTile) {
+        leafletMap.removeLayer(activeMapTileLayer);
+        darkMatterTile.addTo(leafletMap);
+        activeMapTileLayer = darkMatterTile;
+        darkBtn.classList.add('active');
+        satBtn.classList.remove('active');
+      }
+    });
+
+    satBtn.addEventListener('click', () => {
+      if (activeMapTileLayer !== satelliteTile) {
+        leafletMap.removeLayer(activeMapTileLayer);
+        satelliteTile.addTo(leafletMap);
+        activeMapTileLayer = satelliteTile;
+        satBtn.classList.add('active');
+        darkBtn.classList.remove('active');
+      }
+    });
+  }
+
+  const zonesGroup = L.featureGroup();
 
   ZONES_DATA.forEach(zone => {
+    // 1. Halo difuminado de la Zona de Calor (Heatmap Glow)
+    const heatHalo = L.circle(zone.coords, {
+      radius: zone.radius || 2600,
+      color: zone.color,
+      fillColor: zone.color,
+      fillOpacity: 0.16,
+      weight: 1.5,
+      dashArray: '5, 5',
+      className: 'leaflet-heat-circle-glow'
+    });
+
+    // 2. Núcleo de mayor intensidad térmica de plusvalía
+    const heatCore = L.circle(zone.coords, {
+      radius: (zone.radius || 2600) * 0.45,
+      color: zone.color,
+      fillColor: zone.color,
+      fillOpacity: 0.35,
+      weight: 2,
+      className: 'leaflet-heat-circle-core'
+    });
+
+    // 3. Pin interactivo con SVG de color dinámico correspondiente
     const iconHtml = `
       <div class="custom-map-marker">
-        <svg class="marker-pin-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 24 34">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 22 12 22s12-13 12-22c0-6.63-5.37-12-12-12z" fill="${zone.pinColor}"/>
-          <circle cx="12" cy="11" r="5" fill="#ffffff"/>
+        <svg class="marker-pin-svg" xmlns="http://www.w3.org/2000/svg" width="30" height="40" viewBox="0 0 24 34">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 22 12 22s12-13 12-22c0-6.63-5.37-12-12-12z" fill="${zone.color}"/>
+          <circle cx="12" cy="11" r="5" fill="#0b0e14"/>
+          <circle cx="12" cy="11" r="3.2" fill="#ffffff"/>
         </svg>
-        <div class="marker-pulse-base" style="border: 3px solid ${zone.color}; background: ${zone.color}44;"></div>
-        <div class="marker-label-tag">${zone.name}</div>
+        <div class="marker-pulse-base" style="border: 2.5px solid ${zone.color}; background: ${zone.color}44;"></div>
+        <div class="marker-label-tag" style="border-left: 3px solid ${zone.color};">${zone.name}</div>
       </div>
     `;
 
     const customIcon = L.divIcon({
       html: iconHtml,
       className: 'leaflet-custom-div-icon',
-      iconSize: [60, 52],
-      iconAnchor: [30, 36],
-      popupAnchor: [0, -32]
+      iconSize: [60, 54],
+      iconAnchor: [30, 38],
+      popupAnchor: [0, -36]
     });
 
     const popupHtml = `
       <div class="map-popup-box">
         <h4>${zone.fullName}</h4>
-        <span class="popup-tag">${zone.badge}</span>
+        <span class="popup-tag" style="color: ${zone.color};">${zone.badge}</span>
         <div class="map-popup-metrics">
           <div><strong>${zone.price}</strong><br><small>Promedio m²</small></div>
           <div style="text-align: right;"><strong>${zone.roi}</strong><br><small>ROI Proyectado</small></div>
         </div>
+        <p style="font-size: 0.76rem; color: #cbd5e1; margin: 0.4rem 0 0.6rem; line-height: 1.35;">${zone.desc}</p>
         <a href="marketplace/?zone=${zone.id}" class="map-popup-btn">
           🏬 Ver Oportunidades en Marketplace ↗
         </a>
@@ -464,28 +553,65 @@ function initHeatmap() {
     const marker = L.marker(zone.coords, { icon: customIcon })
       .bindPopup(popupHtml);
 
-    markersGroup.addLayer(marker);
-    mapMarkers[zone.id] = marker;
-
-    marker.on('click', () => {
+    const onSelectZone = () => {
       highlightMuniCard(zone.id);
       if (typeof window.scrollMuniToZone === 'function') {
         window.scrollMuniToZone(zone.id);
       }
-    });
+    };
+
+    marker.on('click', onSelectZone);
+    heatHalo.on('click', () => { marker.openPopup(); onSelectZone(); });
+    heatCore.on('click', () => { marker.openPopup(); onSelectZone(); });
+
+    zonesGroup.addLayer(heatHalo);
+    zonesGroup.addLayer(heatCore);
+    zonesGroup.addLayer(marker);
+    mapMarkers[zone.id] = marker;
   });
 
-  markersGroup.addTo(leafletMap);
+  zonesGroup.addTo(leafletMap);
 
-  try {
-    leafletMap.fitBounds(markersGroup.getBounds().pad(0.12));
-  } catch (err) {
-    // Fallback silencioso
+  // Revalidar tamaño y ajustar encuadre de forma segura
+  const refreshMapDisplay = () => {
+    if (!leafletMap) return;
+    leafletMap.invalidateSize();
+    try {
+      const bounds = zonesGroup.getBounds();
+      if (bounds.isValid()) {
+        const size = leafletMap.getSize();
+        if (size.x > 120 && size.y > 120) {
+          leafletMap.fitBounds(bounds.pad(0.08));
+        } else {
+          leafletMap.setView(MARGARITA_CENTER, initialZoom);
+        }
+      }
+    } catch (err) {
+      leafletMap.setView(MARGARITA_CENTER, initialZoom);
+    }
+  };
+
+  // Temporizadores progresivos para adaptarse al render y transiciones CSS
+  setTimeout(refreshMapDisplay, 150);
+  setTimeout(refreshMapDisplay, 500);
+  setTimeout(refreshMapDisplay, 1200);
+
+  // Observador de intersección: cuando la sección sea visible, asegurar redibujado de tiles
+  if ('IntersectionObserver' in window) {
+    const mapObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          refreshMapDisplay();
+        }
+      });
+    }, { threshold: 0.1 });
+    mapObserver.observe(mapContainer);
   }
 
-  setTimeout(() => {
-    leafletMap.invalidateSize();
-  }, 350);
+  // Redimensionamiento de ventana
+  window.addEventListener('resize', () => {
+    if (leafletMap) leafletMap.invalidateSize();
+  }, { passive: true });
 }
 
 function highlightMuniCard(zoneId) {
@@ -578,6 +704,9 @@ function initHorizontalMuniSlider() {
       highlightMuniCard(zoneId);
     }
   };
+
+  // Exponer para sincronización bidireccional mapa <-> carrusel
+  window.scrollMuniToZone = scrollToZone;
 
   // Click en tarjeta para sincronizar con mapa
   cards.forEach((card, idx) => {

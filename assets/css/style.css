@@ -1853,6 +1853,13 @@ button, input, select, textarea {
   z-index: 10;
 }
 
+/* Reset Leaflet div icon wrapper */
+.leaflet-custom-div-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 /* Leaflet Custom Marker & Pins */
 .custom-map-marker {
   display: flex;
@@ -1863,20 +1870,20 @@ button, input, select, textarea {
 }
 
 .marker-pin-svg {
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
-  transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.85));
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .custom-map-marker:hover .marker-pin-svg {
-  transform: scale(1.15) translateY(-3px);
+  transform: scale(1.22) translateY(-4px);
 }
 
 .marker-pulse-base {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   z-index: -1;
@@ -1885,17 +1892,115 @@ button, input, select, textarea {
 }
 
 .marker-label-tag {
-  background: rgba(6, 9, 14, 0.9);
+  background: rgba(8, 12, 18, 0.95);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 10px;
+  border-radius: 5px;
+  padding: 3px 7px;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.3px;
   white-space: nowrap;
-  margin-top: 2px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  margin-top: 3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
   pointer-events: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-map-marker:hover .marker-label-tag {
+  transform: translateY(-2px);
+  border-color: var(--c-gold);
+}
+
+/* Animación sutil en halos de círculos de calor */
+.leaflet-heat-circle-glow {
+  animation: heatPulseGlow 3.5s infinite ease-in-out;
+}
+
+@keyframes heatPulseGlow {
+  0%, 100% { fill-opacity: 0.12; stroke-opacity: 0.5; }
+  50% { fill-opacity: 0.26; stroke-opacity: 0.9; }
+}
+
+/* Custom Controls de Leaflet (Zoom + / -) */
+.leaflet-control-zoom {
+  border: 1px solid var(--glass-border-gold) !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+  background: rgba(14, 18, 26, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background: transparent !important;
+  color: var(--c-gold) !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  font-weight: 700 !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.leaflet-control-zoom-out {
+  border-bottom: none !important;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background: var(--c-gold) !important;
+  color: #0b0e14 !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(8, 12, 18, 0.85) !important;
+  color: #94a3b8 !important;
+  font-size: 10px !important;
+  border-radius: 6px 0 0 0 !important;
+  padding: 2px 8px !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--c-gold) !important;
+  text-decoration: none !important;
+}
+
+/* Botones de conmutación de capa (Oscuro / Satelital) */
+.map-layer-toggles {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(14, 18, 26, 0.85);
+  border: 1px solid var(--glass-border-gold);
+  border-radius: 30px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.map-toggle-btn {
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.map-toggle-btn:hover {
+  color: #ffffff;
+}
+
+.map-toggle-btn.active {
+  background: linear-gradient(135deg, var(--c-gold), #b38b45);
+  color: #0b0e14;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(197, 160, 89, 0.35);
 }
 
 @keyframes pulse-ring {

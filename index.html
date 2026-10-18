@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
   <!-- Estilos Globales con Cache-Buster -->
-  <link rel="stylesheet" href="assets/css/style.css?v=6.2">
+  <link rel="stylesheet" href="assets/css/style.css?v=6.3">
 </head>
 <body>
 
@@ -270,8 +270,14 @@
             <h3>🌍 MAPA DE CALOR DE INVERSIÓN</h3>
             <p>Toca los círculos o pines para ver precios, servicios y oportunidades</p>
           </div>
-          <div class="glass-pill gold" style="font-size: 0.75rem;">
-            Nueva Esparta &bull; ZEE (Zona Económica Especial)
+          <div class="map-header-actions" style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+            <div class="map-layer-toggles" id="map-layer-toggles" role="group" aria-label="Cambiar tipo de mapa">
+              <button type="button" class="map-toggle-btn active" id="btn-layer-dark" data-layer="dark">🌙 Modo Oscuro</button>
+              <button type="button" class="map-toggle-btn" id="btn-layer-sat" data-layer="satellite">🛰️ Vista Satelital</button>
+            </div>
+            <div class="glass-pill gold" style="font-size: 0.75rem;">
+              Nueva Esparta &bull; ZEE (Zona Económica Especial)
+            </div>
           </div>
         </div>
 
@@ -1007,6 +1013,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Script Principal con Cache-Buster -->
-  <script type="module" src="assets/js/main.js?v=6.2"></script>
+  <script type="module" src="assets/js/main.js?v=6.3"></script>
 </body>
 </html>
