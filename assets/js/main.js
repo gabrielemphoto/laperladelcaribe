@@ -1052,8 +1052,8 @@ function initHeroCountdown() {
 
   if (!cdDays || !cdHours || !cdMinutes || !cdSeconds) return;
 
-  // Fecha y hora objetivo: Domingo 25 de Octubre 2026, 6:00 PM (18:00) Hora Venezuela (UTC-4)
-  const targetTime = new Date('2026-10-25T18:00:00-04:00').getTime();
+  // Fecha y hora objetivo: Domingo 25 de Octubre 2026, 12:00 PM (12:00) Hora Venezuela (UTC-4) / 6:00 PM Hora España
+  const targetTime = new Date('2026-10-25T12:00:00-04:00').getTime();
 
   function updateCountdown() {
     const now = Date.now();
