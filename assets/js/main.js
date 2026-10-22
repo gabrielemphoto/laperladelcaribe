@@ -484,8 +484,8 @@ function initHeatmap() {
           <div style="text-align: right;"><strong>${zone.roi}</strong><br><small>ROI Proyectado</small></div>
         </div>
         <p style="font-size: 0.78rem; color: #cbd5e1; margin: 0.4rem 0 0.6rem; line-height: 1.35;">${zone.desc}</p>
-        <a href="marketplace/?zone=${zone.id}" class="map-popup-btn">
-          🏬 Ver Oportunidades en Marketplace ↗
+        <a href="https://api.whatsapp.com/send?phone=34676597068&text=${encodeURIComponent(`Hola Miguel Ángel, quiero consultar oportunidades de inversión en ${zone.name}.`)}" target="_blank" rel="noopener noreferrer" class="map-popup-btn">
+          💬 Consultar Oportunidades por WhatsApp ↗
         </a>
       </div>
     `;
