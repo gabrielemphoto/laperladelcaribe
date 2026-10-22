@@ -912,9 +912,9 @@ button, input, select, textarea {
   padding-top: 5.5rem;
   padding-bottom: 4.5rem;
   position: relative;
-  background: radial-gradient(ellipse at 50% 30%, rgba(212, 160, 23, 0.08) 0%, rgba(8, 14, 22, 0.98) 60%, #04070c 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: radial-gradient(ellipse 85% 65% at 50% 50%, rgba(212, 160, 23, 0.05) 0%, rgba(8, 14, 22, 0.45) 55%, transparent 100%);
+  border-top: none !important;
+  border-bottom: none !important;
 }
 
 .section-model-3d .section-title {
@@ -1930,14 +1930,31 @@ button, input, select, textarea {
 
 /* ================= SECTION COMMON ================= */
 .section {
-  padding: 80px 0;
+  padding: 85px 0;
   position: relative;
+  border-top: none !important;
+  border-bottom: none !important;
 }
 
 .section-alt {
-  background: rgba(9, 16, 26, 0.7);
-  border-top: 1px solid rgba(248, 233, 201, 0.08);
-  border-bottom: 1px solid rgba(248, 233, 201, 0.08);
+  background: transparent;
+  position: relative;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.section-alt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 70% at 50% 50%, rgba(14, 25, 42, 0.45) 0%, rgba(9, 16, 26, 0.18) 55%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-alt > .container {
+  position: relative;
+  z-index: 1;
 }
 
 .section-head {
@@ -2747,9 +2764,10 @@ button, input, select, textarea {
 
 /* ================= FOOTER ================= */
 .footer {
-  background: #04060a;
-  border-top: 1px solid rgba(212, 160, 23, 0.2);
-  padding: 3.5rem 0 2rem 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 10, 0.85) 25%, #030407 100%);
+  border-top: none !important;
+  padding: 4.5rem 0 2rem 0;
+  position: relative;
 }
 
 .footer-top {
@@ -4456,8 +4474,8 @@ button, input, select, textarea {
   padding: 7.5rem 0 6.5rem 0;
   display: flex;
   align-items: center;
-  background-color: #04070c;
-  border-bottom: 1px solid rgba(212, 160, 23, 0.15);
+  background-color: transparent;
+  border-bottom: none !important;
 }
 
 /* Desenfoque de Empate con la Sección HERO */
@@ -4515,7 +4533,8 @@ button, input, select, textarea {
       rgba(4, 7, 12, 0.90) 0%, 
       transparent 18%, 
       transparent 82%, 
-      rgba(4, 7, 12, 0.95) 100%
+      rgba(6, 9, 14, 0.92) 95%,
+      transparent 100%
     );
   pointer-events: none;
 }
