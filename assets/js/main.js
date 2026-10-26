@@ -1042,48 +1042,7 @@ function initManifestoAccordion() {
   });
 }
 
-/* ================= 12. Hero Live Announcement & Countdown ================= */
-function initHeroCountdown() {
-  const cdDays = document.getElementById('cd-days');
-  const cdHours = document.getElementById('cd-hours');
-  const cdMinutes = document.getElementById('cd-minutes');
-  const cdSeconds = document.getElementById('cd-seconds');
-  const liveStatus = document.getElementById('hero-live-status');
 
-  if (!cdDays || !cdHours || !cdMinutes || !cdSeconds) return;
-
-  // Fecha y hora objetivo: Domingo 25 de Octubre 2026, 12:00 PM (12:00) Hora Venezuela (UTC-4) / 6:00 PM Hora España
-  const targetTime = new Date('2026-10-25T12:00:00-04:00').getTime();
-
-  function updateCountdown() {
-    const now = Date.now();
-    const remaining = targetTime - now;
-
-    if (remaining <= 0) {
-      cdDays.textContent = '00';
-      cdHours.textContent = '00';
-      cdMinutes.textContent = '00';
-      cdSeconds.textContent = '00';
-      if (liveStatus) {
-        liveStatus.textContent = '¡EN DIRECTO AHORA!';
-      }
-      return;
-    }
-
-    const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
-    cdDays.textContent = String(days).padStart(2, '0');
-    cdHours.textContent = String(hours).padStart(2, '0');
-    cdMinutes.textContent = String(minutes).padStart(2, '0');
-    cdSeconds.textContent = String(seconds).padStart(2, '0');
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-}
 
 /* ================= INICIALIZACIÓN GLOBAL ROBUSTA ================= */
 function bootstrapApp() {
@@ -1107,7 +1066,6 @@ function bootstrapApp() {
   safeInit('GeneralModals', initGeneralModals);
   safeInit('GoogleFormSection', initGoogleFormSection);
   safeInit('ManifestoAccordion', initManifestoAccordion);
-  safeInit('HeroCountdown', initHeroCountdown);
 }
 
 if (document.readyState === 'loading') {
