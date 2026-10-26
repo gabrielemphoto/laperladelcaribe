@@ -738,60 +738,102 @@
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem;" class="reveal-on-scroll">
-        <div class="glass-panel" style="padding: 2rem;">
-          <h4 style="font-family: var(--font-serif); font-size: 1.35rem; margin-bottom: 0.8rem; color: #ffffff;">Contacto Directo</h4>
-          <p style="color: var(--c-text-muted); font-size: 0.88rem; margin-bottom: 1.5rem;">
-            Escríbenos directamente o agenda una videollamada para analizar los terrenos en cartera.
-          </p>
-
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div style="display: flex; align-items: center; gap: 0.8rem;">
-              <span style="font-size: 1.3rem;">📍</span>
-              <div>
-                <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim);">Sede</span>
-                <strong style="display: block; font-size: 0.88rem; color: #ffffff;">Pampatar, Isla de Margarita, Venezuela</strong>
-              </div>
+            <!-- Grilla de 3 Columnas: Perfil Miguel Ángel + Contacto Directo + Estilo de Vida -->
+      <div class="contact-cards-grid reveal-on-scroll">
+        
+        <!-- Tarjeta 1: Perfil de Miguel Ángel con Fotografía Oficial -->
+        <div class="glass-panel contact-profile-card">
+          <div class="contact-profile-img-box">
+            <img src="assets/images/miguel-angel-portrait.jpg" 
+                 alt="Miguel Ángel - Asesor Inmobiliario y Personal Shopper en Isla de Margarita" 
+                 class="contact-profile-img"
+                 loading="lazy">
+            <div class="contact-profile-img-overlay"></div>
+            <div class="contact-profile-badge-float">
+              <span class="live-dot-green"></span>
+              <span>Atención Personalizada</span>
             </div>
+          </div>
+          <div class="contact-profile-body">
+            <h4 class="contact-profile-name">Miguel Ángel</h4>
+            <span class="contact-profile-role">Personal Shopper Inmobiliario</span>
+            <p class="contact-profile-bio">
+              Asesoría patrimonial y gestión integral de inversiones en Isla de Margarita para clientes de España, Europa y América.
+            </p>
+            <a href="https://calendly.com/miguelangel-laperladelcaribe/30min" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-contact-calendly">
+              <span>📅 Agendar Videollamada (Calendly) ↗</span>
+            </a>
+          </div>
+        </div>
 
-            <div style="display: flex; align-items: center; gap: 0.8rem;">
-              <span style="font-size: 1.3rem;">💬</span>
-              <div>
-                <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim);">WhatsApp</span>
-                <strong style="display: block; font-size: 0.88rem; color: #ffffff;">+34 676 59 70 68</strong>
+        <!-- Tarjeta 2: Contacto Directo y Canales -->
+        <div class="glass-panel contact-card-box" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h4 style="font-family: var(--font-serif); font-size: 1.35rem; margin-bottom: 0.8rem; color: #ffffff;">Contacto Directo</h4>
+            <p style="color: var(--c-text-muted); font-size: 0.88rem; margin-bottom: 1.5rem; line-height: 1.55;">
+              Escríbenos directamente o agenda una videollamada para analizar los terrenos y oportunidades en cartera.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 1.1rem;">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span style="font-size: 1.35rem;">📍</span>
+                <div>
+                  <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim); letter-spacing: 0.5px;">Sede</span>
+                  <strong style="display: block; font-size: 0.88rem; color: #ffffff;">Pampatar, Isla de Margarita, Venezuela</strong>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span style="font-size: 1.35rem;">💬</span>
+                <div>
+                  <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim); letter-spacing: 0.5px;">WhatsApp Internacional</span>
+                  <strong style="display: block; font-size: 0.88rem; color: #ffffff;">+34 676 59 70 68</strong>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span style="font-size: 1.35rem;">🇻🇪</span>
+                <div>
+                  <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim); letter-spacing: 0.5px;">WhatsApp Venezuela</span>
+                  <strong style="display: block; font-size: 0.88rem; color: #ffffff;">+58 422 223 3369</strong>
+                </div>
               </div>
             </div>
           </div>
 
-          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" class="btn btn-sunset" style="width: 100%; margin-top: 1.8rem;">
+          <a href="https://api.whatsapp.com/send?phone=34676597068&text=Estoy%20interesado%20en%20invertir%20en%20la%20Isla%20de%20Margarita." target="_blank" rel="noopener noreferrer" class="btn btn-sunset" style="width: 100%; margin-top: 1.8rem; justify-content: center; padding: 0.95rem 1.2rem; font-size: 0.9rem; font-weight: 700; border-radius: 999px;">
             <span>Chatear por WhatsApp con Miguel Ángel</span>
           </a>
         </div>
 
-        <div class="glass-panel" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border-color: var(--glass-border-gold);">
+        <!-- Tarjeta 3: Estilo de Vida y Visión -->
+        <div class="glass-panel contact-card-box" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border-color: var(--glass-border-gold);">
           <div>
-            <div class="glass-pill gold" style="margin-bottom: 0.6rem;">Estilo de Vida &bull; 2026</div>
-            <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: #ffffff; line-height: 1.2;">
+            <div class="glass-pill gold" style="margin-bottom: 0.75rem;">Estilo de Vida &bull; 2026</div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.55rem; color: #ffffff; line-height: 1.25; margin-bottom: 0.8rem;">
               "Más que inversiones. Un estilo de vida real."
             </h3>
-            <p style="color: var(--c-text-muted); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
+            <p style="color: var(--c-text-muted); font-size: 0.88rem; line-height: 1.6;">
               La combinación de un mercado en su ciclo óptimo de entrada con la satisfacción de poseer tu propia propiedad en el mar caribe venezolano.
             </p>
           </div>
 
-          <div style="border-top: 1px solid var(--glass-border); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; margin-top: 1.2rem;">
+          <div style="border-top: 1px solid var(--glass-border); padding-top: 1.2rem; display: flex; justify-content: space-between; align-items: center; margin-top: 1.4rem;">
             <div>
-              <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim);">Clima</span>
+              <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim); letter-spacing: 0.5px;">Clima</span>
               <strong style="display: block; font-size: 1.2rem; color: var(--c-gold-light);">320 Días de Sol</strong>
             </div>
             <div style="text-align: right;">
-              <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim);">Incentivo</span>
+              <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--c-text-dim); letter-spacing: 0.5px;">Incentivo</span>
               <strong style="display: block; font-size: 1.2rem; color: #ff9e00;">Ley ZEE</strong>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div>
+    </div>
   </section>
 
   <!-- ================= FOOTER ================= -->
