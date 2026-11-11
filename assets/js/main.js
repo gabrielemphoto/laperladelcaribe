@@ -6,12 +6,8 @@
  */
 
 import { Viewer3DApp } from '../../modelo-3d/main.js';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-if (typeof window !== 'undefined') {
-  window.L = L;
-}
+// Leaflet cargado globalmente desde CDN en index.html
+let L = typeof window !== 'undefined' ? window.L : null;
 
 let leafletMap = null;
 const mapMarkers = {};
@@ -396,7 +392,10 @@ function initHeatmap() {
   if (!mapContainer) return;
 
   // Si Leaflet aún se está inicializando, reintentar progresivamente
-  if (typeof L === 'undefined') {
+  if (!L && typeof window !== 'undefined' && window.L) {
+    L = window.L;
+  }
+  if (!L) {
     setTimeout(initHeatmap, 100);
     return;
   }

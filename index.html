@@ -24,6 +24,20 @@
   
   <!-- Estilos Globales con Cache-Buster -->
   <link rel="stylesheet" href="assets/css/style.css?v=7.0">
+
+  <!-- Leaflet CSS & JS Oficiales (Sin marcas de agua, CDN de alta velocidad) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <!-- Importmap para Three.js y OrbitControls en Navegadores Modernos -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/examples/jsm/controls/OrbitControls.js": "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+    }
+  }
+  </script>
   <!-- Luxora CRM • External Tracking & Analytics -->
   <script
     src="https://links.luxoradigital.com/js/external-tracking.js"

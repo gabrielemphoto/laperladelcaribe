@@ -4,8 +4,8 @@
  * Lógica: Filtros Reactivos en Tiempo Real, Ficha Lateral / Bottom Sheet, WhatsApp Dinámico y Mini Mapa
  */
 
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+// Leaflet cargado globalmente desde CDN
+let L = typeof window !== 'undefined' ? window.L : null;
 
 const WHATSAPP_PHONE = '34676597068';
 
